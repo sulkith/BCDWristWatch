@@ -64,9 +64,15 @@
     (aux_axis_origin 0 0)
     (visible_elements 7FFCFF7F)
     (pcbplotparams
+<<<<<<< HEAD
       (layerselection 0x010f0_80000001)
       (usegerberextensions true)
       (excludeedgelayer false)
+=======
+      (layerselection 0x030f0_80000001)
+      (usegerberextensions false)
+      (excludeedgelayer true)
+>>>>>>> cbc142635f171b2b9dda2a2c517546dd7c231198
       (linewidth 0.100000)
       (plotframeref false)
       (viasonmask false)
