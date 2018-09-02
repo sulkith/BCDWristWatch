@@ -335,6 +335,7 @@ module printall(){
 
 module rendering()
 {
+    $fs = 0.01;
     $fa = 1;
     housingBodyAll(10);
     translate([0,0,10])lid();
