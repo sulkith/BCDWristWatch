@@ -16,21 +16,6 @@ module housingBody(height,inside,lid){
                 rotate(a=[90,0,0])cylinder(23,0.5,0.5);
             }
             
-            /*difference()
-            {
-                translate([22.5,0,height-1])scale([3,30,3])cube(1,center=true);
-                translate([21,15,height-2.5]) {//smoothing of edge
-                    rotate(a=[90,0,0])cylinder(30,2.5,2.5);
-                }
-            }
-            
-            difference()
-            {
-                translate([-22.5,0,height-1])scale([3,30,3])cube(1,center=true);
-                translate([-21,15,height-2.5]) {//smoothing of edge
-                    rotate(a=[90,0,0])cylinder(30,2.5,2.5);
-                }
-            }*/
             
             translate([0,0,-1])cylinder(2.2,16,16);//glass
             cylinder(height+2,15,15);//mounted parts
@@ -69,7 +54,8 @@ module housingBody(height,inside,lid){
                 hull()union(){
                     //translate([0,0,height-1])scale([47,25,2])cube(1, center=true);
                     cylinder(5,17,18.5);
-                    translate([0,0,5])cylinder(height-3,18.5,18.5);
+                    translate([0,0,5])cylinder(height-5,18.5,18.5);
+                    translate([0,0,height])cylinder(2,18.5,17.5);
                     translate([-21,12.5,height-2.5]) {//wrist smoothing
                         rotate(a=[90,0,0])
                         {
@@ -89,7 +75,8 @@ module housingBody(height,inside,lid){
                     {   
                         difference(){
                             cube(50,center=true);
-                            translate([0,0,height+3])scale([37.1,40,6])cube(1,center=true);
+                            translate([0,0,height+3])scale([36.9,40,7])cube(1,center=true);
+                            translate([0,0,height-1])cylinder(2,15.4,15.4);
                         }
                         translate([14.5,11,9]) {
                             cylinder(4,0.7,0.7);
@@ -108,55 +95,6 @@ module housingBody(height,inside,lid){
             }
         }
         
-}
-
-module lid(){
-    translate([0,0,-10]){
-        difference(){
-            hull()union(){
-                difference(){
-                    housingBody(10,false);
-                    translate([0,0,-1])cylinder(10.99,50,50);
-                    translate([-33.5,0,4]) {//wrist mounting
-                        cube(30, center = true);
-                    }
-                    translate([33.5,0,4]) {
-                        //wrist mounting
-                        cube(30, center = true);
-                    }
-                }
-                translate([0,0,1])difference(){
-                    housingBody(10,false);
-                    translate([0,0,-1])cylinder(10.99,50,50);
-                    translate([-33.5,0,4]) {//wrist mounting
-                        cube(30, center = true);
-                    }
-                    translate([33.5,0,4]) {
-                        //wrist mounting
-                        cube(30, center = true);
-                    }
-                }
-            }
-            union(){
-                translate([0,0,-0.001])cylinder(9,50,50);
-                translate([0,0,-0.001])cylinder(9,50,50);
-                //translate([0,0,9])cylinder(11,50,50);
-                translate([14.5,11,9]) {
-                    cylinder(3,0.7,0.7);
-                }
-                translate([-14.5,11,9]) {
-                    cylinder(3,0.7,0.7);
-                }
-                translate([-14.5,-11,9]) {
-                    cylinder(3,0.7,0.7);
-                }
-                translate([14.5,-11,9]) {
-                    cylinder(3,0.7,0.7);
-                }
-            }
-        }
-        translate([0,0,9])cylinder(2,15.5,15.5);
-    }
 }
 module button(){
     color([0,0,0])rotate([180,0,0])
@@ -216,7 +154,7 @@ module printall(){
     $fa = 1;
     
     housingBodyAll(10);
-    translate([0,0,30])lid();
+    translate([0,0,20])housingBody(10,false,true);
     translate([0,0,20.7])pcb();
     translate([5,7,7])button();
     translate([5,-7,7])button();
@@ -233,20 +171,21 @@ module rendering()
     //$fs = 0.01;
     //$fa = 1;
     housingBodyAll(10);
-    translate([0,0,10])lid();
+    //translate([0,0,10])lid();
+    housingBody(10,false,true);
     translate([0,0,3.7])pcb();
     translate([-1,15,7])rotate([90,0,0])button();
     translate([-1,-15,7])rotate([-90,0,0])button();
 }
 //printall();
 
-//rendering();
+rendering();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
 //for Debugging
 //housingBodyAll(10);
-housingBody(10,false,true);
-translate([0,50,0])housingBody(10,true);
+//housingBody(10,false,true);
+//translate([0,50,0])housingBody(10,true);
 
 
 echo(version=version());
