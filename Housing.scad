@@ -1,14 +1,12 @@
 // CSG.scad - Basic example of CSG usage
 
 
-module housingBody(height,inside){
-    
-
+module housingBody(height,inside,lid){
         if (inside)
         {
             //space for wrist strap
-            translate([-43.5+5,-10,0])scale([20,20,height+2])cube(1);
-            translate([23.5-5,-10,0])scale([20,20,height+2])cube(1);
+            translate([-43.5+5,-10,0])scale([20,20,height+5])cube(1);
+            translate([23.5-5,-10,0])scale([20,20,height+5])cube(1);
             
             translate([-21,11.5,height-2.5]) {//holes for Mounting
                 
@@ -18,7 +16,7 @@ module housingBody(height,inside){
                 rotate(a=[90,0,0])cylinder(23,0.5,0.5);
             }
             
-            difference()
+            /*difference()
             {
                 translate([22.5,0,height-1])scale([3,30,3])cube(1,center=true);
                 translate([21,15,height-2.5]) {//smoothing of edge
@@ -32,12 +30,12 @@ module housingBody(height,inside){
                 translate([-21,15,height-2.5]) {//smoothing of edge
                     rotate(a=[90,0,0])cylinder(30,2.5,2.5);
                 }
-            }
+            }*/
             
             translate([0,0,-1])cylinder(2.2,16,16);//glass
             cylinder(height+2,15,15);//mounted parts
             translate([0,0,2.2+1.5]) {//PCB Mounting
-                cylinder(20,15.5,15.5);
+                cylinder(height,15.5,15.5);
             }
             
             translate([-1,20,7]) {//Holes for buttons
@@ -63,27 +61,53 @@ module housingBody(height,inside){
             translate([14.5,-11,height-5]) {
                 cylinder(6,0.7,0.7);
             }
+            translate([0,0,height+3])scale([37.1,40,6])cube(1,center=true);
         }
         else
         {
-            hull()union(){
-                translate([0,0,height-1])scale([47,25,2])cube(1, center=true);
-                cylinder(5,17,18.5);
-                translate([0,0,5])cylinder(height-5,18.5,18.5);
-                translate([-21,12.5,height-2.5]) {//wrist smoothing
-                    rotate(a=[90,0,0])
-                    {
-                        cylinder(25,2.5,2.5);
+            difference(){
+                hull()union(){
+                    //translate([0,0,height-1])scale([47,25,2])cube(1, center=true);
+                    cylinder(5,17,18.5);
+                    translate([0,0,5])cylinder(height-3,18.5,18.5);
+                    translate([-21,12.5,height-2.5]) {//wrist smoothing
+                        rotate(a=[90,0,0])
+                        {
+                            cylinder(25,2.5,2.5);
+                        }
+                    }
+                    translate([21,12.5,height-2.5]) {//wrist smoothing
+                        rotate(a=[90,0,0])
+                        {
+                            cylinder(25,2.5,2.5);
+                        }
                     }
                 }
-                translate([21,12.5,height-2.5]) {//wrist smoothing
-                    rotate(a=[90,0,0])
-                    {
-                        cylinder(25,2.5,2.5);
+                if(lid)
+                {
+                    union()
+                    {   
+                        difference(){
+                            cube(50,center=true);
+                            translate([0,0,height+3])scale([37.1,40,6])cube(1,center=true);
+                        }
+                        translate([14.5,11,9]) {
+                            cylinder(4,0.7,0.7);
+                        }
+                        translate([-14.5,11,9]) {
+                            cylinder(4,0.7,0.7);
+                        }
+                        translate([-14.5,-11,9]) {
+                            cylinder(4,0.7,0.7);
+                        }
+                        translate([14.5,-11,9]) {
+                            cylinder(4,0.7,0.7);
+                        }
                     }
                 }
             }
         }
+        
 }
 
 module lid(){
@@ -93,10 +117,24 @@ module lid(){
                 difference(){
                     housingBody(10,false);
                     translate([0,0,-1])cylinder(10.99,50,50);
+                    translate([-33.5,0,4]) {//wrist mounting
+                        cube(30, center = true);
+                    }
+                    translate([33.5,0,4]) {
+                        //wrist mounting
+                        cube(30, center = true);
+                    }
                 }
                 translate([0,0,1])difference(){
                     housingBody(10,false);
                     translate([0,0,-1])cylinder(10.99,50,50);
+                    translate([-33.5,0,4]) {//wrist mounting
+                        cube(30, center = true);
+                    }
+                    translate([33.5,0,4]) {
+                        //wrist mounting
+                        cube(30, center = true);
+                    }
                 }
             }
             union(){
@@ -114,13 +152,6 @@ module lid(){
                 }
                 translate([14.5,-11,9]) {
                     cylinder(3,0.7,0.7);
-                }
-                translate([-33.5,0,4]) {//wrist mounting
-                    cube(30, center = true);
-                }
-                translate([33.5,0,4]) {
-                    //wrist mounting
-                    cube(30, center = true);
                 }
             }
         }
@@ -199,8 +230,8 @@ module printall(){
 
 module rendering()
 {
-    $fs = 0.01;
-    $fa = 1;
+    //$fs = 0.01;
+    //$fa = 1;
     housingBodyAll(10);
     translate([0,0,10])lid();
     translate([0,0,3.7])pcb();
@@ -209,12 +240,13 @@ module rendering()
 }
 //printall();
 
-rendering();
-//translate([0,-40,0])housingBody(10,true);
-
+//rendering();
+//translate([0,0,0])housingBody(10,false);
+//translate([0,0,10])lid();
 //for Debugging
 //housingBodyAll(10);
-//translate([0,50,0])housingBody(10,true);
+housingBody(10,false,true);
+translate([0,50,0])housingBody(10,true);
 
 
 echo(version=version());
