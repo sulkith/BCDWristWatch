@@ -18,6 +18,22 @@ module housingBody(height,inside){
                 rotate(a=[90,0,0])cylinder(23,0.5,0.5);
             }
             
+            difference()
+            {
+                translate([22.5,0,height-1])scale([3,50,3])cube(1,center=true);
+                translate([21,15,height-2.5]) {//smoothing of edge
+                    rotate(a=[90,0,0])cylinder(30,2.5,2.5);
+                }
+            }
+            
+            difference()
+            {
+                translate([-22.5,0,height-1])scale([3,50,3])cube(1,center=true);
+                translate([-21,15,height-2.5]) {//smoothing of edge
+                    rotate(a=[90,0,0])cylinder(30,2.5,2.5);
+                }
+            }
+            
             translate([0,0,-1])cylinder(2.2,16,16);//glass
             cylinder(height+2,15,15);//mounted parts
             translate([0,0,2.2+1.5]) {//PCB Mounting
