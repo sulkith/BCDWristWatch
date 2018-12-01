@@ -246,17 +246,6 @@ F 3 "" H 8500 3100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L ATMEGA328-MU-RESCUE-Watch U1
-U 1 1 5B541F8C
-P 6300 2800
-F 0 "U1" H 5550 4050 50  0000 L BNN
-F 1 "ATMEGA328-MU" H 6700 1400 50  0000 L BNN
-F 2 "Housings_DFN_QFN:QFN-32-1EP_5x5mm_Pitch0.5mm" H 6300 2800 50  0001 C CIN
-F 3 "" H 6300 2800 50  0001 C CNN
-	1    6300 2800
-	1    0    0    -1  
-$EndComp
-$Comp
 L Battery_Cell BT1
 U 1 1 5B54EA0A
 P 4800 2750
@@ -301,9 +290,7 @@ F 3 "" H 9850 1600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 NoConn ~ 5400 3150
-NoConn ~ 5400 3050
 NoConn ~ 5400 2300
-NoConn ~ 5400 2000
 Text GLabel 7300 2100 2    60   Input ~ 0
 MISO
 Text GLabel 7300 2000 2    60   Input ~ 0
@@ -646,8 +633,6 @@ Wire Wire Line
 Connection ~ 6000 4550
 Wire Wire Line
 	5300 4550 9000 4550
-Wire Wire Line
-	3900 2550 4800 2550
 Connection ~ 4100 2550
 Connection ~ 4300 2550
 Connection ~ 4500 2550
@@ -696,4 +681,22 @@ F 3 "" H 7750 2850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Connection ~ 7750 2850
+Wire Wire Line
+	4800 2000 5400 2000
+Connection ~ 4800 2000
+$Comp
+L ATMEGA328-MU-RESCUE-Watch U1
+U 1 1 5B541F8C
+P 6300 2800
+F 0 "U1" H 5550 4050 50  0000 L BNN
+F 1 "ATMEGA328-MU" H 6700 1400 50  0000 L BNN
+F 2 "Housings_DFN_QFN:QFN-32-1EP_5x5mm_Pitch0.5mm" H 6300 2800 50  0001 C CIN
+F 3 "" H 6300 2800 50  0001 C CNN
+	1    6300 2800
+	1    0    0    -1  
+$EndComp
+Text GLabel 7300 2750 2    60   Input ~ 0
+VCC
+Wire Wire Line
+	3900 2550 4800 2550
 $EndSCHEMATC
