@@ -111,9 +111,9 @@ int main(void)
 	enum state_t setting = idle;
 	TestAllLEDs();
 
-	t.hour = 20;
-	t.minute = 7;
-	t.second = 57;
+	t.hour = 23;
+	t.minute = 59;
+	t.second = 30;
    init();	//Initialize registers and configure RTC.
 	
 	while(1)
@@ -226,6 +226,7 @@ ISR(TIMER2_OVF_vect)
 		if (++t.minute==60)
 		{
 			t.minute=0;
+			PCINT_activated=0xF0;//show Time every Hour
 			if (++t.hour==24)
 			{
 				t.hour=0;
@@ -240,6 +241,13 @@ static void updateTimeArray(void)
 	TimeArray[2]=numToPortD[t.hour%10];
 	TimeArray[1]=numToPortD[t.minute/10];
 	TimeArray[0]=numToPortD[t.minute%10];
+	if(t.hour==0 && t.minute==0)
+	{
+		TimeArray[3]=numToPortD[0xC];
+		TimeArray[2]=numToPortD[0xC];
+		TimeArray[1]=numToPortD[0xC];
+		TimeArray[0]=numToPortD[0xC];
+	}
 }
 /*
 static void updateDate()
