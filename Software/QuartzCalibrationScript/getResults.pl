@@ -55,7 +55,7 @@ if($lines[0] =~ /(\d+)-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)/)
 				$diff -= $month_correction*$eleapsed_months;
 			}
 			$diff_per_day = $diff/($eleapsed/(24*60*60));
-			print "correction_t EEMEM correction_eep={$min_correction,$hour_correction,$day_correction/*,$month_correction*/}; //remaining Difference per Day: $diff_per_day\n";
+			print "correction_t EEMEM correction_eep={$min_correction,$hour_correction,$day_correction,$month_correction}; //remaining Difference per Day: $diff_per_day\n";
 			$arr[$i][0] = $min_correction;
 			$arr[$i][1] = $hour_correction;
 			$arr[$i][2] = $day_correction;
@@ -90,14 +90,14 @@ if($lines[0] =~ /(\d+)-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)/)
 			$diff_per_day = $diff/($eleapsed_days);
 			$sumdiff += abs($diff);
 			$sumdiffsigned += $diff;
-			print "difference of {$min_correction,$hour_correction,$day_correction/*,$month_correction*/} on Measurement $j $diff\n";
+			print "difference of {$min_correction,$hour_correction,$day_correction,$month_correction} on Measurement $j $diff\n";
 		}
 		$avgdiff = $sumdiff/($numLines-1);
 		$avgdiffsigned = $sumdiffsigned/($numLines-1);
-		print "Average difference of {$min_correction,$hour_correction,$day_correction/*,$month_correction*/} $avgdiffsigned, absolute difference:$avgdiff\n";
+		print "Average difference of {$min_correction,$hour_correction,$day_correction,$month_correction} $avgdiffsigned, absolute difference:$avgdiff\n";
 		if(abs($avgdiffsigned)<$bestdiff)
 		{
-			$bestresult = "correction_t EEMEM correction_eep={$min_correction,$hour_correction,$day_correction/*,$month_correction*/}; //remaining Difference per Day: $avgdiffsigned\n";
+			$bestresult = "correction_t EEMEM correction_eep={$min_correction,$hour_correction,$day_correction,$month_correction}; //remaining Difference per Day: $avgdiffsigned\n";
 			$bestdiff = abs($avgdiffsigned);
 			$bestdiffs = $avgdiffsigned;
 			$bestdiffabs = $avgdiff;
