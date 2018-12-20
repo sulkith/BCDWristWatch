@@ -107,19 +107,27 @@ void TestAllLEDs()
 
 void readEEP()
 {
-	correction.everyMinute = eeprom_read_byte(&(correction_EEP.everyMinute));
-	correction.everyHour = eeprom_read_byte(&(correction_EEP.everyHour));
-	correction.everyDay = eeprom_read_byte(&(correction_EEP.everyDay));
+	correction.everyMinute = (int8_t)eeprom_read_byte((uint8_t*)&(correction_EEP.everyMinute));
+	correction.everyHour = (int8_t)eeprom_read_byte((uint8_t*)&(correction_EEP.everyHour));
+	correction.everyDay = (int8_t)eeprom_read_byte((uint8_t*)&(correction_EEP.everyDay));
+	if(correction.everyMinute>59 || correction.everyHour>59 || correction.everyDay>23)
+	{
+		//unplausible Data
+		correction.everyMinute = 0;
+		correction.everyHour = 0;
+		correction.everyDay= 0;
+	}
 }
 int main(void)
 {
 	TestAllLEDs();
+
 	readEEP();
 	TimeArray[0]=numToPortD[correction.everyMinute&0x0F];
 	TimeArray[1]=numToPortD[correction.everyHour&0x0F];
 	TimeArray[2]=numToPortD[correction.everyDay&0x0F];
-	TimeArray[3]=numToPortD[(correction.everyDay&0xF0)>>4];
-	showLEDs(5000);
+	TimeArray[3]=numToPortD[0xF];
+	showLEDs(1000);
 
 	t.hour = 23;
 	t.minute = 59;
@@ -257,9 +265,13 @@ static void updateTimeArray(void)
 	TimeArray[0]=numToPortD[t.minute%10];
 	if(t.hour==0 && t.minute==0)
 	{
-		TimeArray[3]=numToPortD[0xC];
-		TimeArray[2]=numToPortD[0xC];
-		TimeArray[1]=numToPortD[0xC];
-		TimeArray[0]=numToPortD[0xC];
+		//TimeArray[3]=numToPortD[0xC];
+		//TimeArray[2]=numToPortD[0xC];
+		//TimeArray[1]=numToPortD[0xC];
+		//TimeArray[0]=numToPortD[0xC];
+		TimeArray[3]=numToPortD[2];
+		TimeArray[2]=numToPortD[4];
+		TimeArray[1]=numToPortD[0];
+		TimeArray[0]=numToPortD[0];
 	}
 }
