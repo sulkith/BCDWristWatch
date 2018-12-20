@@ -48,12 +48,13 @@ clean:
 	rm -f main.hex main.elf $(OBJECTS)
 
 # file targets:
-main.elf: $(OBJECTS)
+main.elf: $(OBJECTS) eeprom_content.h
 	$(COMPILE) -o main.elf $(OBJECTS)
 
 main.hex: main.elf
 	rm -f main.hex
 	avr-objcopy -j .text -j .data -O ihex main.elf main.hex
+	avr-objcopy -j .eeprom -O ihex main.elf eeprom.hex
 	avr-size --format=avr --mcu=$(DEVICE) main.elf
 # If you have an EEPROM section, you must also create a hex file for the
 # EEPROM and add it to the "flash" target.

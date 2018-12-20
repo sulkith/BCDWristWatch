@@ -2,7 +2,9 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+#include <avr/eeprom.h>
 #include <util/delay.h>
+#include "eeprom_content.h"
 
 //static char not_leap(void);
 static void init(void);
