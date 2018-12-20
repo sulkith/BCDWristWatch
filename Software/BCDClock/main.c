@@ -15,6 +15,7 @@ typedef struct{
 	uint8_t second;
 	uint8_t minute;
 	uint8_t hour;
+	uint8_t day;
 }time;
 enum state_t
 {
@@ -247,6 +248,10 @@ ISR(TIMER2_OVF_vect)
 			{
 				t.hour=0;
 				t.second+=correction.everyDay;
+				if(++t.day==30)
+				{
+					t.second+=correction.everyMonth;
+				}
 				if(t.second>59)
 				{
 					t.minute+=t.second%60;
