@@ -10,7 +10,7 @@ PORT = /dev/ttyUSB0
 # for ATTiny85
 # see http://www.engbedded.com/fusecalc/
 #FUSES       = -U lfuse:w:0xe2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m 
-FUSES       = -U lfuse:w:0x62:m -U hfuse:w:0xD9:m -U efuse:w:0xFF:m 
+FUSES       = -U lfuse:w:0x62:m -U hfuse:w:0xD1:m -U efuse:w:0xFF:m 
 
 # Tune the lines below only if you know what you are doing:
 AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE) -P $(PORT)
@@ -31,8 +31,16 @@ all:	main.hex
 flash:	all
 	$(AVRDUDE) -U flash:w:main.hex:i
 
+flash_eep:	all
+	$(AVRDUDE) -U eeprom:w:eeprom.eep:i
+
 test:	all flash
 	gtkterm
+
+flash_all:	flash flash_eep
+
+dump:	
+	$(AVRDUDE) -U eeprom:r:dump.eep:i -U flash:r:dump.hex:i
 
 fuse:
 	$(AVRDUDE) $(FUSES)
@@ -55,6 +63,8 @@ main.hex: main.elf
 	rm -f main.hex
 	avr-objcopy -j .text -j .data -O ihex main.elf main.hex
 	avr-objcopy -j .eeprom -O ihex main.elf eeprom.hex
+	avr-objcopy -j .eeprom --set-section-flags=.eeprom="alloc,load" \
+   --change-section-lma .eeprom=0 -O ihex main.elf eeprom.eep
 	avr-size --format=avr --mcu=$(DEVICE) main.elf
 # If you have an EEPROM section, you must also create a hex file for the
 # EEPROM and add it to the "flash" target.

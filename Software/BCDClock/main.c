@@ -16,8 +16,16 @@ typedef struct{
 	uint8_t minute;
 	uint8_t hour;
 }time;
+enum state_t
+{
+	hour,
+	minute,
+	idle
+};
 	
 time t;
+enum state_t setting = idle;
+correction_t correction={0,4,4};
 uint8_t TimeArray[4];
 uint8_t PCINT_activated=0;
 
@@ -97,16 +105,21 @@ void TestAllLEDs()
 	}
 }
 
-enum state_t
+void readEEP()
 {
-	hour,
-	minute,
-	idle
-};
+	correction.everyMinute = eeprom_read_byte(&(correction_EEP.everyMinute));
+	correction.everyHour = eeprom_read_byte(&(correction_EEP.everyHour));
+	correction.everyDay = eeprom_read_byte(&(correction_EEP.everyDay));
+}
 int main(void)
 {
-	enum state_t setting = idle;
 	TestAllLEDs();
+	readEEP();
+	TimeArray[0]=numToPortD[correction.everyMinute&0x0F];
+	TimeArray[1]=numToPortD[correction.everyHour&0x0F];
+	TimeArray[2]=numToPortD[correction.everyDay&0x0F];
+	TimeArray[3]=numToPortD[(correction.everyDay&0xF0)>>4];
+	showLEDs(5000);
 
 	t.hour = 23;
 	t.minute = 59;
@@ -216,14 +229,21 @@ ISR(TIMER2_OVF_vect)
 {
 	if (++t.second==60)        //keep track of time, date, month, and year
 	{
-		t.second=0;
+		t.second=correction.everyMinute;
 		if (++t.minute==60)
 		{
 			t.minute=0;
+			t.second+=correction.everyHour;
 			PCINT_activated=0xF0;//show Time every Hour
 			if (++t.hour==24)
 			{
 				t.hour=0;
+				t.second+=correction.everyDay;
+				if(t.second>59)
+				{
+					t.minute+=t.second%60;
+					t.second=t.second%60;
+				}
 				//updateDate();
 			}
 		}

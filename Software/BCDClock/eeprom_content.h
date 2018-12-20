@@ -1,8 +1,7 @@
 typedef struct{
-	uint8_t everyMinute;
-	uint8_t everyHour;
-	uint8_t everyDay;
+	int8_t everyMinute;
+	int8_t everyHour;
+	int8_t everyDay;
 } correction_t;
 
-
-correction_t EEMEM correction={0,4,4};
+correction_t EEMEM correction_EEP={0,2,0};
