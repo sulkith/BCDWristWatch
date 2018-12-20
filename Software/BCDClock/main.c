@@ -15,11 +15,6 @@ typedef struct{
 	uint8_t second;
 	uint8_t minute;
 	uint8_t hour;
-/*
-	uint8_t date;
-	uint8_t month;
-	uint8_t year;
-*/
 }time;
 	
 time t;
@@ -166,7 +161,6 @@ int main(void)
 					PCINT_activated++;
 				}
 				updateTimeArray();
-				//TimeArray[3]|=0x02;
 				if(setting==hour)TimeArray[3]|=0x01;
 				if(setting==minute)TimeArray[1]|=0x01;
 				showLEDs(1);
@@ -175,8 +169,6 @@ int main(void)
 			setting = idle;
 			PCINT_activated=0;
 		}
-		//TCCR2B=(1<<CS00)|(1<<CS02);							//Write dummy value to control register
-		//while(ASSR&((1<<TCN2UB)|(1<<OCR2BUB)|(1<<TCR2BUB)|(1<<OCR2AUB)|(1<<TCR2AUB)));	//Wait until TC0 is updated
 	}
 }
 
@@ -251,54 +243,3 @@ static void updateTimeArray(void)
 		TimeArray[0]=numToPortD[0xC];
 	}
 }
-/*
-static void updateDate()
-{
-	if (++t.date==32)
-	{
-		t.month++;
-		t.date=1;
-	}
-	else if (t.date==31)
-	{
-		if ((t.month==4) || (t.month==6) || (t.month==9) || (t.month==11))
-		{
-			t.month++;
-			t.date=1;
-		}
-	}
-	else if (t.date==30)
-	{
-		if(t.month==2)
-		{
-			t.month++;
-			t.date=1;
-		}
-	}
-	else if (t.date==29)
-	{
-		if((t.month==2) && (not_leap()))
-		{
-			t.month++;
-			t.date=1;
-		}
-	}
-	if (t.month==13)
-	{
-		t.month=1;
-		t.year++;
-	}
-}
-
-static char not_leap(void)      //check for leap year
-{
-	if (!(t.year%100))
-	{
-		return (char)(t.year%400);
-	}
-	else
-	{
-		return (char)(t.year%4);
-	}
-}
-*/
