@@ -18,8 +18,9 @@ module housingBody(height,inside,lid){
             
             
             //translate([0,0,-1])cylinder(2.2,16,16);//glass
-            translate([0,0,1.0])cylinder(height+2,15,15);//mounted parts
-            translate([0,0,2.2+1]) {//PCB Mounting
+            translate([0,0,1.5])cylinder(1.5,14.5,15);
+            translate([0,0,3])cylinder(height+2,15,15);//mounted parts
+            translate([0,0,3.]) {//PCB Mounting
                 cylinder(height-5,15.5,15.5);
             }
             
