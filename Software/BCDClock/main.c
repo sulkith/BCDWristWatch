@@ -253,10 +253,11 @@ ISR(TIMER2_OVF_vect)
 				if(++t.day==30)
 				{
 					t.second+=correction.everyMonth;
+					t.day=0;
 				}
 				if(t.second>59)
 				{
-					t.minute+=t.second%60;
+					t.minute+=t.second/60;
 					t.second=t.second%60;
 				}
 				//updateDate();
