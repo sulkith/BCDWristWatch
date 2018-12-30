@@ -4,67 +4,24 @@
 #include <avr/sleep.h>
 #include <avr/eeprom.h>
 #include <util/delay.h>
-#include "eeprom_content.h"
+#include "types.h"
+#include "settings.h"
+#include "constants.h"
 
-//static char not_leap(void);
+
+extern correction_t EEMEM correction_EEP;
+
 static void init(void);
-//static void updateDate(void);
 static void updateTimeArray(void);
 
-typedef struct{
-	uint8_t second;
-	uint8_t minute;
-	uint8_t hour;
-	uint8_t day;
-}time;
-enum state_t
-{
-	hour,
-	minute,
-	idle
-};
-	
+
+
 time t;
 enum state_t setting = idle;
 correction_t correction={0,4,4};
 uint8_t TimeArray[4];
 uint8_t PCINT_activated=0;
 
-#define DISP_0 0b00000000
-#define DISP_1 0b01000000
-#define DISP_2 0b10000000
-#define DISP_3 0b11000000
-#define DISP_4 0b00000010
-#define DISP_5 0b01000010
-#define DISP_6 0b10000010
-#define DISP_7 0b11000010
-#define DISP_8 0b00000001
-#define DISP_9 0b01000001
-#define DISP_A 0b10000001
-#define DISP_B 0b11000001
-#define DISP_C 0b00000011
-#define DISP_D 0b01000011
-#define DISP_E 0b10000011
-#define DISP_F 0b11000011
-const uint8_t numToPortD[] =
-{
-	DISP_0,// 0
-	DISP_1,// 1
-	DISP_2,// 2
-	DISP_3,// 3
-	DISP_4,// 4
-	DISP_5,// 5
-	DISP_6,// 6
-	DISP_7,// 7
-	DISP_8,// 8
-	DISP_9,// 9
-	DISP_A,// A
-	DISP_B,// B
-	DISP_C,// C
-	DISP_D,// D
-	DISP_E,// E
-	DISP_F // F
-};
 void showLEDs(uint16_t duration)
 {
 		const uint8_t perc = 100;
@@ -77,22 +34,7 @@ void showLEDs(uint16_t duration)
 				_delay_us(250-perc);
 			}
 }
-const uint8_t shifting[] =
-{
-	DISP_0,
-	DISP_0,
-	DISP_0,
-	DISP_1,
-	DISP_3,
-	DISP_7,
-	DISP_F,
-	DISP_E,
-	DISP_C,
-	DISP_8,
-	DISP_0,
-	DISP_0,
-	DISP_0
-};
+
 void TestAllLEDs()
 {
 	DDRD=0xFF;
@@ -135,8 +77,8 @@ int main(void)
 	t.hour = 23;
 	t.minute = 59;
 	t.second = 30;
-   init();	//Initialize registers and configure RTC.
-	
+  init();	//Initialize registers and configure RTC.
+
 	while(1)
 	{
 		sleep_mode();										//Enter sleep mode. (Will wake up from timer overflow interrupt)
@@ -209,7 +151,7 @@ static void init(void)
 	}
 	TIMSK2 &= ~((1<<TOIE2)|(1<<OCIE2A)|(1<<OCIE2B));						//Make sure all TC0 interrupts are disabled
 	ASSR |= (1<<AS2);										//set Timer/counter0 to be asynchronous from the CPU clock
-															//with a second external clock (32,768kHz)driving it.								
+															//with a second external clock (32,768kHz)driving it.
 	TCNT2 =0;												//Reset timer
 	TCCR2B =(1<<CS00)|(1<<CS02);								//Prescale the timer to be clock source/128 to make it
 															//exactly 1 second for every overflow to occur
@@ -220,7 +162,7 @@ static void init(void)
 	PCICR |= (1<<PCIE0)|(1<<PCIE1);
 	PCMSK0|= 0x01; //PCINT0
 	PCMSK1|= 0x10; //PCINT12
-	
+
 	sei();													//Set the Global Interrupt Enable Bit
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);					//Selecting power save mode as the sleep mode to be used
 	sleep_enable();											//Enabling sleep mode
@@ -273,10 +215,6 @@ static void updateTimeArray(void)
 	TimeArray[0]=numToPortD[t.minute%10];
 	if(t.hour==0 && t.minute==0)
 	{
-		//TimeArray[3]=numToPortD[0xC];
-		//TimeArray[2]=numToPortD[0xC];
-		//TimeArray[1]=numToPortD[0xC];
-		//TimeArray[0]=numToPortD[0xC];
 		TimeArray[3]=numToPortD[2];
 		TimeArray[2]=numToPortD[4];
 		TimeArray[1]=numToPortD[0];

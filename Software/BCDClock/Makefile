@@ -4,13 +4,13 @@
 DEVICE      = atmega328p
 #CLOCK      = 8000000
 CLOCK      = 1000000
-PROGRAMMER = -c buspirate 
-OBJECTS    = main.o
+PROGRAMMER = -c buspirate
+OBJECTS    = main.o eeprom_content.o
 PORT = /dev/ttyUSB0
 # for ATTiny85
 # see http://www.engbedded.com/fusecalc/
-#FUSES       = -U lfuse:w:0xe2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m 
-FUSES       = -U lfuse:w:0x62:m -U hfuse:w:0xD1:m -U efuse:w:0xFF:m 
+#FUSES       = -U lfuse:w:0xe2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+FUSES       = -U lfuse:w:0x62:m -U hfuse:w:0xD1:m -U efuse:w:0xFF:m
 
 # Tune the lines below only if you know what you are doing:
 AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE) -P $(PORT)
@@ -39,7 +39,7 @@ test:	all flash
 
 flash_all:	flash flash_eep
 
-dump:	
+dump:
 	$(AVRDUDE) -U eeprom:r:dump.eep:i -U flash:r:dump.hex:i
 
 fuse:
@@ -56,7 +56,7 @@ clean:
 	rm -f main.hex main.elf $(OBJECTS)
 
 # file targets:
-main.elf: $(OBJECTS) eeprom_content.h
+main.elf: $(OBJECTS)
 	$(COMPILE) -o main.elf $(OBJECTS)
 
 main.hex: main.elf
