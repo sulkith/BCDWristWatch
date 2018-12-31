@@ -13,12 +13,14 @@ typedef struct{
 	uint8_t minute;
 	uint8_t hour;
 	uint8_t day;
-}time;
+}  time;
 enum state_t
 {
-	hour,
-	minute,
-	idle
+	idle,
+	display_on,
+	set_hour,
+	set_minute,
+	read_temperature
 };
 
 #endif
