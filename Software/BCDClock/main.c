@@ -128,13 +128,13 @@ void readEEP()
 		correction.everyMonth= 0;
 	}
 }
-void showEEPValues()
+void showEEPValues(uint16_t duration = 1000)
 {
 	DisplayBuffer[0]=numToPortD[correction.everyMinute&0x0F];
 	DisplayBuffer[1]=numToPortD[correction.everyHour&0x0F];
 	DisplayBuffer[2]=numToPortD[correction.everyDay&0x0F];
 	DisplayBuffer[3]=numToPortD[correction.everyMonth&0x0F];
-	showLEDs(1000);
+	showLEDs(duration);
 }
 template <typename T>
 uint8_t caseForAdjusting(T* const value, uint16_t* const ontime, const T maxvalue, const T minvalue=0)
@@ -198,10 +198,15 @@ int main(void)
 				break;
 			case display_on:
 				max_ontime = ontime_short;
-				if(leftButton.getValue() == 1 && rightButton.getValue() == 1)
+				if(rightButton.valueUpdatedTo(1) == 1 && leftButton.getValue() == 1)
 				{
 					ontime = 0;
 					State = set_hour;
+				}
+				if(leftButton.valueUpdatedTo(1) == 1 && rightButton.getValue() == 1)
+				{
+					ontime = 0;
+					showEEPValues(5000);
 				}
 				if(leftButton.getValue() == 1 || rightButton.getValue() == 1)
 				{
