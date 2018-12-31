@@ -81,7 +81,7 @@ uint8_t getLeftButton()
 
 void showLEDs(uint16_t duration)
 {
-		const uint8_t perc = 100;
+		const uint8_t perc = LED_Brightness;
 		for(uint16_t j = 0; j < duration; ++j)
 			for(uint8_t i = 0; i < 4; ++i)
 			{
@@ -172,7 +172,7 @@ int main(void)
 
   init();	//Initialize registers and configure RTC.
 
-	const uint16_t dT = 1;
+	const uint16_t dT = 2;
 	uint16_t ontime = 0;
 	uint16_t max_ontime = ontime_short;
 	while(1)
@@ -271,12 +271,13 @@ int main(void)
 				State = idle;
 				break;
 		}
+		rightButton.loop(dT);
+		leftButton.loop(dT);
 		if((State&0xF0) != 0x00)
 		{
 			updateDisplayBuffer();
-			showLEDs(dT);
-			rightButton.loop(dT);
-			leftButton.loop(dT);
+			_delay_us(200);//this has to be trimmed to the 1ms minus the average mainloop overhead
+			showLEDs(dT-1);
 			if((State&0xF0) == 0x10)max_ontime = ontime_short;
 			if((State&0xF0) == 0x20)max_ontime = ontime_long;
 			if((State&0xF0) == 0x30)max_ontime = 65535;
