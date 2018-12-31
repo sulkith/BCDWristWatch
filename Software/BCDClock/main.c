@@ -26,6 +26,43 @@ uint8_t wakeupTriggered=0;
 Debouncer<uint8_t> rightButton(Button_debounceTime,0,&getRightButton);
 Debouncer<uint8_t> leftButton(Button_debounceTime,0,&getLeftButton);
 
+inline void setupPorts()
+{
+	DDRB = 0xFE;
+	PORTB = 0x01;
+	DDRC = 0x00;
+	PORTC = 0x10;
+	DDRD=0xFF;
+}
+inline void setupPCINT()
+{
+	//enable PinChangeInterrupt
+	PCMSK0|= 0x01; //PCINT0
+	PCMSK1|= 0x10; //PCINT12
+}
+inline void activatePCINT()
+{
+	//enable PinChangeInterrupt
+	PCICR |= (1<<PCIE0)|(1<<PCIE1);
+}
+inline void deactivatePCINT()
+{
+	PCICR &= ~((1<<PCIE0)|(1<<PCIE1));
+}
+inline void setupTimer0()
+{
+	//_delay_us(15000);	//Wait for external clock crystal to stabilize;//Unnecessary since init is called after reading EEP
+
+	TIMSK2 &= ~((1<<TOIE2)|(1<<OCIE2A)|(1<<OCIE2B));						//Make sure all TC0 interrupts are disabled
+	ASSR |= (1<<AS2);										//set Timer/counter0 to be asynchronous from the CPU clock
+	//with a second external clock (32,768kHz)driving it.
+	TCNT2 =0;												//Reset timer
+	TCCR2B =(1<<CS00)|(1<<CS02);								//Prescale the timer to be clock source/128 to make it
+	//exactly 1 second for every overflow to occur
+	while(ASSR&((1<<TCN2UB)|(1<<OCR2BUB)|(1<<TCR2BUB)|(1<<OCR2AUB)|(1<<TCR2AUB)));	//Wait until TC0 is updated
+	TIMSK2 |= (1<<TOIE2);									//Set 8-bit Timer/Counter0 Overflow Interrupt Enable
+}
+
 uint8_t getRightButton()
 {
 	if((PINC&0x10)==0)
@@ -57,7 +94,6 @@ void showLEDs(uint16_t duration)
 
 void TestAllLEDs()
 {
-	DDRD=0xFF;
 	for(uint8_t i = 0;i<(sizeof(shifting)-3);++i)
 	{
 		DisplayBuffer[0] = shifting[i+0];
@@ -94,10 +130,6 @@ void showEEPValues()
 
 int main(void)
 {
-	TestAllLEDs();
-
-	readEEP();
-	showEEPValues();
 
   init();	//Initialize registers and configure RTC.
 
@@ -120,6 +152,7 @@ int main(void)
 				else
 				{
 					wakeupTriggered=0;
+					activatePCINT();
 					sleep_mode();
 					break;
 				}
@@ -138,12 +171,12 @@ int main(void)
 				break;
 			case set_hour:
 				max_ontime = ontime_long;
-				if(rightButton.valueUpdated()==1 && rightButton.getValue()==1)
+				if(rightButton.valueUpdatedTo(1)==1)
 				{
 					ontime = 0;
 					State = set_minute;
 				}
-				if(leftButton.valueUpdated()==1 && leftButton.getValue()==1)
+				if(leftButton.valueUpdatedTo(1)==1)
 				{
 					ontime = 0;
 					t.hour = (t.hour+1)%24;
@@ -151,13 +184,13 @@ int main(void)
 				break;
 			case set_minute:
 				max_ontime = ontime_long;
-				if(rightButton.valueUpdated()==1 && rightButton.getValue()==1)
+				if(rightButton.valueUpdatedTo(1)==1)
 				{
 					ontime = 0;
 					t.second = 0;
 					State = display_on;
 				}
-				if(leftButton.valueUpdated()==1 && leftButton.getValue()==1)
+				if(leftButton.valueUpdatedTo(1)==1)
 				{
 					ontime = 0;
 					t.second = 0;
@@ -194,31 +227,15 @@ int main(void)
 		}
 	}
 }
-
 static void init(void)
 {
-	DDRB =0xFE;
-	PORTB=0x01;
-	DDRC = 0x00;											//Configure all eight pins of port B as outputs
-	PORTC = 0x10;											//Configure all eight pins of port B as outputs
-	_delay_us(15000);	//Wait for external clock crystal to stabilize;
-	for (uint8_t i=0; i<0x40; i++)
-	{
-		for (uint32_t j=0; j<0xFFFF; j++);
-	}
-	TIMSK2 &= ~((1<<TOIE2)|(1<<OCIE2A)|(1<<OCIE2B));						//Make sure all TC0 interrupts are disabled
-	ASSR |= (1<<AS2);										//set Timer/counter0 to be asynchronous from the CPU clock
-															//with a second external clock (32,768kHz)driving it.
-	TCNT2 =0;												//Reset timer
-	TCCR2B =(1<<CS00)|(1<<CS02);								//Prescale the timer to be clock source/128 to make it
-															//exactly 1 second for every overflow to occur
-	while(ASSR&((1<<TCN2UB)|(1<<OCR2BUB)|(1<<TCR2BUB)|(1<<OCR2AUB)|(1<<TCR2AUB)));	//Wait until TC0 is updated
-	TIMSK2 |= (1<<TOIE2);									//Set 8-bit Timer/Counter0 Overflow Interrupt Enable
-
-	//enable PinChangeInterrupt
-	PCICR |= (1<<PCIE0)|(1<<PCIE1);
-	PCMSK0|= 0x01; //PCINT0
-	PCMSK1|= 0x10; //PCINT12
+	setupPorts();
+	TestAllLEDs();
+	readEEP();
+	showEEPValues();
+	setupPCINT();
+	activatePCINT();
+	setupTimer0();
 
 	sei();													//Set the Global Interrupt Enable Bit
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);					//Selecting power save mode as the sleep mode to be used
@@ -228,12 +245,18 @@ static void init(void)
 ISR(PCINT0_vect)
 {
 	if(getLeftButton())
+	{
 		wakeupTriggered=1;
+		deactivatePCINT();
+	}
 }
 ISR(PCINT1_vect)
 {
 	if(getRightButton())
+	{
 		wakeupTriggered=2;
+		deactivatePCINT();
+	}
 }
 ISR(TIMER2_OVF_vect)
 {

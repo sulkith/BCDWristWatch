@@ -24,21 +24,32 @@ class Debouncer
     updated(0)
     {pollingFunction=pollingFunc;};
 
-    T getValue();
     T getValue(uint16_t dT);
     void setValue(T Value);
     void loop(uint16_t dT);
     void directSetValue(T Value, uint8_t setUpdated = 0);
-    uint8_t fpvalid(){if(pollingFunction!=NULL)return 1;return 0;};
-    uint8_t valueUpdated();
+
+    inline T getValue()
+    {
+      updated = 0;
+      return currentDebouncedValue;
+    };
+
+    inline uint8_t valueUpdated()
+    {
+      return updated;
+    };
+    uint8_t valueUpdatedTo(T Value)
+    {
+      if(updated == 1 && currentDebouncedValue == Value)
+      {
+        updated = 0;
+        return 1;
+      }
+      return 0;
+    };
 };
 
-template <typename T>
-T Debouncer<T>::getValue()
-{
-  updated = 0;
-  return currentDebouncedValue;
-}
 template <typename T> T Debouncer<T>::getValue(uint16_t dT)
 {
   this.loop(dT);
@@ -77,8 +88,4 @@ template <typename T> void Debouncer<T>::directSetValue(T Value, uint8_t setUpda
   currentValue=Value;
   currentDebouncedValue=currentValue;
   updated = setUpdated;
-}
-template <typename T> uint8_t Debouncer<T>::valueUpdated()
-{
-  return updated;
 }
