@@ -83,17 +83,21 @@ void readEEP()
 		correction.everyMonth= 0;
 	}
 }
+void showEEPValues()
+{
+	DisplayBuffer[0]=numToPortD[correction.everyMinute&0x0F];
+	DisplayBuffer[1]=numToPortD[correction.everyHour&0x0F];
+	DisplayBuffer[2]=numToPortD[correction.everyDay&0x0F];
+	DisplayBuffer[3]=numToPortD[correction.everyMonth&0x0F];
+	showLEDs(1000);
+}
 
 int main(void)
 {
 	TestAllLEDs();
 
 	readEEP();
-	DisplayBuffer[0]=numToPortD[correction.everyMinute&0x0F];
-	DisplayBuffer[1]=numToPortD[correction.everyHour&0x0F];
-	DisplayBuffer[2]=numToPortD[correction.everyDay&0x0F];
-	DisplayBuffer[3]=numToPortD[correction.everyMonth&0x0F];
-	showLEDs(1000);
+	showEEPValues();
 
   init();	//Initialize registers and configure RTC.
 
@@ -102,12 +106,6 @@ int main(void)
 	uint16_t max_ontime = ontime_short;
 	while(1)
 	{
-		if(State != idle && ontime > max_ontime)
-		{
-			State = idle;
-			wakeupTriggered=0;
-		}
-
 		switch(State)
 		{
 			case idle:
@@ -168,8 +166,7 @@ int main(void)
 				if(leftButton.getValue() == 1 && rightButton.getValue() == 1)
 				{
 					//further settings
-					State=idle;
-					ontime=max_ontime;
+					ontime=max_ontime+1;
 					TestAllLEDs();
 				}
 				break;
@@ -179,13 +176,21 @@ int main(void)
 				State = idle;
 				break;
 		}
-		if(State != idle)
+		if((State&0xF0) != 0x00)
 		{
 			updateDisplayBuffer();
 			showLEDs(dT);
 			rightButton.loop(dT);
 			leftButton.loop(dT);
-			ontime += dT;
+			if(ontime > max_ontime)
+			{
+				State = idle;
+				wakeupTriggered=0;
+			}
+			else
+			{
+				ontime += dT;
+			}
 		}
 	}
 }

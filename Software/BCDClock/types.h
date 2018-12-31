@@ -16,11 +16,11 @@ typedef struct{
 }  time;
 enum state_t
 {
-	idle,
-	display_on,
-	set_hour,
-	set_minute,
-	read_temperature
+	idle = 0x00,
+	read_temperature = 0x01,
+	display_on = 0x10,
+	set_hour = 0x20,
+	set_minute = 0x21
 };
 
 #endif
