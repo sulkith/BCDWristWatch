@@ -5,7 +5,8 @@ DEVICE      = atmega328p
 #CLOCK      = 8000000
 CLOCK      = 1000000
 PROGRAMMER = -c buspirate
-OBJECTS    = main.o eeprom_content.o
+OBJECTS    = main.o eeprom_content.o 
+HEADERS    = Debouncer.h constants.h types.h settings.h 
 PORT = /dev/ttyUSB0
 # for ATTiny85
 # see http://www.engbedded.com/fusecalc/
@@ -14,7 +15,8 @@ FUSES       = -U lfuse:w:0x62:m -U hfuse:w:0xD1:m -U efuse:w:0xFF:m
 
 # Tune the lines below only if you know what you are doing:
 AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE) -P $(PORT)
-COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
+#COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
+COMPILE = avr-g++ -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 
 # symbolic targets:
 all:	main.hex
@@ -56,7 +58,7 @@ clean:
 	rm -f main.hex main.elf $(OBJECTS)
 
 # file targets:
-main.elf: $(OBJECTS)
+main.elf: $(OBJECTS) $(HEADERS)
 	$(COMPILE) -o main.elf $(OBJECTS)
 
 main.hex: main.elf

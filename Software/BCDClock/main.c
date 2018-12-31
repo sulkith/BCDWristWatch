@@ -7,20 +7,40 @@
 #include "types.h"
 #include "settings.h"
 #include "constants.h"
+#include "Debouncer.h"
 
 
 extern correction_t EEMEM correction_EEP;
 
 static void init(void);
-static void updateTimeArray(void);
+static void updateDisplayBuffer(void);
+uint8_t getRightButton();
+uint8_t getLeftButton();
 
-
-
-time t;
+time t = {30,59,23,0};
 enum state_t setting = idle;
+enum state_t State = idle;
 correction_t correction={0,4,4};
-uint8_t TimeArray[4];
-uint8_t PCINT_activated=0;
+uint8_t DisplayBuffer[4];
+uint8_t wakeupTriggered=0;
+Debouncer<uint8_t> rightButton(Button_debounceTime,0,&getRightButton);
+Debouncer<uint8_t> leftButton(Button_debounceTime,0,&getLeftButton);
+
+uint8_t getRightButton()
+{
+	if((PINC&0x10)==0)
+		return 1;
+	else
+		return 0;
+}
+
+uint8_t getLeftButton()
+{
+	if((PINB&0x01)==0)
+		return 1;
+	else
+		return 0;
+}
 
 void showLEDs(uint16_t duration)
 {
@@ -28,7 +48,7 @@ void showLEDs(uint16_t duration)
 		for(uint16_t j = 0; j < duration; ++j)
 			for(uint8_t i = 0; i < 4; ++i)
 			{
-				PORTD=TimeArray[i]|((0b00111100)&(~(1<<(2+i))));
+				PORTD=DisplayBuffer[i]|((0b00111100)&(~(1<<(2+i))));
 				_delay_us(perc);
 				PORTD=0;
 				_delay_us(250-perc);
@@ -40,10 +60,10 @@ void TestAllLEDs()
 	DDRD=0xFF;
 	for(uint8_t i = 0;i<(sizeof(shifting)-3);++i)
 	{
-		TimeArray[0] = shifting[i+0];
-		TimeArray[1] = shifting[i+1];
-		TimeArray[2] = shifting[i+2];
-		TimeArray[3] = shifting[i+3];
+		DisplayBuffer[0] = shifting[i+0];
+		DisplayBuffer[1] = shifting[i+1];
+		DisplayBuffer[2] = shifting[i+2];
+		DisplayBuffer[3] = shifting[i+3];
 		showLEDs(100);
 	}
 }
@@ -63,77 +83,109 @@ void readEEP()
 		correction.everyMonth= 0;
 	}
 }
+
 int main(void)
 {
 	TestAllLEDs();
 
 	readEEP();
-	TimeArray[0]=numToPortD[correction.everyMinute&0x0F];
-	TimeArray[1]=numToPortD[correction.everyHour&0x0F];
-	TimeArray[2]=numToPortD[correction.everyDay&0x0F];
-	TimeArray[3]=numToPortD[correction.everyMonth&0x0F];
+	DisplayBuffer[0]=numToPortD[correction.everyMinute&0x0F];
+	DisplayBuffer[1]=numToPortD[correction.everyHour&0x0F];
+	DisplayBuffer[2]=numToPortD[correction.everyDay&0x0F];
+	DisplayBuffer[3]=numToPortD[correction.everyMonth&0x0F];
 	showLEDs(1000);
 
-	t.hour = 23;
-	t.minute = 59;
-	t.second = 30;
   init();	//Initialize registers and configure RTC.
 
+	const uint16_t dT = 1;
+	uint16_t ontime = 0;
+	uint16_t max_ontime = ontime_short;
 	while(1)
 	{
-		sleep_mode();										//Enter sleep mode. (Will wake up from timer overflow interrupt)
-		if(PCINT_activated>0)//wakeup on Keypress
+		if(State != idle && ontime > max_ontime)
 		{
-			const uint16_t ontime = 5000;
-			const uint16_t long_ontime = 30000;
-			uint16_t remaining = ontime;
-			while(remaining > 0)
-			{
-				if(PCINT_activated>0)
+			State = idle;
+			wakeupTriggered=0;
+		}
+
+		switch(State)
+		{
+			case idle:
+				if(wakeupTriggered>0)//wakeup on Keypress
 				{
-					if((setting != idle)||(((PINB&0x01)|(PINC&0x10))==0))//both Keys Pressed
-					{
-						t.second=0;
-						if(PCINT_activated>0)
-							remaining = long_ontime;
-						if(setting == idle)
-						{
-							remaining = long_ontime;
-							setting = hour;
-						}
-						else if(PCINT_activated==1)
-						{
-							if(setting == hour)
-							{
-								t.hour = (t.hour+1)%24;
-							}
-							else if(setting == minute)
-							{
-								t.minute = (t.minute+1)%60;
-							}
-							PCINT_activated=0xF0;
-						}
-						else if(PCINT_activated==2)
-						{
-							if(setting == hour)setting=minute;
-							else if(setting == minute)
-							{
-								setting=idle;
-								remaining = ontime;
-							}
-							PCINT_activated=0xF0;
-						}
-					}
-					PCINT_activated++;
+					wakeupTriggered=0;
+					rightButton.directSetValue(0);
+					leftButton.directSetValue(0);
+					ontime = 0;
+					State = display_on;
 				}
-				updateTimeArray();
-				if(setting==hour)TimeArray[3]|=0x01;
-				if(setting==minute)TimeArray[1]|=0x01;
-				showLEDs(1);
-				remaining--;
-			}
-			setting = idle;
-			PCINT_activated=0;
+				else
+				{
+					wakeupTriggered=0;
+					sleep_mode();
+					break;
+				}
+				break;
+			case display_on:
+				max_ontime = ontime_short;
+				if(leftButton.getValue() == 1 && rightButton.getValue() == 1)
+				{
+					ontime = 0;
+					State = set_hour;
+				}
+				if(leftButton.getValue() == 1 || rightButton.getValue() == 1)
+				{
+					ontime = 0;
+				}
+				break;
+			case set_hour:
+				max_ontime = ontime_long;
+				if(rightButton.valueUpdated()==1 && rightButton.getValue()==1)
+				{
+					ontime = 0;
+					State = set_minute;
+				}
+				if(leftButton.valueUpdated()==1 && leftButton.getValue()==1)
+				{
+					ontime = 0;
+					t.hour = (t.hour+1)%24;
+				}
+				break;
+			case set_minute:
+				max_ontime = ontime_long;
+				if(rightButton.valueUpdated()==1 && rightButton.getValue()==1)
+				{
+					ontime = 0;
+					t.second = 0;
+					State = display_on;
+				}
+				if(leftButton.valueUpdated()==1 && leftButton.getValue()==1)
+				{
+					ontime = 0;
+					t.second = 0;
+					t.minute = (t.minute+1)%60;
+				}
+				if(leftButton.getValue() == 1 && rightButton.getValue() == 1)
+				{
+					//further settings
+					State=idle;
+					ontime=max_ontime;
+					TestAllLEDs();
+				}
+				break;
+			case read_temperature:
+				//empty
+				TestAllLEDs();
+				State = idle;
+				break;
+		}
+		if(State != idle)
+		{
+			updateDisplayBuffer();
+			showLEDs(dT);
+			rightButton.loop(dT);
+			leftButton.loop(dT);
+			ontime += dT;
 		}
 	}
 }
@@ -144,7 +196,7 @@ static void init(void)
 	PORTB=0x01;
 	DDRC = 0x00;											//Configure all eight pins of port B as outputs
 	PORTC = 0x10;											//Configure all eight pins of port B as outputs
-	//Wait for external clock crystal to stabilize;
+	_delay_us(15000);	//Wait for external clock crystal to stabilize;
 	for (uint8_t i=0; i<0x40; i++)
 	{
 		for (uint32_t j=0; j<0xFFFF; j++);
@@ -170,13 +222,13 @@ static void init(void)
 
 ISR(PCINT0_vect)
 {
-	if((PINB&0x01)==0)
-		PCINT_activated=1;
+	if(getLeftButton())
+		wakeupTriggered=1;
 }
 ISR(PCINT1_vect)
 {
-	if((PINC&0x10)==0)
-		PCINT_activated=2;
+	if(getRightButton())
+		wakeupTriggered=2;
 }
 ISR(TIMER2_OVF_vect)
 {
@@ -187,7 +239,7 @@ ISR(TIMER2_OVF_vect)
 		{
 			t.minute=0;
 			t.second+=correction.everyHour;
-			PCINT_activated=0xF0;//show Time every Hour
+			wakeupTriggered=0x04;//show Time every Hour
 			if (++t.hour==24)
 			{
 				t.hour=0;
@@ -207,17 +259,19 @@ ISR(TIMER2_OVF_vect)
 		}
 	}
 }
-static void updateTimeArray(void)
+static void updateDisplayBuffer(void)
 {
-	TimeArray[3]=numToPortD[t.hour/10];
-	TimeArray[2]=numToPortD[t.hour%10];
-	TimeArray[1]=numToPortD[t.minute/10];
-	TimeArray[0]=numToPortD[t.minute%10];
+	DisplayBuffer[3]=numToPortD[t.hour/10];
+	DisplayBuffer[2]=numToPortD[t.hour%10];
+	DisplayBuffer[1]=numToPortD[t.minute/10];
+	DisplayBuffer[0]=numToPortD[t.minute%10];
 	if(t.hour==0 && t.minute==0)
 	{
-		TimeArray[3]=numToPortD[2];
-		TimeArray[2]=numToPortD[4];
-		TimeArray[1]=numToPortD[0];
-		TimeArray[0]=numToPortD[0];
+		DisplayBuffer[3]=numToPortD[2];
+		DisplayBuffer[2]=numToPortD[4];
+		DisplayBuffer[1]=numToPortD[0];
+		DisplayBuffer[0]=numToPortD[0];
 	}
+	if(State==set_hour)DisplayBuffer[3]|=0x01;
+	if(State==set_minute)DisplayBuffer[1]|=0x01;
 }
