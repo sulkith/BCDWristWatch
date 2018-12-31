@@ -2,10 +2,10 @@
 #define __INCLUDE_TYPES_H__
 
 typedef struct{
-	int8_t everyMinute;
-	int8_t everyHour;
-	int8_t everyDay;
-	int8_t everyMonth;
+	uint8_t everyMinute;
+	uint8_t everyHour;
+	uint8_t everyDay;
+	uint8_t everyMonth;
 } correction_t;
 
 typedef struct{
@@ -20,7 +20,12 @@ enum state_t
 	read_temperature = 0x01,
 	display_on = 0x10,
 	set_hour = 0x20,
-	set_minute = 0x21
+	set_minute = 0x21,
+	set_eep_min_correction = 0x31,
+	set_eep_hour_correction = 0x32,
+	set_eep_day_correction = 0x33,
+	set_eep_month_correction = 0x34,
+	save_eeprom = 0x3F
 };
 
 #endif

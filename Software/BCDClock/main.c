@@ -104,12 +104,21 @@ void TestAllLEDs()
 	}
 }
 
+void writeDataToEEPROM()
+{
+	if(correction.everyMinute>59 || correction.everyHour>59 || correction.everyDay>23)
+	{
+		//unplausible Data
+		correction.everyMinute = 0;
+		correction.everyHour = 0;
+		correction.everyDay= 0;
+		correction.everyMonth= 0;
+	}
+	eeprom_update_block(&correction,&correction_EEP,sizeof(correction_t));
+}
 void readEEP()
 {
-	correction.everyMinute = (int8_t)eeprom_read_byte((uint8_t*)&(correction_EEP.everyMinute));
-	correction.everyHour = (int8_t)eeprom_read_byte((uint8_t*)&(correction_EEP.everyHour));
-	correction.everyDay = (int8_t)eeprom_read_byte((uint8_t*)&(correction_EEP.everyDay));
-	correction.everyMonth = (int8_t)eeprom_read_byte((uint8_t*)&(correction_EEP.everyMonth));
+	eeprom_read_block(&correction,&correction_EEP,sizeof(correction_t));
 	if(correction.everyMinute>59 || correction.everyHour>59 || correction.everyDay>23)
 	{
 		//unplausible Data
@@ -127,7 +136,37 @@ void showEEPValues()
 	DisplayBuffer[3]=numToPortD[correction.everyMonth&0x0F];
 	showLEDs(1000);
 }
-
+template <typename T>
+uint8_t caseForAdjusting(T* const value, uint16_t* const ontime, const T maxvalue, const T minvalue=0)
+{
+	if(rightButton.valueUpdatedTo(1)==1)
+	{
+		if((*value)==minvalue)
+			(*value)=maxvalue;
+		else
+			(*value)--;
+		*ontime = 0;
+		if(leftButton.getValue() == 1 && rightButton.getValue() == 1)
+		{
+			*ontime = 0;
+			return 1;
+		}
+	}
+	if(leftButton.valueUpdatedTo(1)==1)
+	{
+		if((*value)==maxvalue)
+			(*value)=minvalue;
+		else
+			(*value)++;
+		*ontime = 0;
+		if(leftButton.getValue() == 1 && rightButton.getValue() == 1)
+		{
+			*ontime = 0;
+			return 1;
+		}
+	}
+	return 0;
+}
 int main(void)
 {
 
@@ -199,9 +238,27 @@ int main(void)
 				if(leftButton.getValue() == 1 && rightButton.getValue() == 1)
 				{
 					//further settings
-					ontime=max_ontime+1;
-					TestAllLEDs();
+					State=set_eep_min_correction;
+					//ontime=max_ontime+1;
+					//TestAllLEDs();
 				}
+				break;
+			case set_eep_min_correction:
+				if(caseForAdjusting<uint8_t>(&(correction.everyMinute),&ontime,60))State = set_eep_hour_correction;
+				break;
+			case set_eep_hour_correction:
+				if(caseForAdjusting<uint8_t>(&(correction.everyHour),&ontime,60))State = set_eep_day_correction;
+				break;
+			case set_eep_day_correction:
+				if(caseForAdjusting<uint8_t>(&(correction.everyDay),&ontime,24))State = set_eep_month_correction;
+				break;
+			case set_eep_month_correction:
+				if(caseForAdjusting<uint8_t>(&(correction.everyMonth),&ontime,30))State = save_eeprom;
+				break;
+			case save_eeprom:
+				writeDataToEEPROM();
+				State = display_on;
+				ontime = 0;
 				break;
 			case read_temperature:
 				//empty
@@ -215,6 +272,9 @@ int main(void)
 			showLEDs(dT);
 			rightButton.loop(dT);
 			leftButton.loop(dT);
+			if((State&0xF0) == 0x10)max_ontime = ontime_short;
+			if((State&0xF0) == 0x20)max_ontime = ontime_long;
+			if((State&0xF0) == 0x30)max_ontime = 65535;
 			if(ontime > max_ontime)
 			{
 				State = idle;
@@ -289,17 +349,53 @@ ISR(TIMER2_OVF_vect)
 }
 static void updateDisplayBuffer(void)
 {
-	DisplayBuffer[3]=numToPortD[t.hour/10];
-	DisplayBuffer[2]=numToPortD[t.hour%10];
-	DisplayBuffer[1]=numToPortD[t.minute/10];
-	DisplayBuffer[0]=numToPortD[t.minute%10];
-	if(t.hour==0 && t.minute==0)
+	if((State&0xF0)<0x30)
 	{
-		DisplayBuffer[3]=numToPortD[2];
-		DisplayBuffer[2]=numToPortD[4];
-		DisplayBuffer[1]=numToPortD[0];
-		DisplayBuffer[0]=numToPortD[0];
+		DisplayBuffer[3]=numToPortD[t.hour/10];
+		DisplayBuffer[2]=numToPortD[t.hour%10];
+		DisplayBuffer[1]=numToPortD[t.minute/10];
+		DisplayBuffer[0]=numToPortD[t.minute%10];
+		if(t.hour==0 && t.minute==0)
+		{
+			DisplayBuffer[3]=numToPortD[2];
+			DisplayBuffer[2]=numToPortD[4];
+			DisplayBuffer[1]=numToPortD[0];
+			DisplayBuffer[0]=numToPortD[0];
+		}
+		if(State==set_hour)DisplayBuffer[3]|=0x01;
+		if(State==set_minute)DisplayBuffer[1]|=0x01;
 	}
-	if(State==set_hour)DisplayBuffer[3]|=0x01;
-	if(State==set_minute)DisplayBuffer[1]|=0x01;
+	else if((State&0xF0)==0x30)
+	{
+		DisplayBuffer[3]=numToPortD[(State&0x0F)];//Display Setting number in first Row
+		DisplayBuffer[2]=DISP_F;//Display 0xF o signalize settings mode
+		uint8_t valueToDisplay = 0;
+		switch (State) {
+			case set_eep_min_correction:
+				valueToDisplay = correction.everyMinute;
+				break;
+			case set_eep_hour_correction:
+				valueToDisplay = correction.everyHour;
+				break;
+			case set_eep_day_correction:
+				valueToDisplay = correction.everyDay;
+				break;
+			case set_eep_month_correction:
+				valueToDisplay = correction.everyMonth;
+				break;
+			case save_eeprom:
+				valueToDisplay=0x00;
+				break;
+			case idle:
+			case set_minute:
+			case set_hour:
+			case read_temperature:
+			case display_on:
+				//Will not happen
+				break;
+		}
+		DisplayBuffer[0] = numToPortD[(valueToDisplay&0x0F)];
+		DisplayBuffer[1] = numToPortD[((valueToDisplay>>4)&0x0F)];
+	}
+
 }
