@@ -2,28 +2,35 @@
 
 
 module housingBody(height,inside,lid){
+    glassSize = 1.5;
+    PCBSize = 1;
+    PCBFrontKeepout = 1.3;
+    PCBBackKeepout = 3.9;
+    LIDSize=2;
+    height=glassSize+PCBSize+PCBFrontKeepout+PCBBackKeepout+LIDSize;
+    
         if (inside)
         {
             //space for wrist strap
             translate([-43.5+5,-10,0])scale([20,20,height+5])cube(1);
             translate([23.5-5,-10,0])scale([20,20,height+5])cube(1);
             
-            translate([-21,11.5,height-2.5]) {//holes for Mounting
+            translate([-21,11.5,height-1.5]) {//holes for Mounting
                 
                 rotate(a=[90,0,0])cylinder(23,0.5,0.5);
             }
-            translate([21,11.5,height-2.5]) {//holes for Mounting
+            translate([21,11.5,height-1.5]) {//holes for Mounting
                 rotate(a=[90,0,0])cylinder(23,0.5,0.5);
             }
             
             
-            translate([0,0,-1])cylinder(2.2,16,16);//glass
+            translate([0,0,-1])cylinder(glassSize+1,16,16);//glass
             cylinder(height+2,15,15);//mounted parts
-            translate([0,0,2.2+1.5]) {//PCB Mounting
+            translate([0,0,glassSize+PCBFrontKeepout]) {//PCB Mounting
                 cylinder(height,15.5,15.5);
             }
             
-            translate([-2,20,7]) {//Holes for buttons
+            translate([-2,20,glassSize+PCBFrontKeepout+PCBSize+2.3]) {//Holes for buttons
                 rotate(a=[90,0,0])
                 {
                     
@@ -94,7 +101,8 @@ module housingBody(height,inside,lid){
                 }
             }
         }
-        
+     echo("Housing Size is ");
+     echo(height);
 }
 module button(){
     color([0,0,0])rotate([180,0,0])
@@ -179,13 +187,13 @@ module rendering()
 }
 //printall();
 
-rendering();
+//rendering();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
 //for Debugging
-//housingBodyAll(10);
-//housingBody(10,false,true);
-//translate([0,50,0])housingBody(10,true);
+housingBodyAll(10);
+housingBody(10,false,true);
+translate([0,50,0])housingBody(10,true);
 
 
 echo(version=version());
