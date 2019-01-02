@@ -158,42 +158,36 @@ module housingBodyAll(height){
 
 module printall(){
     
-    //$fs = 0.01;
-    //$fa = 1;
-    
-    housingBodyAll(10);
-    translate([0,0,20])housingBody(10,false,true);
-    translate([0,0,20.7])pcb();
-    translate([5,7,7])button();
-    translate([5,-7,7])button();
+    housingBodyAll(9.5);
+    translate([0,0,10])housingBody(9.5,false,true);
+    //translate([0,0,20.7])pcb();
+    translate([5,7,6])rotate([180,0,0])button();
+    translate([5,-7,6])rotate([180,0,0])button();
     translate([5,0,6.5])scale([0.5,35,1])cube(1,center=true);
     translate([0,0,6.5])scale([32,0.5,1])cube(1,center=true);
-    translate([5,11,6.5])scale([0.5,1,24])cube(1);
-    translate([5,-12,6.5])scale([0.5,1,24])cube(1);
-    translate([-9.5,-0.5,6.5])scale([0.5,1,24])cube(1);
+    translate([5,11,6.5])scale([0.5,1,14])cube(1);
+    translate([5,-12,6.5])scale([0.5,1,14])cube(1);
+    translate([-9.5,-0.5,6.5])scale([0.5,1,14])cube(1);
 
 }
 
 module rendering()
 {
-    //$fs = 0.01;
-    //$fa = 1;
     housingBodyAll(10);
-    //translate([0,0,10])lid();
     housingBody(10,false,true);
     translate([0,0,3.7])pcb();
     translate([-2,15,7])rotate([90,0,0])button();
     translate([-2,-15,7])rotate([-90,0,0])button();
 }
-//printall();
+printall();
 
 //rendering();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
 //for Debugging
-housingBodyAll(10);
-housingBody(10,false,true);
-translate([0,50,0])housingBody(10,true);
+//housingBodyAll(10);
+//housingBody(10,false,true);
+//translate([0,50,0])housingBody(10,true);
 
 
 echo(version=version());
