@@ -202,9 +202,9 @@ module printall(){
     translate([5,-7,6])rotate([180,0,0])button();
     translate([5,0,6.5])scale([0.5,35,1])cube(1,center=true);
     translate([0,0,6.5])scale([32,0.5,1])cube(1,center=true);
-    translate([5,11,6.0])scale([0.5,1,14])cube(1);
-    translate([5,-12,6.0])scale([0.5,1,14])cube(1);
-    translate([-9.5,-0.5,6.0])scale([0.5,1,14])cube(1);
+    translate([5,11,6.0])scale([0.5,1,12])cube(1);
+    translate([5,-12,6.0])scale([0.5,1,12])cube(1);
+    translate([-9.5,-0.5,6.0])scale([0.5,1,12])cube(1);
 
 }
 
@@ -217,9 +217,9 @@ module rendering()
     //translate([-2,15,6.1])rotate([90,0,0])button();
     //translate([-2,-15,6.1])rotate([-90,0,0])button();
 }
-//printall();
+printall();
 
-rendering();
+//rendering();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
 //for Debugging
