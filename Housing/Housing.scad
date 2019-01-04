@@ -7,7 +7,7 @@ module housingBody(height,inside,lid){
     PCBFrontKeepout = 1.3;
     PCBBackKeepout = 3.9;
     LIDSize=1.3;
-    height=glassSize+PCBSize+PCBFrontKeepout+PCBBackKeepout+LIDSize+1;
+    height=glassSize+PCBSize+PCBFrontKeepout+PCBBackKeepout+LIDSize;
     
         if (inside)
         {
@@ -96,6 +96,7 @@ module housingBody(height,inside,lid){
                         difference(){
                             cube(100,center=true);
                             translate([0,0,height+3-LIDSize+0.1])scale([36.9,40,6])cube(1,center=true);
+                            //translate([0,0,height-LIDSize+0.1])cylinder(LIDSize-1,15.4,15.4);
                         }
                         translate([14.5,11,height-6]) {
                             cylinder(9,0.7,0.7);
@@ -120,6 +121,18 @@ module housingBody(height,inside,lid){
                         }
                         translate([14.5,-11,height-0.8]) {
                             cylinder(0.9,0.7,1.8);
+                        }
+                        translate([-2,20,glassSize+PCBFrontKeepout+PCBSize+2.3]) {//Holes for buttons
+                            rotate(a=[90,0,0])
+                            {
+                                
+                                cylinder(40,1.5,1.5);
+                                translate([0,0,3])
+                                {
+                                    translate([0,0,0])cylinder(6,2.5,2.5);
+                                    translate([0,0,28])cylinder(6,2.5,2.5); 
+                                }
+                            }
                         }
                     }
                 }
@@ -199,14 +212,14 @@ module rendering()
 {
     housingBodyAll(10);
     housingBody(10,false,true);
-    translate([0,0,-15])housingBody(10,false,true);
-    translate([0,0,3.7])pcb();
-    translate([-2,15,6.1])rotate([90,0,0])button();
-    translate([-2,-15,6.1])rotate([-90,0,0])button();
+    //translate([0,0,-15])housingBody(10,false,true);
+    //translate([0,0,2.8])pcb();
+    //translate([-2,15,6.1])rotate([90,0,0])button();
+    //translate([-2,-15,6.1])rotate([-90,0,0])button();
 }
-printall();
+//printall();
 
-//rendering();
+rendering();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
 //for Debugging
