@@ -3,6 +3,7 @@
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 #include <util/delay.h>
+#include "OnChipTempSensor.h"
 
 static void init(void);
 	
@@ -85,7 +86,7 @@ void TestAllLEDs()
 	}
 }
 
-unsigned int readchiptemp(void){ 
+void start_readchiptemp(){ 
 //read ch n of internal a/d  10 bit unsigned 
 	ACSR=0x00;
 	ADCSRA = 0x80;   
@@ -93,16 +94,31 @@ unsigned int readchiptemp(void){
 
 	ADMUX= 0xC0 + 8; //select 1.1 vref + channel 8 
 	ADCSRA |= 0x40;  //init conversion 
-	while((ADCSRA & 0x40) != 0){}; //wait for conv complete 
+} 
+uint8_t finished_readchiptemp(){ 
+	if((ADCSRA & 0x40) != 0)
+	{
+		return 0;
+	}  
+	return 1;
+} 
+uint16_t get_readchiptemp(){ 
+	if((ADCSRA & 0x40) != 0)
+	{
+		return 0;
+	}  
+//read ch n of internal a/d  10 bit unsigned 
 	ACSR=0x80;
 	ADCSRA = 0x00;  //init conversion 
 	return ADC; 
 } 
 int main(void)
 {
-	TestAllLEDs();
+	//TestAllLEDs();
+	OnChipTempSensor octs;
 
-   init();	//Initialize registers and configure RTC.
+   //init();	//Initialize registers and configure RTC.
+	DDRD=0xFF;
 	
 	while(1)
 	{
@@ -110,14 +126,27 @@ int main(void)
 		if(PCINT_activated>0)//wakeup on Keypress
 		{
 		}
-		uint16_t temp_raw = readchiptemp();
-		int16_t temp = ((int16_t)(temp_raw*101))-27000;
-		uint16_t tempu = (temp<0)?-temp:temp;
-		TimeArray[3]=0;
-		if(temp<0) TimeArray[3] = DISP_6;
-		TimeArray[2]=numToPortD[(temp/1000)%10];
-		TimeArray[1]=numToPortD[(temp%1000)/100];
-		//TimeArray[0]=numToPortD[(temp%100)/10];
+		octs.trigger();
+		octs.loop();
+		_delay_us(1000);
+		octs.loop();
+		_delay_us(1000);
+		octs.loop();
+		_delay_us(1000);
+		
+		uint16_t temp_raw = octs.get();
+		//uint16_t temp_raw = readchiptemp();
+		//int16_t temp = ((int16_t)(temp_raw*101))-27000;
+		//uint16_t tempu = (temp<0)?-temp:temp;
+		uint16_t inp = (temp_raw - 314.31)/1.22;
+		uint16_t thousands = (inp/1000)%10;
+		uint16_t hundreds = ((inp%1000)/100)%10;
+		uint16_t tens = ((inp%100)/10)%10;
+		uint16_t ones = ((inp%10)/1)%10;
+		TimeArray[3]=numToPortD[thousands];
+		TimeArray[2]=numToPortD[hundreds];
+		TimeArray[1]=numToPortD[tens];
+		TimeArray[0]=numToPortD[ones];
 		showLEDs(500);
 	}
 }
