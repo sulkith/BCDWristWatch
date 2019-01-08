@@ -13,7 +13,16 @@ typedef struct{
 	uint8_t minute;
 	uint8_t hour;
 	uint8_t day;
+	uint16_t steps;
 }  time;
+typedef struct{
+	uint16_t offset;
+	uint16_t correction[50];
+} tempCorrection_t;
+typedef struct{
+	uint8_t datetime;
+	uint8_t temp;
+} TempLogEntry_t;
 enum state_t
 {
 	idle = 0x00,

@@ -8,9 +8,11 @@
 #include "settings.h"
 #include "constants.h"
 #include "Debouncer.h"
+#include "OnChipTempSensor.h"
 
 
 extern correction_t EEMEM correction_EEP;
+extern tempCorrection_t EEMEM tempCorrection_EEP;
 
 static void init(void);
 static void updateDisplayBuffer(void);
@@ -21,10 +23,13 @@ time t = {30,59,23,0};
 enum state_t setting = idle;
 enum state_t State = idle;
 correction_t correction={0,4,4};
+tempCorrection_t tempCorrection={345,{	0,	1,	5,	10,	17,	26,	37,	50,	65,	82,	100,	121,	144,	168,	195,	223,	254,	286,	320,	356,	394,	434,	476,	520,	566,	614,	664,	715,	769,	824,	882,	941,	1003,	1066,	1131,	1198,	1267,	1338,	1411,	1486,	1563,	1641,	1722,	1805,	1889,	1976,	2064,	2154,	2247,	2341}
+};
 uint8_t DisplayBuffer[4];
 uint8_t wakeupTriggered=0;
 Debouncer<uint8_t> rightButton(Button_debounceTime,0,&getRightButton);
 Debouncer<uint8_t> leftButton(Button_debounceTime,0,&getLeftButton);
+OnChipTempSensor octs;
 
 inline void setupPorts()
 {
@@ -119,6 +124,7 @@ void writeDataToEEPROM()
 void readEEP()
 {
 	eeprom_read_block(&correction,&correction_EEP,sizeof(correction_t));
+	eeprom_read_block(&tempCorrection,&tempCorrection_EEP,sizeof(tempCorrection_t));
 	if(correction.everyMinute>59 || correction.everyHour>59 || correction.everyDay>23)
 	{
 		//unplausible Data
@@ -273,6 +279,7 @@ int main(void)
 		}
 		rightButton.loop(dT);
 		leftButton.loop(dT);
+		octs.loop();
 		if((State&0xF0) != 0x00)
 		{
 			updateDisplayBuffer();
@@ -338,6 +345,15 @@ ISR(TIMER2_OVF_vect)
 			{
 				t.hour=0;
 				t.second+=correction.everyDay;
+				uint16_t temp_raw = octs.get();
+				if(temp_raw!=0xFFFF)
+				{
+					int16_t temp_raw2 = temp_raw - tempCorrection.offset;
+					if(temp_raw2<0) temp_raw2 = -temp_raw2;
+					t.steps+=tempCorrection.correction[temp_raw2];
+					t.second += t.steps/10000;
+					t.steps = t.steps % 10000;
+				}
 				if(++t.day==30)
 				{
 					t.second+=correction.everyMonth;
@@ -351,6 +367,10 @@ ISR(TIMER2_OVF_vect)
 				//updateDate();
 			}
 		}
+	}
+	if(t.second==50 && t.minute==59)
+	{
+		octs.trigger();
 	}
 }
 static void updateDisplayBuffer(void)
