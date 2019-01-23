@@ -4,7 +4,7 @@
 module housingBody(height,inside,lid){
     glassClamp = 0.1;
     glassSize = 1.5;
-    PCBSize = 1;
+    PCBSize = 1.6;
     PCBFrontKeepout = 1.4;
     PCBBackKeepout = 3.9;
     LIDSize=1.5;
@@ -244,7 +244,7 @@ module housingBodyAll(height){
 module printall(){
     
     housingBodyAll(9.5);
-    translate([0,0,10])housingBody(9.5,false,true);
+    translate([0,0,8])housingBody(9.5,false,true);
     //translate([0,0,20.7])pcb();
     translate([5,7,6.1])rotate([180,0,0])button();
     translate([5,-7,6.1])rotate([180,0,0])button();
