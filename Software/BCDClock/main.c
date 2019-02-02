@@ -12,7 +12,7 @@
 
 
 extern correction_t EEMEM correction_EEP;
-extern tempCorrection_t EEMEM tempCorrection_EEP;
+extern uint16_t EEMEM tempCorrectionOffset_EEP;
 
 static void init(void);
 static void updateDisplayBuffer(void);
@@ -23,8 +23,8 @@ time t = {30,59,23,0};
 enum state_t setting = idle;
 enum state_t State = idle;
 correction_t correction={0,4,4};
-tempCorrection_t tempCorrection={345,{	0,	1,	5,	10,	17,	26,	37,	50,	65,	82,	100,	121,	144,	168,	195,	223,	254,	286,	320,	356,	394,	434,	476,	520,	566,	614,	664,	715,	769,	824,	882,	941,	1003,	1066,	1131,	1198,	1267,	1338,	1411,	1486,	1563,	1641,	1722,	1805,	1889,	1976,	2064,	2154,	2247,	2341}
-};
+const uint16_t tempCorrection[]={	0,	1,	5,	10,	17,	26,	37,	50,	65,	82,	100,	121,	144,	168,	195,	223,	254,	286,	320,	356,	394,	434,	476,	520,	566,	614,	664,	715,	769,	824,	882,	941,	1003,	1066,	1131,	1198,	1267,	1338,	1411,	1486,	1563,	1641,	1722,	1805,	1889,	1976,	2064,	2154,	2247,	2341};
+uint16_t tempCorrectionOffset = 345;
 uint8_t DisplayBuffer[4];
 uint8_t wakeupTriggered=0;
 Debouncer<uint8_t> rightButton(Button_debounceTime,0,&getRightButton);
@@ -120,11 +120,12 @@ void writeDataToEEPROM()
 		correction.everyMonth= 0;
 	}
 	eeprom_update_block(&correction,&correction_EEP,sizeof(correction_t));
+	eeprom_update_block(&tempCorrectionOffset,&tempCorrectionOffset_EEP,sizeof(uint16_t));
 }
 void readEEP()
 {
 	eeprom_read_block(&correction,&correction_EEP,sizeof(correction_t));
-	eeprom_read_block(&tempCorrection,&tempCorrection_EEP,sizeof(tempCorrection_t));
+	eeprom_read_block(&tempCorrectionOffset,&tempCorrectionOffset_EEP,sizeof(uint16_t));
 	if(correction.everyMinute>59 || correction.everyHour>59 || correction.everyDay>23)
 	{
 		//unplausible Data
@@ -189,8 +190,8 @@ int main(void)
 				if(wakeupTriggered>0)//wakeup on Keypress
 				{
 					wakeupTriggered=0;
-					rightButton.directSetValue(0);
-					leftButton.directSetValue(0);
+					rightButton.directSetValue(1);
+					leftButton.directSetValue(1);
 					ontime = 0;
 					State = display_on;
 				}
@@ -204,6 +205,14 @@ int main(void)
 				break;
 			case display_on:
 				max_ontime = ontime_short;
+				if(leftButton.getValue() == 0 && rightButton.getValue() == 0)
+				{
+					State = display_on_latched;
+				}
+				ontime = 0;
+				break;
+			case display_on_latched:
+				max_ontime = ontime_short;
 				if(rightButton.valueUpdatedTo(1) == 1 && leftButton.getValue() == 1)
 				{
 					ontime = 0;
@@ -212,12 +221,12 @@ int main(void)
 				if(leftButton.valueUpdatedTo(1) == 1 && rightButton.getValue() == 1)
 				{
 					ontime = 0;
-					showEEPValues(5000);
+					octs.trigger();
+					State = show_temperature;
 				}
-				if(leftButton.getValue() == 1 || rightButton.getValue() == 1)
-				{
-					ontime = 0;
-				}
+				break;
+			case show_temperature:
+				max_ontime = ontime_long;
 				break;
 			case set_hour:
 				max_ontime = ontime_long;
@@ -264,7 +273,10 @@ int main(void)
 				if(caseForAdjusting<uint8_t>(&(correction.everyDay),&ontime,24))State = set_eep_month_correction;
 				break;
 			case set_eep_month_correction:
-				if(caseForAdjusting<uint8_t>(&(correction.everyMonth),&ontime,30))State = save_eeprom;
+				if(caseForAdjusting<uint8_t>(&(correction.everyMonth),&ontime,30))State = set_eep_temp_correction;
+				break;
+			case set_eep_temp_correction:
+				if(caseForAdjusting<uint16_t>(&(tempCorrectionOffset),&ontime,500))State = save_eeprom;
 				break;
 			case save_eeprom:
 				writeDataToEEPROM();
@@ -348,9 +360,9 @@ ISR(TIMER2_OVF_vect)
 				uint16_t temp_raw = octs.get();
 				if(temp_raw!=0xFFFF)
 				{
-					int16_t temp_raw2 = temp_raw - tempCorrection.offset;
+					int16_t temp_raw2 = temp_raw - tempCorrectionOffset;
 					if(temp_raw2<0) temp_raw2 = -temp_raw2;
-					t.steps+=tempCorrection.correction[temp_raw2];
+					t.steps+=tempCorrection[temp_raw2%50];//%50 so we dont get a segfault
 					t.second += t.steps/10000;
 					t.steps = t.steps % 10000;
 				}
@@ -395,7 +407,7 @@ static void updateDisplayBuffer(void)
 	{
 		DisplayBuffer[3]=numToPortD[(State&0x0F)];//Display Setting number in first Row
 		DisplayBuffer[2]=DISP_F;//Display 0xF o signalize settings mode
-		uint8_t valueToDisplay = 0;
+		uint16_t valueToDisplay = 0;
 		switch (State) {
 			case set_eep_min_correction:
 				valueToDisplay = correction.everyMinute;
@@ -409,6 +421,10 @@ static void updateDisplayBuffer(void)
 			case set_eep_month_correction:
 				valueToDisplay = correction.everyMonth;
 				break;
+			case set_eep_temp_correction:
+				valueToDisplay = tempCorrectionOffset;
+				DisplayBuffer[2] = numToPortD[((valueToDisplay>>8)&0x0F)];
+				break;
 			case save_eeprom:
 				valueToDisplay=0x00;
 				break;
@@ -417,11 +433,22 @@ static void updateDisplayBuffer(void)
 			case set_hour:
 			case read_temperature:
 			case display_on:
+			case display_on_latched:
+			case show_temperature:
 				//Will not happen
 				break;
 		}
 		DisplayBuffer[0] = numToPortD[(valueToDisplay&0x0F)];
 		DisplayBuffer[1] = numToPortD[((valueToDisplay>>4)&0x0F)];
+	}
+	else if((State)==0x40)
+	{
+	
+		uint16_t valueToDisplay = octs.get();
+		DisplayBuffer[0] = numToPortD[(valueToDisplay&0x0F)];
+		DisplayBuffer[1] = numToPortD[((valueToDisplay>>4)&0x0F)];
+		DisplayBuffer[2] = numToPortD[((valueToDisplay>>8)&0x0F)];
+		DisplayBuffer[3]=DISP_F;//Display 0xF to signalize temperature display
 	}
 
 }

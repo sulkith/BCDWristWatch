@@ -37,9 +37,10 @@ flash_eep:	all
 	$(AVRDUDE) -U eeprom:w:eeprom.eep:i
 
 test:	all flash
-	gtkterm
+	putty
 
 flash_all:	flash flash_eep
+produce:	fuse flash_all
 
 dump:
 	$(AVRDUDE) -U eeprom:r:dump.eep:i -U flash:r:dump.hex:i
