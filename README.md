@@ -22,11 +22,11 @@ Brightness was set in the Program to 100/255 (see software void showLEDs, consta
 ![picture of PCB2 switched on](Pictures/PCB2_F1_on.jpg)
 
 ### PCB3
-The third PCB was ordered at aisler.net. It only took around one and a half week to arive(to Germany).<br>
+The third PCB was ordered at [aisler.net](https://aisler.net). It only took around one and a half week to arive(to Germany).<br>
 The PCB was not completely milled out. It was in a carrier PCB with rectangular shape, but it was easy to remove.<br>
 I had to sand the edges a bit, since it was a bit rough on the parts where i removed the connections to the carrier, since i had to sand the PCB anyway to fit in the Housing that was no big problem.<br>
 The overall Quality of the PCBs is very good, but you can not choose the thicknes or color of the PCB.<br>
-<b>TODO add Photos</b>
+![picture of PCB3](Pictures/PCB3.jpg)
 
 ## Housing
 The Housing was designed in OpenSCAD. <br>
@@ -46,4 +46,6 @@ since the resin could be used.
 A friend told me that most of the time the resin will not reflect light equally in every spot, therefore i decided to order a PCB without glass and do the mounting of the glass with very tight tolerances and a rim on the top edge.<br>
 this worked out extremely well.<br>
 Another goal was to make the second Housing slim, because the first one was very bulky. With a bit of optimization is was possible to integrate the bottom plate completely in the housing. The overall thicknes was reduced from about 15mm to 9.4mm with the 1mm PCB or 10mm with the new 1.6mm PCB.<br>
-<b>TODO add Photos</b>
+For the PCB to tightly fit in either the Housing has to get some aditional holes or at least the Battery clip has to be modified.<br>
+![picture Housing 2](Pictures/Housing2.jpg)
+![picture Housing 3 Backside](Pictures/Housing3b.jpg)
