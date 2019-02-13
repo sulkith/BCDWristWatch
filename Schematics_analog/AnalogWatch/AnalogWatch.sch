@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:AnalogWatch-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -309,18 +310,7 @@ C2_2
 Text GLabel 4500 3350 0    50   Input ~ 0
 C2_3
 Text GLabel 4500 3750 0    50   Input ~ 0
-C3_4
-$Comp
-L Device:LED D29
-U 1 1 5C6418F5
-P 5000 2750
-F 0 "D29" V 5038 2632 50  0000 R CNN
-F 1 "LED" V 4947 2632 50  0000 R CNN
-F 2 "LED_SMD:LED_0603_1608Metric" H 5000 2750 50  0001 C CNN
-F 3 "~" H 5000 2750 50  0001 C CNN
-	1    5000 2750
-	0    -1   -1   0   
-$EndComp
+C2_4
 $Comp
 L Device:R R21
 U 1 1 5C6418FC
@@ -600,17 +590,6 @@ C3_3
 Text GLabel 8050 2050 0    50   Input ~ 0
 C3_4
 $Comp
-L Device:LED D39
-U 1 1 5C64DFB2
-P 8550 1050
-F 0 "D39" V 8588 932 50  0000 R CNN
-F 1 "LED" V 8497 932 50  0000 R CNN
-F 2 "LED_SMD:LED_0603_1608Metric" H 8550 1050 50  0001 C CNN
-F 3 "~" H 8550 1050 50  0001 C CNN
-	1    8550 1050
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Device:R R31
 U 1 1 5C64DFB9
 P 8200 850
@@ -743,17 +722,6 @@ F 2 "LED_SMD:LED_0603_1608Metric" H 8550 1850 50  0001 C CNN
 F 3 "~" H 8550 1850 50  0001 C CNN
 	1    8550 1850
 	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:LED D31
-U 1 1 5C64E00E
-P 8900 1850
-F 0 "D31" V 8845 1929 50  0000 L CNN
-F 1 "LED" V 8936 1929 50  0000 L CNN
-F 2 "LED_SMD:LED_0603_1608Metric" H 8900 1850 50  0001 C CNN
-F 3 "~" H 8900 1850 50  0001 C CNN
-	1    8900 1850
-	0    1    1    0   
 $EndComp
 $Comp
 L Device:LED D32
@@ -889,17 +857,6 @@ C4_3
 Text GLabel 8050 3750 0    50   Input ~ 0
 C4_4
 $Comp
-L Device:LED D49
-U 1 1 5C64E063
-P 8550 2750
-F 0 "D49" V 8588 2632 50  0000 R CNN
-F 1 "LED" V 8497 2632 50  0000 R CNN
-F 2 "LED_SMD:LED_0603_1608Metric" H 8550 2750 50  0001 C CNN
-F 3 "~" H 8550 2750 50  0001 C CNN
-	1    8550 2750
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Device:R R41
 U 1 1 5C64E06A
 P 8200 2550
@@ -1034,28 +991,6 @@ F 3 "~" H 8550 3550 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:LED D41
-U 1 1 5C64E0BF
-P 8900 3550
-F 0 "D41" V 8845 3629 50  0000 L CNN
-F 1 "LED" V 8936 3629 50  0000 L CNN
-F 2 "LED_SMD:LED_0603_1608Metric" H 8900 3550 50  0001 C CNN
-F 3 "~" H 8900 3550 50  0001 C CNN
-	1    8900 3550
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:LED D42
-U 1 1 5C64E0C6
-P 10550 3150
-F 0 "D42" V 10588 3032 50  0000 R CNN
-F 1 "LED" V 10497 3032 50  0000 R CNN
-F 2 "LED_SMD:LED_0603_1608Metric" H 10550 3150 50  0001 C CNN
-F 3 "~" H 10550 3150 50  0001 C CNN
-	1    10550 3150
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Device:LED D43
 U 1 1 5C64E0CD
 P 10900 3150
@@ -1169,4 +1104,269 @@ Wire Wire Line
 Connection ~ 9500 3350
 Wire Wire Line
 	9500 3350 9850 3350
+$Comp
+L MCU_Microchip_ATmega:ATmega328P-MU U1
+U 1 1 5C64E115
+P 2050 2400
+F 0 "U1" H 2050 814 50  0000 C CNN
+F 1 "ATmega328P-MU" H 2050 723 50  0000 C CNN
+F 2 "Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm" H 2050 2400 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega328_P%20AVR%20MCU%20with%20picoPower%20Technology%20Data%20Sheet%2040001984A.pdf" H 2050 2400 50  0001 C CNN
+	1    2050 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Battery_Cell BT1
+U 1 1 5C64E8BB
+P 850 2500
+F 0 "BT1" H 968 2596 50  0000 L CNN
+F 1 "Battery_Cell" H 968 2505 50  0000 L CNN
+F 2 "Battery_Clip_SMALL:BatteryHolderCR2032" V 850 2560 50  0001 C CNN
+F 3 "~" V 850 2560 50  0001 C CNN
+	1    850  2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	850  2300 850  750 
+Wire Wire Line
+	850  750  2050 750 
+Wire Wire Line
+	2050 750  2050 900 
+Wire Wire Line
+	2050 750  2150 750 
+Wire Wire Line
+	2150 750  2150 900 
+Connection ~ 2050 750 
+Wire Wire Line
+	850  2600 850  4250
+Wire Wire Line
+	850  4250 1450 4250
+Wire Wire Line
+	2050 4250 2050 3900
+$Comp
+L Device:Crystal Y1
+U 1 1 5C664C43
+P 8650 5100
+F 0 "Y1" H 8650 5368 50  0000 C CNN
+F 1 "Crystal" H 8650 5277 50  0000 C CNN
+F 2 "Crystal:Crystal_SMD_0603-2Pin_6.0x3.5mm" H 8650 5100 50  0001 C CNN
+F 3 "~" H 8650 5100 50  0001 C CNN
+	1    8650 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C2
+U 1 1 5C664D8B
+P 8850 5300
+F 0 "C2" H 8965 5346 50  0000 L CNN
+F 1 "C" H 8965 5255 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 5150 50  0001 C CNN
+F 3 "~" H 8850 5300 50  0001 C CNN
+	1    8850 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 5C664E59
+P 8450 5300
+F 0 "C1" H 8565 5346 50  0000 L CNN
+F 1 "C" H 8565 5255 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8488 5150 50  0001 C CNN
+F 3 "~" H 8450 5300 50  0001 C CNN
+	1    8450 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0101
+U 1 1 5C664F73
+P 8650 5500
+F 0 "#PWR0101" H 8650 5250 50  0001 C CNN
+F 1 "GND" H 8655 5327 50  0000 C CNN
+F 2 "" H 8650 5500 50  0001 C CNN
+F 3 "" H 8650 5500 50  0001 C CNN
+	1    8650 5500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8450 5150 8450 5100
+Wire Wire Line
+	8450 5100 8500 5100
+Wire Wire Line
+	8800 5100 8850 5100
+Wire Wire Line
+	8850 5100 8850 5150
+Wire Wire Line
+	8450 5450 8450 5500
+Wire Wire Line
+	8450 5500 8650 5500
+Wire Wire Line
+	8850 5500 8850 5450
+Connection ~ 8650 5500
+Wire Wire Line
+	8650 5500 8850 5500
+Text GLabel 8450 5100 0    50   Input ~ 0
+X1
+Text GLabel 8850 5100 2    50   Input ~ 0
+X2
+Text GLabel 2650 1800 2    50   Input ~ 0
+X1
+Text GLabel 2650 1900 2    50   Input ~ 0
+X2
+Text GLabel 2650 3300 2    50   Input ~ 0
+C1_1
+Text GLabel 2650 3200 2    50   Input ~ 0
+C1_2
+Text GLabel 2650 3100 2    50   Input ~ 0
+C1_3
+Text GLabel 2650 3000 2    50   Input ~ 0
+C1_4
+Text GLabel 2650 1200 2    50   Input ~ 0
+C4_1
+Text GLabel 2650 3600 2    50   Input ~ 0
+C4_2
+Text GLabel 2650 3500 2    50   Input ~ 0
+C4_3
+Text GLabel 2650 3400 2    50   Input ~ 0
+C4_4
+Text GLabel 2650 2300 2    50   Input ~ 0
+C3_1
+Text GLabel 2650 2200 2    50   Input ~ 0
+C3_2
+Text GLabel 2650 2100 2    50   Input ~ 0
+C3_3
+Text GLabel 3050 1700 2    50   Input ~ 0
+C3_4
+Text GLabel 2650 2900 2    50   Input ~ 0
+C2_1
+Text GLabel 2650 2600 2    50   Input ~ 0
+C2_2
+Text GLabel 2650 2500 2    50   Input ~ 0
+C2_3
+Text GLabel 2650 2400 2    50   Input ~ 0
+C2_4
+$Comp
+L power:GND #PWR0102
+U 1 1 5C693203
+P 1450 4250
+F 0 "#PWR0102" H 1450 4000 50  0001 C CNN
+F 1 "GND" H 1455 4077 50  0000 C CNN
+F 2 "" H 1450 4250 50  0001 C CNN
+F 3 "" H 1450 4250 50  0001 C CNN
+	1    1450 4250
+	1    0    0    -1  
+$EndComp
+Connection ~ 1450 4250
+Wire Wire Line
+	1450 4250 2050 4250
+$Comp
+L power:VCC #PWR0103
+U 1 1 5C693752
+P 850 750
+F 0 "#PWR0103" H 850 600 50  0001 C CNN
+F 1 "VCC" H 867 923 50  0000 C CNN
+F 2 "" H 850 750 50  0001 C CNN
+F 3 "" H 850 750 50  0001 C CNN
+	1    850  750 
+	1    0    0    -1  
+$EndComp
+Connection ~ 850  750 
+$Comp
+L Connector_Generic:Conn_01x01 J1
+U 1 1 5C694C02
+P 3550 5350
+F 0 "J1" H 3630 5392 50  0000 L CNN
+F 1 "Conn_01x01" H 3630 5301 50  0000 L CNN
+F 2 "Battery_Clip_SMALL:TestPoint" H 3550 5350 50  0001 C CNN
+F 3 "~" H 3550 5350 50  0001 C CNN
+	1    3550 5350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J2
+U 1 1 5C694DDA
+P 3550 5150
+F 0 "J2" H 3630 5192 50  0000 L CNN
+F 1 "Conn_01x01" H 3630 5101 50  0000 L CNN
+F 2 "Battery_Clip_SMALL:TestPoint" H 3550 5150 50  0001 C CNN
+F 3 "~" H 3550 5150 50  0001 C CNN
+	1    3550 5150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J3
+U 1 1 5C694E6E
+P 3550 4750
+F 0 "J3" H 3630 4792 50  0000 L CNN
+F 1 "Conn_01x01" H 3630 4701 50  0000 L CNN
+F 2 "Battery_Clip_SMALL:TestPoint" H 3550 4750 50  0001 C CNN
+F 3 "~" H 3550 4750 50  0001 C CNN
+	1    3550 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J4
+U 1 1 5C694F08
+P 3550 5750
+F 0 "J4" H 3630 5792 50  0000 L CNN
+F 1 "Conn_01x01" H 3630 5701 50  0000 L CNN
+F 2 "Battery_Clip_SMALL:TestPoint" H 3550 5750 50  0001 C CNN
+F 3 "~" H 3550 5750 50  0001 C CNN
+	1    3550 5750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J5
+U 1 1 5C694FA0
+P 3550 5550
+F 0 "J5" H 3630 5592 50  0000 L CNN
+F 1 "Conn_01x01" H 3630 5501 50  0000 L CNN
+F 2 "Battery_Clip_SMALL:TestPoint" H 3550 5550 50  0001 C CNN
+F 3 "~" H 3550 5550 50  0001 C CNN
+	1    3550 5550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J6
+U 1 1 5C69503A
+P 3550 4950
+F 0 "J6" H 3630 4992 50  0000 L CNN
+F 1 "Conn_01x01" H 3630 4901 50  0000 L CNN
+F 2 "Battery_Clip_SMALL:TestPoint" H 3550 4950 50  0001 C CNN
+F 3 "~" H 3550 4950 50  0001 C CNN
+	1    3550 4950
+	1    0    0    -1  
+$EndComp
+Text GLabel 3350 4750 0    50   Input ~ 0
+RESET
+Text GLabel 3350 4950 0    50   Input ~ 0
+GND
+Text GLabel 3350 5150 0    50   Input ~ 0
+SCK
+Text GLabel 3350 5350 0    50   Input ~ 0
+MISO
+Text GLabel 3350 5550 0    50   Input ~ 0
+MOSI
+Text GLabel 3350 5750 0    50   Input ~ 0
+VCC
+Text GLabel 2050 4250 2    50   Input ~ 0
+GND
+Text GLabel 2150 750  2    50   Input ~ 0
+VCC
+Text GLabel 2650 2700 2    50   Input ~ 0
+RESET
+Text GLabel 3050 1800 2    50   Input ~ 0
+SCK
+Wire Wire Line
+	3050 1700 2950 1700
+Wire Wire Line
+	2950 1700 2950 1800
+Wire Wire Line
+	2950 1800 3050 1800
+Connection ~ 2950 1700
+Wire Wire Line
+	2950 1700 2650 1700
+Text GLabel 2650 1600 2    50   Input ~ 0
+MISO
+Text GLabel 2650 1500 2    50   Input ~ 0
+MOSI
 $EndSCHEMATC
