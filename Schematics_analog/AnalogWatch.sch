@@ -1437,4 +1437,90 @@ Wire Wire Line
 Connection ~ 3350 1600
 Wire Wire Line
 	3350 1600 2650 1600
+$Comp
+L Device:C C3
+U 1 1 5C7F8581
+P 1500 5200
+F 0 "C3" H 1615 5246 50  0000 L CNN
+F 1 "C" H 1615 5155 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 1538 5050 50  0001 C CNN
+F 3 "~" H 1500 5200 50  0001 C CNN
+	1    1500 5200
+	1    0    0    -1  
+$EndComp
+Text GLabel 1450 5000 0    50   Input ~ 0
+VCC
+Text GLabel 1450 5400 0    50   Input ~ 0
+GND
+Wire Wire Line
+	1450 5000 1500 5000
+Wire Wire Line
+	1500 5000 1500 5050
+Wire Wire Line
+	1450 5400 1500 5400
+Wire Wire Line
+	1500 5400 1500 5350
+$Comp
+L Device:C C4
+U 1 1 5C80E802
+P 1850 5200
+F 0 "C4" H 1965 5246 50  0000 L CNN
+F 1 "C" H 1965 5155 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 1888 5050 50  0001 C CNN
+F 3 "~" H 1850 5200 50  0001 C CNN
+	1    1850 5200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 5000 1850 5000
+Wire Wire Line
+	1850 5000 1850 5050
+Connection ~ 1500 5000
+Wire Wire Line
+	1500 5400 1850 5400
+Wire Wire Line
+	1850 5400 1850 5350
+Connection ~ 1500 5400
+$Comp
+L Device:C C5
+U 1 1 5C832539
+P 2200 5200
+F 0 "C5" H 2315 5246 50  0000 L CNN
+F 1 "C" H 2315 5155 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2238 5050 50  0001 C CNN
+F 3 "~" H 2200 5200 50  0001 C CNN
+	1    2200 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C6
+U 1 1 5C8325F9
+P 2550 5200
+F 0 "C6" H 2665 5246 50  0000 L CNN
+F 1 "C" H 2665 5155 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2588 5050 50  0001 C CNN
+F 3 "~" H 2550 5200 50  0001 C CNN
+	1    2550 5200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1850 5000 2200 5000
+Wire Wire Line
+	2200 5000 2200 5050
+Connection ~ 1850 5000
+Wire Wire Line
+	2200 5000 2550 5000
+Wire Wire Line
+	2550 5000 2550 5050
+Connection ~ 2200 5000
+Wire Wire Line
+	1850 5400 2200 5400
+Wire Wire Line
+	2200 5400 2200 5350
+Connection ~ 1850 5400
+Wire Wire Line
+	2200 5400 2550 5400
+Wire Wire Line
+	2550 5400 2550 5350
+Connection ~ 2200 5400
 $EndSCHEMATC
