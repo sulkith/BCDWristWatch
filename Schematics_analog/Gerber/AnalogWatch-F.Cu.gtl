@@ -1,12 +1,12 @@
 G04 #@! TF.GenerationSoftware,KiCad,Pcbnew,5.0.1*
-G04 #@! TF.CreationDate,2019-03-05T20:57:03+01:00*
+G04 #@! TF.CreationDate,2019-03-05T21:16:50+01:00*
 G04 #@! TF.ProjectId,AnalogWatch,416E616C6F6757617463682E6B696361,rev?*
 G04 #@! TF.SameCoordinates,Original*
 G04 #@! TF.FileFunction,Copper,L1,Top,Signal*
 G04 #@! TF.FilePolarity,Positive*
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW 5.0.1) date Di 05 Mär 2019 20:57:03 CET*
+G04 Created by KiCad (PCBNEW 5.0.1) date Di 05 Mär 2019 21:16:50 CET*
 %MOMM*%
 %LPD*%
 G01*
@@ -13418,8 +13418,6 @@ X104950010Y-98049990D01*
 X107619982Y-99804297D02*
 X107619982Y-100369982D01*
 G04 #@! TO.N,BT2*
-X97562500Y-101750000D02*
-X97562500Y-103312500D01*
 X97562500Y-101750000D02*
 X96701606Y-102610894D01*
 X96701606Y-102610894D02*
