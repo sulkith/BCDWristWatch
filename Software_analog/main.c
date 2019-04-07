@@ -31,7 +31,7 @@ enum state_t State = idle;
 correction_t correction={0,4,4};
 const uint16_t tempCorrection[]={	0,	1,	5,	10,	17,	26,	37,	50,	65,	82,	100,	121,	144,	168,	195,	223,	254,	286,	320,	356,	394,	434,	476,	520,	566,	614,	664,	715,	769,	824,	882,	941,	1003,	1066,	1131,	1198,	1267,	1338,	1411,	1486,	1563,	1641,	1722,	1805,	1889,	1976,	2064,	2154,	2247,	2341};
 uint16_t tempCorrectionOffset = 345;
-uint8_t DisplayBuffer[4];
+uint8_t DisplayBuffer[5];
 uint8_t wakeupTriggered=0;
 Debouncer<uint8_t> rightButton(Button_debounceTime,0,&getRightButton);
 Debouncer<uint8_t> leftButton(Button_debounceTime,0,&getLeftButton);
@@ -132,9 +132,10 @@ inline void setupTimer0()
 void showLEDs(uint16_t duration)
 {
 		const uint8_t perc = LED_Brightness;
-		for(uint16_t j = 0; j < duration; ++j)
-			for(uint8_t i = 0; i < 4; ++i)
+		for(uint16_t j = 0; j < (duration*DisplayBuffer[4]); ++j)
+			//for(uint8_t i = 0; i < 4; ++i)
 			{
+				uint8_t i = j%DisplayBuffer[4];
 				const uint8_t k=DisplayBuffer[i];
 				if(k<30)
 				{
@@ -190,7 +191,8 @@ void TestAllLEDs()
 #else
 void fadeIn()
 {
-	for(uint8_t i = 0;i<60;++i)
+	DisplayBuffer[4] = 3;//Maximum 3 LEDs displayed
+	for(uint8_t i = 0;i<59;++i)
 	{
 		uint8_t ctr_h = ((i+2)/5);
 		uint8_t ctr_m1 = i/2;
@@ -219,6 +221,7 @@ void fadeIn()
 }
 void TestAllLEDs()
 {
+	DisplayBuffer[4] = 3;//Maximum 1 LEDs displayed, 3 is set, so brightness is the same as in normaloperation
 	for(uint8_t i = 0;i<30;++i)
 	{
 		DisplayBuffer[0] = i;
@@ -546,6 +549,7 @@ static void updateDisplayBuffer(void)
 		else
 			DisplayBuffer[2]=255;
 		DisplayBuffer[3]=255;
+		DisplayBuffer[4]=3; //3 elements set, sometimes there are also only two, but 3 is set to keep the Brightness equal
 	}
 	else if((State&0xF0)==0x20)
 	{
@@ -555,6 +559,7 @@ static void updateDisplayBuffer(void)
 			DisplayBuffer[1] = 15;
 			DisplayBuffer[2] = (t.hour%12) + 30;
 			DisplayBuffer[3] = 255;
+			DisplayBuffer[4]=3; //3 elements set
 		}
 		else if(State == set_minute)
 		{
@@ -562,6 +567,7 @@ static void updateDisplayBuffer(void)
 			DisplayBuffer[1] = 36;
 			DisplayBuffer[2] = t.minute/2;
 			DisplayBuffer[3] = (t.minute/2)+(t.minute%2);
+			DisplayBuffer[4]=4; //4 elements set
 		}
 	}
 	else if((State&0xF0)==0x30)
@@ -598,6 +604,7 @@ static void updateDisplayBuffer(void)
 				//Will not happen
 				break;
 		}
+		DisplayBuffer[4]=3; //3 elements set
 	}
 	else if((State)==0x40)
 	{
@@ -607,6 +614,7 @@ static void updateDisplayBuffer(void)
 		DisplayBuffer[1] = numToPortD[((valueToDisplay>>4)&0x0F)];
 		DisplayBuffer[2] = numToPortD[((valueToDisplay>>8)&0x0F)];
 		DisplayBuffer[3]=DISP_F;//Display 0xF to signalize temperature display
+		DisplayBuffer[4]=4; //4 elements set
 	}
 
 }
