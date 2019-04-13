@@ -5,8 +5,8 @@ DEVICE      = atmega328p
 #CLOCK      = 8000000
 CLOCK      = 1000000
 PROGRAMMER = -c buspirate
-OBJECTS    = main.o eeprom_content.o 
-HEADERS    = Debouncer.h constants.h types.h settings.h 
+OBJECTS    = main.o eeprom_content.o EEPM.o ClockM.o
+HEADERS    = Debouncer.h constants.h types.h settings.h
 PORT = /dev/ttyUSB0
 # for ATTiny85
 # see http://www.engbedded.com/fusecalc/
@@ -22,6 +22,9 @@ COMPILE = avr-g++ -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 all:	main.hex
 
 .c.o:
+	$(COMPILE) -c $< -o $@
+
+.cpp.o:
 	$(COMPILE) -c $< -o $@
 
 .S.o:
