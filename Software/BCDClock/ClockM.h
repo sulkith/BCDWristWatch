@@ -1,3 +1,6 @@
+#ifndef __CLOCKM_HEADER_INCLUDE__
+#define __CLOCKM_HEADER_INCLUDE__
+
 #include <stdint.h> //stdint makes problems here because of missing include guards....
 #include "EEPM.h"
 
@@ -29,3 +32,4 @@ public:
   void operator=(ClockM const&)     = delete;
 
 };
+#endif //__CLOCKM_HEADER_INCLUDE__

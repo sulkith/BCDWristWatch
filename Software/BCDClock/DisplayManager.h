@@ -1,3 +1,5 @@
+#ifndef __DISPLAYMANAGER_HEADER_INCLUDE__
+#define __DISPLAYMANAGER_HEADER_INCLUDE__
 #include "DisplayRequest.h"
 
 class DisplayManager
@@ -17,3 +19,4 @@ public:
   }
   virtual void show();
 };
+#endif //__DISPLAYMANAGER_HEADER_INCLUDE__

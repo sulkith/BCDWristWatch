@@ -1,3 +1,5 @@
+#ifndef __DISPLAYREQUEST_HEADER_INCLUDE__
+#define __DISPLAYREQUEST_HEADER_INCLUDE__
 typedef enum
 {
   Time,
@@ -21,3 +23,4 @@ public:
   bool operator <(const DisplayRequest &b) const {return this->type < b.type;};
   bool operator >(const DisplayRequest &b) const {return this->type > b.type;};
 };
+#endif //__DISPLAYMANAGER_HEADER_INCLUDE__

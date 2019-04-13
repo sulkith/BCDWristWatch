@@ -1,3 +1,6 @@
+#ifndef __EEPMM_HEADER_INCLUDE__
+#define __EEPMM_HEADER_INCLUDE__
+
 #include <stdint.h>
 #include "SleepSubsriber.h"
 
@@ -40,3 +43,4 @@ public:
   EEPM(EEPM const&)               = delete;
   void operator=(EEPM const&)     = delete;
 };
+#endif //__EEPMM_HEADER_INCLUDE__
