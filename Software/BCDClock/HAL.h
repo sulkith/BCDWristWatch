@@ -9,5 +9,6 @@ public:
   virtual void HAL_lockInts()=0;
   virtual void HAL_releaseInts()=0;
   virtual uint8_t HAL_getWakeupReason()=0;
+  virtual void HAL_cyclic()=0;
 };
 #endif //__HAL_HEADER_INCLUDE__

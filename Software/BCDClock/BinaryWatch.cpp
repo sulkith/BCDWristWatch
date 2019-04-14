@@ -6,6 +6,7 @@
 #include "ClockM.h"
 
 const uint8_t LED_Brightness = 120;
+const uint16_t Button_debounceTime=30;
 
 #define DISP_0 0b00000000
 #define DISP_1 0b01000000
@@ -46,8 +47,12 @@ const uint8_t numToPortD[] =
 uint8_t getRightButton();
 uint8_t getLeftButton();
 static uint8_t wakeupTriggered = 0;
-Debouncer<uint8_t> leftButton(Button_debounceTime,0,&getLeftButton);
-Debouncer<uint8_t> rightButton(Button_debounceTime,0,&getRightButton);
+Debouncer<uint8_t> leftButton(Button_debounceTime*32,0,&getLeftButton);
+Debouncer<uint8_t> rightButton(Button_debounceTime*32,0,&getRightButton);
+
+uint16_t cyclicCounterGlobal = 0;
+uint16_t cyclicCounterGlobalLatched = 1000;//best case guess
+
 uint8_t getRightButton()
 {
 	if((PINC&0x10)==0)
@@ -116,6 +121,8 @@ uint8_t BinaryWatch::HAL_sleep()
 	wakeupReason=0;
 	activatePCINT();
 	sleep_mode();
+	leftButton.directSetValue(getLeftButton());
+	rightButton.directSetValue(getRightButton());
 	wakeupReason = wakeupTriggered;
 	if(ClockM::getInstance().isHourChanged())wakeupReason = 255; //Wakeup for hourly display
 	return wakeupReason;
@@ -148,6 +155,11 @@ ISR(PCINT1_vect)
 ISR(TIMER2_OVF_vect)
 {
 	++ClockM::getInstance();
+	if(cyclicCounterGlobal > 10)
+	{
+		cyclicCounterGlobalLatched = cyclicCounterGlobal;
+		cyclicCounterGlobal=0;
+	}
 }
 
 Debouncer<uint8_t> *BinaryWatch::getRightButtonDeb()
@@ -223,6 +235,14 @@ void BinaryWatch::show()
 
 	DisplayRequest empty_dr;
 	request = empty_dr;
+}
+void BinaryWatch::HAL_cyclic()
+{
+	cyclicCounterGlobal++;
+	cyclicCounter = cyclicCounterGlobalLatched;
+	uint16_t dT = 32000/cyclicCounter;
+	rightButton.loop(dT);
+	leftButton.loop(dT);
 }
 uint8_t BinaryWatch::HAL_getWakeupReason()
 {

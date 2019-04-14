@@ -15,6 +15,7 @@ class TwoButtonUI: public UserInterface, public SleepSubscriber
   HAL *hal;
   DisplayManager *DisplMan;
   DisplayRequestType UIstate = Time;
+  bool inputEnabled = false;
   void stateTransition();
   void stateDisplayReuest();
 public:

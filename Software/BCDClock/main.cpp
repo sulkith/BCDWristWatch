@@ -17,11 +17,13 @@ int main(void)
   BinaryWatch hal;
   TwoButtonUI UI(&hal, &hal, &hal);
   SleepM sleepM(&hal);
+  sleepM.subscribe(&UI);
+  sleepM.subscribe(&eep);
 
   hal.HAL_init();
   ClockM::getInstance().setEEPM(&eep);
 
-  //if(0)
+  if(0)
   {
     uint16_t data[4] = {0};
     uint16_t data2[4] = {0};
@@ -83,6 +85,7 @@ int main(void)
 
   while(1)
   {
+    hal.HAL_cyclic();
     UI.cyclic();
     hal.show();
     sleepM.cyclic();

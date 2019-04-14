@@ -2,8 +2,6 @@
 #define __TWOBUTTONHAL_HEADER_INCLUDE__
 #include "Debouncer.h"
 
-const uint16_t Button_debounceTime=30;
-
 class TwoButtonHAL
 {
 public:
