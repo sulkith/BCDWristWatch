@@ -5,7 +5,7 @@ DEVICE      = atmega328p
 #CLOCK      = 8000000
 CLOCK      = 1000000
 PROGRAMMER = -c buspirate
-OBJECTS    = main.o eeprom_content.o EEPM.o ClockM.o
+OBJECTS    = main.o EEPM.o EEPM_AVR.o ClockM.o BinaryWatch.o TwoButtonUI.o SleepM.o
 HEADERS    = Debouncer.h constants.h types.h settings.h
 PORT = /dev/ttyUSB0
 # for ATTiny85

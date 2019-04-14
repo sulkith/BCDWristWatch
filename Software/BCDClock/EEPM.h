@@ -2,13 +2,7 @@
 #define __EEPMM_HEADER_INCLUDE__
 
 #include <stdint.h>
-#include "SleepSubsriber.h"
-
-typedef enum{
-  UNINITIALIZED,
-  NORMAL,
-  CHANGED
-} EEPState_t;
+#include "SleepSubscriber.h"
 
 typedef struct{
   uint16_t eepVers;//identifies the Version of the EEP
@@ -23,23 +17,17 @@ typedef struct{
 class EEPM: public SleepSubscriber
 {
   eepBlock_t eep;
-  EEPState_t eep_state = UNINITIALIZED;
   static EEPM instance;
-  EEPM(){}
 public:
-
-  void saveEEP();
-  void readEEP();
-  void iniEEP();
-  uint8_t getCorrEveryMinute(){return eep.corrEveryMinute;}
-  uint8_t getCorrEveryHour(){return eep.corrEveryHour;}
-  uint8_t getCorrEveryDay(){return eep.corrEveryDay;}
-  uint8_t getCorrEveryMonth(){return eep.corrEveryMonth;}
-  virtual void executeSleepSubscription();
-  static EEPM& getInstance()
-  {
-      return instance;
-  }
+  EEPM();
+  virtual void saveEEP(){};//Dummy Implementation
+  virtual void readEEP(){};//Dummy Implementation
+  virtual void iniEEP(){};//Dummy Implementation
+  uint8_t getCorrEveryMinute(){return eep.corrEveryMinute;}//Dummy Implementation
+  uint8_t getCorrEveryHour(){return eep.corrEveryHour;}//Dummy Implementation
+  uint8_t getCorrEveryDay(){return eep.corrEveryDay;}//Dummy Implementation
+  uint8_t getCorrEveryMonth(){return eep.corrEveryMonth;}//Dummy Implementation
+  virtual void executeSleepSubscription(){saveEEP();};//Dummy Implementation
   EEPM(EEPM const&)               = delete;
   void operator=(EEPM const&)     = delete;
 };

@@ -2,23 +2,37 @@
 
 #include "DisplayManager.h" //only for testing
 
-ClockM ClockM::instance;
+ClockM ClockM::instance(23,59,50);
+EEPM DummyEEPM;
 
+ClockM::ClockM(uint8_t h, uint8_t m, uint8_t s)
+{
+  t.hour = h;
+  t.minute = m;
+  t.second = s;
+  eepm_ptr = &DummyEEPM;
+}
+void ClockM::setEEPM(EEPM *ptr)
+{
+  //delete eepm_ptr;
+  eepm_ptr = ptr;
+}
 uint8_t ClockM::operator++()
 {
+  hour_changed = false;
+  ctr++;
   if (++t.second==60)        //keep track of time, date, month, and year
   {
-    t.second=EEPM::getInstance().getCorrEveryMinute();
+    t.second=eepm_ptr->getCorrEveryMinute();
     if (++t.minute==60)
     {
       t.minute=0;
-      t.second+=EEPM::getInstance().getCorrEveryHour();
-      //TODO Trigger wakeup
-      //wakeupTriggered=0x04;//show Time every Hour
+      t.second+=eepm_ptr->getCorrEveryHour();
+      hour_changed = true;
       if (++t.hour==24)
       {
         t.hour=0;
-        t.second+=EEPM::getInstance().getCorrEveryDay();;
+        t.second+=eepm_ptr->getCorrEveryDay();;
         /*uint16_t temp_raw = octs.get();
         if(temp_raw!=0xFFFF)
         {
@@ -30,7 +44,7 @@ uint8_t ClockM::operator++()
         }*/
         if(++t.day==30)
         {
-          t.second+=EEPM::getInstance().getCorrEveryMonth();;
+          t.second+=eepm_ptr->getCorrEveryMonth();;
           t.day=0;
         }
         if(t.second>59)

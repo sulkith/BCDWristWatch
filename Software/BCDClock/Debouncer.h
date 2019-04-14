@@ -1,3 +1,5 @@
+#ifndef __DEBOUNCE_HEADER_INCLUDE__
+#define __DEBOUNCE_HEADER_INCLUDE__
 #include <inttypes.h>
 #include <stddef.h>
 template <typename T>
@@ -89,3 +91,4 @@ template <typename T> void Debouncer<T>::directSetValue(T Value, uint8_t setUpda
   currentDebouncedValue=currentValue;
   updated = setUpdated;
 }
+#endif //__DEBOUNCE_HEADER_INCLUDE__

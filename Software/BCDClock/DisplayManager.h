@@ -4,15 +4,17 @@
 
 class DisplayManager
 {
-  DisplayRequest *request = 0;
+protected:
+  DisplayRequest request;
 public:
-  virtual void requestDisplay(DisplayRequest *DispReq)
+  DisplayManager(){}
+  virtual void requestDisplay(DisplayRequest DispReq)
   {
-    if(request == 0)
+    if(request.getType() == Empty)
     {
       request = DispReq;
     }
-    else if(&request < &DispReq)
+    else if(request < DispReq)
     {
       request = DispReq;
     }
