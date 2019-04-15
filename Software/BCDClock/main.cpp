@@ -14,6 +14,8 @@ void init();
 int main(void)
 {
   EEPM_AVR eep;
+  EEPM::setInstance(&eep);
+  eep.setCorrEveryHour(3);
   BinaryWatch hal;
   TwoButtonUI UI(&hal, &hal, &hal);
   SleepM sleepM(&hal);
