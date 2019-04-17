@@ -16,13 +16,16 @@ int main(void)
   EEPM_AVR eep;
   EEPM::setInstance(&eep);
   eep.setCorrEveryHour(3);
-  BinaryWatch hal;
-  TwoButtonUI UI(&hal, &hal, &hal);
-  SleepM sleepM(&hal);
+  BinaryWatch bwatch;
+  HAL *hal=&bwatch;
+  DisplayManager *dman=&bwatch;
+  TwoButtonHAL *tbh=&bwatch;
+  TwoButtonUI UI(hal, tbh, dman);
+  SleepM sleepM(hal);
   sleepM.subscribe(&UI);
   sleepM.subscribe(&eep);
 
-  hal.HAL_init();
+  hal->HAL_init();
   ClockM::getInstance().setEEPM(&eep);
 
   if(0)
@@ -44,52 +47,52 @@ int main(void)
     {
       for(uint16_t i =0;i<1000;++i)
       {
-        hal.requestDisplay(drsethr);
-        hal.show();
+        dman->requestDisplay(drsethr);
+        dman->show();
       }
       for(uint16_t i =0;i<1000;++i)
       {
-        hal.requestDisplay(drsetmn);
-        hal.show();
+        dman->requestDisplay(drsetmn);
+        dman->show();
       }
       for(uint16_t i =0;i<1000;++i)
       {
-        hal.requestDisplay(drsetmc);
-        hal.show();
+        dman->requestDisplay(drsetmc);
+        dman->show();
       }
       for(uint16_t i =0;i<1000;++i)
       {
-        hal.requestDisplay(drsethc);
-        hal.show();
+        dman->requestDisplay(drsethc);
+        dman->show();
       }
       for(uint16_t i =0;i<1000;++i)
       {
-        hal.requestDisplay(drsetdc);
-        hal.show();
+        dman->requestDisplay(drsetdc);
+        dman->show();
       }
       for(uint16_t i =0;i<1000;++i)
       {
-        hal.requestDisplay(drsetmoc);
-        hal.show();
+        dman->requestDisplay(drsetmoc);
+        dman->show();
       }
       for(uint16_t i =0;i<1000;++i)
       {
-        hal.requestDisplay(drsettc);
-        hal.show();
+        dman->requestDisplay(drsettc);
+        dman->show();
       }
       for(uint16_t i =0;i<1000;++i)
       {
-        hal.requestDisplay(drst);
-        hal.show();
+        dman->requestDisplay(drst);
+        dman->show();
       }
     }
   }
 
   while(1)
   {
-    hal.HAL_cyclic();
+    hal->HAL_cyclic();
     UI.cyclic();
-    hal.show();
+    dman->show();
     sleepM.cyclic();
   }
 
