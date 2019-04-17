@@ -20,6 +20,7 @@ class TwoButtonUI: public UserInterface, public SleepSubscriber
   void stateDisplayReuest();
 public:
   virtual void cyclic();
+  virtual void init();
   TwoButtonUI(HAL *hwhal,TwoButtonHAL *tbh, DisplayManager *dm):
   rightButton(tbh->getRightButtonDeb()), leftButton(tbh->getLeftButtonDeb()),
   hal(hwhal), DisplMan(dm){};

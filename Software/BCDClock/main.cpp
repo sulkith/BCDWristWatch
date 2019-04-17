@@ -9,6 +9,11 @@
 #include "EEPM_AVR.h"
 #include "TwoButtonUI.h"
 
+extern HAL *hal;
+extern DisplayManager *dman;
+extern TwoButtonHAL *tbh;
+extern UserInterface *UI;
+
 void init();
 
 int main(void)
@@ -16,13 +21,9 @@ int main(void)
   EEPM_AVR eep;
   EEPM::setInstance(&eep);
   eep.setCorrEveryHour(3);
-  BinaryWatch bwatch;
-  HAL *hal=&bwatch;
-  DisplayManager *dman=&bwatch;
-  TwoButtonHAL *tbh=&bwatch;
-  TwoButtonUI UI(hal, tbh, dman);
+
   SleepM sleepM(hal);
-  sleepM.subscribe(&UI);
+
   sleepM.subscribe(&eep);
 
   hal->HAL_init();
@@ -91,7 +92,7 @@ int main(void)
   while(1)
   {
     hal->HAL_cyclic();
-    UI.cyclic();
+    UI->cyclic();
     dman->show();
     sleepM.cyclic();
   }

@@ -3,6 +3,13 @@
 #include "EEPM.h"
 #include "SleepM.h"
 
+extern HAL *hal;
+extern DisplayManager *dman;
+extern TwoButtonHAL *tbh;
+
+TwoButtonUI UIobj(hal, tbh, dman);
+UserInterface *UI=&UIobj;
+
 const uint16_t ontime_short=5;
 const uint16_t ontime_long=30;
 
@@ -113,6 +120,11 @@ inline void requestScreen(DisplayManager *dm, DisplayRequestType type, uint16_t 
   data[3] = d3;
   DisplayRequest dr(type,data);
   dm->requestDisplay(dr);
+}
+
+void TwoButtonUI::init()
+{
+	SleepM::getInstance()->subscribe(this);
 }
 
 void TwoButtonUI::stateDisplayReuest()

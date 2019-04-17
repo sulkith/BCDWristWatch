@@ -5,6 +5,11 @@
 #include <util/delay.h>
 #include "ClockM.h"
 
+BinaryWatch bwatch;
+HAL *hal=&bwatch;
+DisplayManager *dman=&bwatch;
+TwoButtonHAL *tbh=&bwatch;
+
 const uint8_t LED_Brightness = 120;
 const uint16_t Button_debounceTime=30;
 
