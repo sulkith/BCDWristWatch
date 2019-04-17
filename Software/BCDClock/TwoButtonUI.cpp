@@ -3,13 +3,6 @@
 #include "EEPM.h"
 #include "SleepM.h"
 
-extern HAL *hal;
-extern DisplayManager *dman;
-extern TwoButtonHAL *tbh;
-
-TwoButtonUI UIobj(hal, tbh, dman);
-UserInterface *UI=&UIobj;
-
 const uint16_t ontime_short=5;
 const uint16_t ontime_long=30;
 

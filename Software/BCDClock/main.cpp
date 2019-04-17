@@ -14,13 +14,12 @@ extern DisplayManager *dman;
 extern TwoButtonHAL *tbh;
 extern UserInterface *UI;
 
-void init();
-
 int main(void)
 {
   EEPM_AVR eep;
-  EEPM::setInstance(&eep);
-  eep.setCorrEveryHour(3);
+
+  TwoButtonUI UIobj(hal, tbh, dman);
+  UserInterface *UI=&UIobj;
 
   SleepM sleepM(hal);
 

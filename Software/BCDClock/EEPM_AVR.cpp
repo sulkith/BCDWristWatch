@@ -25,6 +25,7 @@ const eepBlock_t iniSettings =
 };
 EEPM_AVR::EEPM_AVR()
 {
+  EEPM::setInstance(this);
   readEEP();
 }
 void EEPM_AVR::readEEP()
