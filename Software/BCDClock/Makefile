@@ -6,6 +6,7 @@ DEVICE      = atmega328p
 CLOCK      = 1000000
 PROGRAMMER = -c buspirate
 OBJECTS    = main.o EEPM.o EEPM_AVR.o ClockM.o BinaryWatch.o TwoButtonUI.o SleepM.o
+OBJECTS_ANALOG    = main.o EEPM.o EEPM_AVR.o ClockM.o AnalogWatch.o TwoButtonUI.o SleepM.o
 HEADERS    = Debouncer.h constants.h types.h settings.h
 PORT = /dev/ttyUSB0
 # for ATTiny85
@@ -45,6 +46,18 @@ test:	all flash
 flash_all:	flash flash_eep
 produce:	fuse flash_all
 
+flash_analog:	main_analog.hex
+	$(AVRDUDE) -U flash:w:main_analog.hex:i
+
+flash_eep_analog:	main_analog.hex
+	$(AVRDUDE) -U eeprom:w:eeprom_analog.eep:i
+
+test_analog:	main_analog.hex flash_analog
+	putty
+
+flash_all_analog:	flash_analog flash_eep_analog
+produce_analog:	fuse flash_all_analog
+
 dump:
 	$(AVRDUDE) -U eeprom:r:dump.eep:i -U flash:r:dump.hex:i
 
@@ -65,6 +78,9 @@ clean:
 main.elf: $(OBJECTS) $(HEADERS)
 	$(COMPILE) -o main.elf $(OBJECTS)
 
+main_analog.elf: $(OBJECTS_ANALOG) $(HEADERS)
+	$(COMPILE) -o main_analog.elf $(OBJECTS_ANALOG)
+
 main.hex: main.elf
 	rm -f main.hex
 	avr-objcopy -j .text -j .data -O ihex main.elf main.hex
@@ -72,6 +88,14 @@ main.hex: main.elf
 	avr-objcopy -j .eeprom --set-section-flags=.eeprom="alloc,load" \
    --change-section-lma .eeprom=0 -O ihex main.elf eeprom.eep
 	avr-size --format=avr --mcu=$(DEVICE) main.elf
+
+main_analog.hex: main_analog.elf
+	rm -f main_analog.hex
+	avr-objcopy -j .text -j .data -O ihex main_analog.elf main_analog.hex
+	avr-objcopy -j .eeprom -O ihex main_analog.elf eeprom_analog.hex
+	avr-objcopy -j .eeprom --set-section-flags=.eeprom="alloc,load" \
+   --change-section-lma .eeprom=0 -O ihex main_analog.elf eeprom_analog.eep
+	avr-size --format=avr --mcu=$(DEVICE) main_analog.elf
 # If you have an EEPROM section, you must also create a hex file for the
 # EEPROM and add it to the "flash" target.
 
