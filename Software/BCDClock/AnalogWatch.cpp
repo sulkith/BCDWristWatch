@@ -110,9 +110,6 @@ ISR(PCINT0_vect)
 		wakeupTriggered=1;
 		deactivatePCINT();
 	}
-}
-ISR(PCINT1_vect)
-{
 	if(getRightButton())
 	{
 		wakeupTriggered=2;
@@ -122,7 +119,7 @@ ISR(PCINT1_vect)
 ISR(TIMER2_OVF_vect)
 {
 	++ClockM::getInstance();
-	if(cyclicCounterGlobal > 10)
+	if(cyclicCounterGlobal > 500)
 	{
 		cyclicCounterGlobalLatched = cyclicCounterGlobal;
 		cyclicCounterGlobal=0;
@@ -212,7 +209,6 @@ void fadeIn(uint8_t timearr[])
 		showLEDs(DisplayBuffer,5);
 		_delay_ms(5);
 	}
-
 }
 void AnalogWatch::show()
 {
@@ -221,6 +217,12 @@ void AnalogWatch::show()
 	switch (request.getType()) {
 		case Empty:
 			return; // no need to stay awake for long
+		case FadeIn:
+			DisplayBuffer[0]=request[0];
+			DisplayBuffer[1]=request[1];
+			fadeIn(DisplayBuffer);
+			return;
+			break;
 		case Time:
 			DisplayBuffer[0]=(request[0]%12)+30;
 			DisplayBuffer[1]=request[1]/2;

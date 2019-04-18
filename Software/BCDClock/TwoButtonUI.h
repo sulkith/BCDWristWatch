@@ -14,7 +14,7 @@ class TwoButtonUI: public UserInterface, public SleepSubscriber
   Debouncer<uint8_t> *leftButton;
   HAL *hal;
   DisplayManager *DisplMan;
-  DisplayRequestType UIstate = Time;
+  DisplayRequestType UIstate = FadeIn;
   bool inputEnabled = false;
   void stateTransition();
   void stateDisplayReuest();

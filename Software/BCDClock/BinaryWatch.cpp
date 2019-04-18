@@ -193,6 +193,7 @@ void BinaryWatch::show()
 	switch (request.getType()) {
 		case Empty:
 			return; // no need to stay awake for long
+		case FadeIn:
 		case Time:
 		case SetHour:
 		case SetMinute:

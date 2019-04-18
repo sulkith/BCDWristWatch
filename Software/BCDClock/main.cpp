@@ -26,6 +26,7 @@ int main(void)
   sleepM.subscribe(&eep);
 
   hal->HAL_init();
+  UI->init();
   ClockM::getInstance().setEEPM(&eep);
 
   if(0)
@@ -34,6 +35,7 @@ int main(void)
     uint16_t data2[4] = {0};
     data[0]=12;
     data[1]=48;
+    DisplayRequest drfadein(FadeIn, data);
     DisplayRequest drsethr(SetHour, data);
     DisplayRequest drsetmn(SetMinute, data);
     DisplayRequest drsetmc(SetCorrMinute, data);
@@ -45,6 +47,11 @@ int main(void)
     DisplayRequest drst(ShowTemperature, data2);
     while(1)
     {
+      for(uint16_t i =0;i<1000;++i)
+      {
+        dman->requestDisplay(drfadein);
+        dman->show();
+      }
       for(uint16_t i =0;i<1000;++i)
       {
         dman->requestDisplay(drsethr);

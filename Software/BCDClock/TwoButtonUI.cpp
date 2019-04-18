@@ -42,6 +42,11 @@ uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Deboun
 
 void TwoButtonUI::stateTransition()
 {
+	if(UIstate == FadeIn)
+	{
+		UIstate = Time;
+		SleepM::requestProlong(ontime_short);
+	}
   if(inputEnabled == false && rightButton->getValue() == 0 && leftButton->getValue() == 0)
   {
     inputEnabled = true;
@@ -53,6 +58,10 @@ void TwoButtonUI::stateTransition()
 
   uint8_t wakeTime = ontime_long;
   switch (UIstate) {
+		case FadeIn:
+			UIstate =  Time;
+			wakeTime = ontime_short;
+			break;
     case Time:
       if(rightButton->valueUpdatedTo(1) && leftButton->getValue()==1)UIstate = SetHour;
       wakeTime = ontime_short;
@@ -124,6 +133,7 @@ void TwoButtonUI::stateDisplayReuest()
 {
   //uint16_t data[DisplayRequest::dataLength] = {0};
   switch (UIstate) {
+		case FadeIn:
     case Time:
     case SetHour:
     case SetMinute:
@@ -158,12 +168,12 @@ void TwoButtonUI::cyclic()
 {
   if(hal->HAL_getWakeupReason()>0)
   {
-    stateTransition();
-    stateDisplayReuest();
+		stateDisplayReuest();
+		stateTransition();
   }
 }
 void TwoButtonUI::executeSleepSubscription()
 {
-  UIstate = Time;
+  UIstate = FadeIn;
   inputEnabled = false;
 }

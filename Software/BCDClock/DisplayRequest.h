@@ -3,6 +3,7 @@
 typedef enum
 {
   Empty,
+  FadeIn,
   Time,
   SetMinute,
   SetHour,
