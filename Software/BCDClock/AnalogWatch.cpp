@@ -4,6 +4,7 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 #include "ClockM.h"
+#include "AnalogClock_charlieArrays.h"
 
 AnalogWatch bwatch;
 HAL *hal=&bwatch;
@@ -13,42 +14,6 @@ TwoButtonHAL *tbh=&bwatch;
 const uint8_t LED_Brightness = 120;
 const uint16_t Button_debounceTime=30;
 
-#define DISP_0 0b00000000
-#define DISP_1 0b01000000
-#define DISP_2 0b10000000
-#define DISP_3 0b11000000
-#define DISP_4 0b00000010
-#define DISP_5 0b01000010
-#define DISP_6 0b10000010
-#define DISP_7 0b11000010
-#define DISP_8 0b00000001
-#define DISP_9 0b01000001
-#define DISP_A 0b10000001
-#define DISP_B 0b11000001
-#define DISP_C 0b00000011
-#define DISP_D 0b01000011
-#define DISP_E 0b10000011
-#define DISP_F 0b11000011
-const uint8_t numToPortD[] =
-{
-	DISP_0,// 0
-	DISP_1,// 1
-	DISP_2,// 2
-	DISP_3,// 3
-	DISP_4,// 4
-	DISP_5,// 5
-	DISP_6,// 6
-	DISP_7,// 7
-	DISP_8,// 8
-	DISP_9,// 9
-	DISP_A,// A
-	DISP_B,// B
-	DISP_C,// C
-	DISP_D,// D
-	DISP_E,// E
-	DISP_F // F
-};
-
 uint8_t getRightButton();
 uint8_t getLeftButton();
 static uint8_t wakeupTriggered = 0;
@@ -57,44 +22,41 @@ Debouncer<uint8_t> rightButton(Button_debounceTime*32,0,&getRightButton);
 
 uint16_t cyclicCounterGlobal = 0;
 uint16_t cyclicCounterGlobalLatched = 1000;//best case guess
-
-uint8_t getRightButton()
-{
-	if((PINC&0x10)==0)
-		return 1;
-	else
-		return 0;
-}
-
-uint8_t getLeftButton()
-{
-	if((PINB&0x01)==0)
-		return 1;
-	else
-		return 0;
-}
 inline void setupPorts()
 {
-	DDRB = 0xFE;
-	PORTB = 0x01;
-	DDRC = 0x00;
-	PORTC = 0x10;
-	DDRD=0xFF;
+	//BT1 --> PB3 --> left
+	//BT2 --> PB4 --> right
+	DDRB = 0x00;
+	PORTB = pbmask;
 }
 inline void setupPCINT()
 {
 	//enable PinChangeInterrupt
-	PCMSK0|= 0x01; //PCINT0
-	PCMSK1|= 0x10; //PCINT12
+	PCMSK0|= 0x18; //PCINT3 PCINT4
+	//PCMSK1|= 0x10; //PCINT12
+}
+uint8_t getRightButton()
+{
+	if((PINB&0x10)==0)
+		return 1;
+	else
+		return 0;
+}
+uint8_t getLeftButton()
+{
+	if((PINB&0x08)==0)
+		return 1;
+	else
+		return 0;
 }
 inline void activatePCINT()
 {
 	//enable PinChangeInterrupt
-	PCICR |= (1<<PCIE0)|(1<<PCIE1);
+	PCICR |= (1<<PCIE0);
 }
 inline void deactivatePCINT()
 {
-	PCICR &= ~((1<<PCIE0)|(1<<PCIE1));
+	PCICR &= ~((1<<PCIE0));
 }
 inline void setupTimer0()
 {
@@ -178,62 +140,133 @@ Debouncer<uint8_t> *AnalogWatch::getLeftButtonDeb()
 void showLEDs(uint8_t DisplayBuffer[], uint16_t duration)
 {
 		const uint8_t perc = LED_Brightness;
-		for(uint16_t j = 0; j < duration; ++j)
-			for(uint8_t i = 0; i < 4; ++i)
+		for(uint16_t j = 0; j < (duration*DisplayBuffer[4]); ++j)
+			//for(uint8_t i = 0; i < 4; ++i)
 			{
-				PORTD=DisplayBuffer[i]|((0b00111100)&(~(1<<(2+i))));
+				uint8_t i = j%DisplayBuffer[4];
+				const uint8_t k=DisplayBuffer[i];
+				if(k<30)
+				{
+					DDRB  = dbmin[k];
+					PORTB = pbmin[k]|pbmask;
+					DDRC  = dcmin[k];
+					PORTC = pcmin[k];
+					DDRD  = ddmin[k];
+					PORTD = pdmin[k];
+				}
+				else if(k<42)
+				{
+					DDRB  = dbh[k-30];
+					PORTB = pbh[k-30]|pbmask;
+					DDRC  = dch[k-30];
+					PORTC = pch[k-30];
+					DDRD  = ddh[k-30];
+					PORTD = pdh[k-30];
+				}
+				else
+				{
+					DDRB  = 0;
+					PORTB = pbmask;
+					DDRC  = 0;
+					PORTC = 0;
+					DDRD  = 0;
+					PORTD = 0;
+				}
+
 				_delay_us(perc);
-				PORTD=0;
-				_delay_us(250-perc);
+				DDRB  = 0;
+				PORTB = pbmask;
+				DDRC  = 0;
+				PORTC = 0;
+				DDRD  = 0;
+				PORTD = 0;
+				_delay_us(250-perc-50);//50 as correction value
 			}
+}
+void fadeIn(uint8_t timearr[])
+{
+	uint8_t DisplayBuffer[5];
+	DisplayBuffer[4] = 3;//Maximum 3 LEDs displayed
+	for(uint8_t i = 0;i<59;++i)
+	{
+		uint8_t ctr_h = ((i+2)/5);
+		uint8_t ctr_m1 = i/2;
+		uint8_t ctr_m2 = i/2+i%2;
+		uint8_t ctr_m1c = timearr[1]/2;
+		uint8_t ctr_m2c = (timearr[1]/2)+(timearr[1]%2);
+		if((timearr[0]%12)!=0)
+			ctr_h = (ctr_h>(timearr[0]%12))?(timearr[0]%12):ctr_h;
+		if(timearr[0] != 0)
+		{
+			ctr_m1 = (ctr_m1>ctr_m1c)?ctr_m1c:ctr_m1;
+			ctr_m2 = (ctr_m2>ctr_m2c)?ctr_m2c:ctr_m2;
+		}
+
+		DisplayBuffer[0] = ctr_m1;
+		if(ctr_m1!=ctr_m2)
+			DisplayBuffer[1] = ctr_m2;
+		else
+			DisplayBuffer[1] = 255;
+		DisplayBuffer[2] = ctr_h+30;
+		DisplayBuffer[3] = 255;
+		showLEDs(DisplayBuffer,5);
+		_delay_ms(5);
+	}
+
 }
 void AnalogWatch::show()
 {
-	uint8_t DisplayBuffer[4];
+	uint8_t DisplayBuffer[5];
+	DisplayBuffer[4]=3;
 	switch (request.getType()) {
 		case Empty:
 			return; // no need to stay awake for long
 		case Time:
+			DisplayBuffer[0]=(request[0]%12)+30;
+			DisplayBuffer[1]=request[1]/2;
+			if(request[1]%2>0)
+				DisplayBuffer[2]=(request[1]/2+1)%30;
+			else
+				DisplayBuffer[2]=255;
+			//DisplayBuffer[3]=request[2]/2;//seconds
+			DisplayBuffer[3]=255;
+			DisplayBuffer[4]=3; //3 elements set, sometimes there are also only two, but 3 is set to keep the Brightness equal
+			break;
 		case SetHour:
+			DisplayBuffer[0] = 0;
+			DisplayBuffer[1] = 15;
+			DisplayBuffer[2] = (request[0]%12) + 30;
+			DisplayBuffer[3] = 255;
+			DisplayBuffer[4]=3; //3 elements set
+			break;
 		case SetMinute:
-			DisplayBuffer[3]=numToPortD[request[0]/10];
-			DisplayBuffer[2]=numToPortD[request[0]%10];
-			DisplayBuffer[1]=numToPortD[request[1]/10];
-			DisplayBuffer[0]=numToPortD[request[1]%10];
-			if(request[0]==0 && request[1]==0)
-			{
-				DisplayBuffer[3]=numToPortD[2];
-				DisplayBuffer[2]=numToPortD[4];
-				DisplayBuffer[1]=numToPortD[0];
-				DisplayBuffer[0]=numToPortD[0];
-			}
-			if(request.getType() == SetHour)DisplayBuffer[3]|=DISP_8;
-			if(request.getType() == SetMinute)DisplayBuffer[1]|=DISP_8;
+			DisplayBuffer[0] = 30;
+			DisplayBuffer[1] = 36;
+			DisplayBuffer[2] = request[1]/2;
+			DisplayBuffer[3] = (request[1]/2)+(request[1]%2);
+			DisplayBuffer[4]=4; //4 elements set
 			break;
 		case SetCorrMinute:
 		case SetCorrHour:
 		case SetCorrDay:
 		case SetCorrMonth:
-			DisplayBuffer[1]=numToPortD[request[0]/10];
-			DisplayBuffer[0]=numToPortD[request[0]%10];
-			DisplayBuffer[2]=DISP_F;
-			if(request.getType() == SetCorrMinute)DisplayBuffer[3] = DISP_1;
-			if(request.getType() == SetCorrHour)DisplayBuffer[3] = DISP_2;
-			if(request.getType() == SetCorrDay)DisplayBuffer[3] = DISP_3;
-			if(request.getType() == SetCorrMonth)DisplayBuffer[3] = DISP_4;
+			DisplayBuffer[3] = 41;
+			DisplayBuffer[2] = 40;
+			DisplayBuffer[0] = request[0];
+			if(request.getType() == SetCorrMinute)DisplayBuffer[1] = 31;
+			if(request.getType() == SetCorrHour)DisplayBuffer[1] = 32;
+			if(request.getType() == SetCorrDay)DisplayBuffer[1] = 33;
+			if(request.getType() == SetCorrMonth)DisplayBuffer[1] = 34;
+			DisplayBuffer[4] = 4;
 			break;
 		case SetTempCorr:
-			DisplayBuffer[2]=numToPortD[request[0]/100];
-			DisplayBuffer[1]=numToPortD[(request[0]/10)%10];
-			DisplayBuffer[0]=numToPortD[request[0]%10];
-			DisplayBuffer[3]=DISP_F;
-			break;
 		case ShowTemperature:
 		default:
-			DisplayBuffer[0]=DISP_F;
-			DisplayBuffer[1]=DISP_F;
-			DisplayBuffer[2]=DISP_F;
-			DisplayBuffer[3]=DISP_F;
+			DisplayBuffer[0]=30;
+			DisplayBuffer[1]=33;
+			DisplayBuffer[2]=36;
+			DisplayBuffer[3]=39;
+			DisplayBuffer[4]=4;
 			break;
 	}
 	showLEDs(DisplayBuffer,1);
