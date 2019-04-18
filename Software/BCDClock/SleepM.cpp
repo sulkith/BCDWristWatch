@@ -12,9 +12,9 @@ void SleepM::cyclic()
     }
     while(hal->HAL_sleep()==0);
     wakeupTime = ClockM::getInstance().getCtr();
-    sleepTime = wakeupTime+5;
+    sleepTime = wakeupTime+2;
   }
 }
 void SleepM::prolong(uint8_t t){
-  sleepTime = wakeupTime+t;
+  sleepTime = ClockM::getInstance().getCtr()+t;
 }
