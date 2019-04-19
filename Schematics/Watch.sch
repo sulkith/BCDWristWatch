@@ -1,39 +1,6 @@
-EESchema Schematic File Version 2
-LIBS:Watch-rescue
-LIBS:power
-LIBS:device
-LIBS:switches
-LIBS:relays
-LIBS:motors
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
+EESchema Schematic File Version 4
 LIBS:Watch-cache
-EELAYER 25 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -48,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Crystal Y1
+L Watch-rescue:Crystal Y1
 U 1 1 5B523549
 P 9550 1850
 F 0 "Y1" H 9550 2000 50  0000 C CNN
@@ -59,7 +26,7 @@ F 3 "https://www.mouser.de/ProductDetail/ABRACON/ABS05W-32768kHz-D-2-T?qs=sGAEpi
 	0    1    1    0   
 $EndComp
 $Comp
-L LED D3
+L Watch-rescue:LED D3
 U 1 1 5B52384D
 P 5950 2100
 F 0 "D3" H 5950 2200 50  0000 C CNN
@@ -70,7 +37,7 @@ F 3 "" H 5950 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D4
+L Watch-rescue:LED D4
 U 1 1 5B52393E
 P 5950 2450
 F 0 "D4" H 5950 2550 50  0000 C CNN
@@ -81,7 +48,7 @@ F 3 "" H 5950 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D8
+L Watch-rescue:LED D8
 U 1 1 5B5239F0
 P 6450 2450
 F 0 "D8" H 6450 2550 50  0000 C CNN
@@ -92,7 +59,7 @@ F 3 "" H 6450 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D7
+L Watch-rescue:LED D7
 U 1 1 5B523B46
 P 6450 2100
 F 0 "D7" H 6450 2200 50  0000 C CNN
@@ -103,7 +70,7 @@ F 3 "" H 6450 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D6
+L Watch-rescue:LED D6
 U 1 1 5B523CC0
 P 6450 1750
 F 0 "D6" H 6450 1850 50  0000 C CNN
@@ -114,7 +81,7 @@ F 3 "" H 6450 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D5
+L Watch-rescue:LED D5
 U 1 1 5B524335
 P 6450 1400
 F 0 "D5" H 6450 1500 50  0000 C CNN
@@ -125,7 +92,7 @@ F 3 "" H 6450 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D11
+L Watch-rescue:LED D11
 U 1 1 5B524745
 P 6950 2100
 F 0 "D11" H 6950 2200 50  0000 C CNN
@@ -136,7 +103,7 @@ F 3 "" H 6950 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D12
+L Watch-rescue:LED D12
 U 1 1 5B524950
 P 6950 2450
 F 0 "D12" H 6950 2550 50  0000 C CNN
@@ -147,7 +114,7 @@ F 3 "" H 6950 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D10
+L Watch-rescue:LED D10
 U 1 1 5B5254B0
 P 6950 1750
 F 0 "D10" H 6950 1850 50  0000 C CNN
@@ -158,7 +125,7 @@ F 3 "" H 6950 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D14
+L Watch-rescue:LED D14
 U 1 1 5B52569F
 P 7450 1750
 F 0 "D14" H 7450 1850 50  0000 C CNN
@@ -169,7 +136,7 @@ F 3 "" H 7450 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D13
+L Watch-rescue:LED D13
 U 1 1 5B525E7D
 P 7450 1400
 F 0 "D13" H 7450 1500 50  0000 C CNN
@@ -180,7 +147,7 @@ F 3 "" H 7450 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D15
+L Watch-rescue:LED D15
 U 1 1 5B5261B9
 P 7450 2100
 F 0 "D15" H 7450 2200 50  0000 C CNN
@@ -191,7 +158,7 @@ F 3 "" H 7450 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D16
+L Watch-rescue:LED D16
 U 1 1 5B526441
 P 7450 2450
 F 0 "D16" H 7450 2550 50  0000 C CNN
@@ -202,7 +169,7 @@ F 3 "" H 7450 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R1
+L Watch-rescue:R R1
 U 1 1 5B539875
 P 5000 2900
 F 0 "R1" V 5080 2900 50  0000 C CNN
@@ -213,7 +180,7 @@ F 3 "" H 5000 2900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R2
+L Watch-rescue:R R2
 U 1 1 5B53B0EE
 P 5200 2900
 F 0 "R2" V 5280 2900 50  0000 C CNN
@@ -224,7 +191,7 @@ F 3 "" H 5200 2900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R3
+L Watch-rescue:R R3
 U 1 1 5B53B4F9
 P 5400 2900
 F 0 "R3" V 5480 2900 50  0000 C CNN
@@ -235,7 +202,7 @@ F 3 "" H 5400 2900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R4
+L Watch-rescue:R R4
 U 1 1 5B53B987
 P 5600 2900
 F 0 "R4" V 5680 2900 50  0000 C CNN
@@ -246,7 +213,7 @@ F 3 "" H 5600 2900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Battery_Cell BT1
+L Watch-rescue:Battery_Cell BT1
 U 1 1 5B54EA0A
 P 1900 2550
 F 0 "BT1" H 2000 2650 50  0000 L CNN
@@ -257,7 +224,7 @@ F 3 "https://www.mouser.de/ProductDetail/Eagle-Plastic-Devices/12BH002-GR?qs=sGA
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D2
+L Watch-rescue:LED D2
 U 1 1 5B54D556
 P 5950 1750
 F 0 "D2" H 5950 1850 50  0000 C CNN
@@ -268,7 +235,7 @@ F 3 "" H 5950 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D1
+L Watch-rescue:LED D1
 U 1 1 5B54D5AD
 P 5950 1400
 F 0 "D1" H 5950 1500 50  0000 C CNN
@@ -279,7 +246,7 @@ F 3 "" H 5950 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L LED D9
+L Watch-rescue:LED D9
 U 1 1 5B54D60B
 P 6950 1400
 F 0 "D9" H 6950 1500 50  0000 C CNN
@@ -315,12 +282,11 @@ Text GLabel 1900 1600 0    60   Input ~ 0
 VCC
 Text GLabel 1900 3600 0    60   Input ~ 0
 GND
-NoConn ~ 4400 1700
 $Comp
-L GND #PWR2
+L power:GND #PWR02
 U 1 1 5B551CE1
 P 2100 3800
-F 0 "#PWR2" H 2100 3550 50  0001 C CNN
+F 0 "#PWR02" H 2100 3550 50  0001 C CNN
 F 1 "GND" H 2100 3650 50  0000 C CNN
 F 2 "" H 2100 3800 50  0001 C CNN
 F 3 "" H 2100 3800 50  0001 C CNN
@@ -328,10 +294,10 @@ F 3 "" H 2100 3800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +3.3V #PWR1
+L power:+3.3V #PWR01
 U 1 1 5B551D25
 P 2100 1400
-F 0 "#PWR1" H 2100 1250 50  0001 C CNN
+F 0 "#PWR01" H 2100 1250 50  0001 C CNN
 F 1 "+3.3V" H 2100 1540 50  0000 C CNN
 F 2 "" H 2100 1400 50  0001 C CNN
 F 3 "" H 2100 1400 50  0001 C CNN
@@ -339,7 +305,7 @@ F 3 "" H 2100 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_Push SW2
+L Watch-rescue:SW_Push SW2
 U 1 1 5B58D41E
 P 9500 2900
 F 0 "SW2" H 9550 3000 50  0000 L CNN
@@ -350,7 +316,7 @@ F 3 "https://www.mouser.de/ProductDetail/Panasonic/EVQ-PUJ02K?qs=%2fha2pyFaduiyz
 	1    0    0    -1  
 $EndComp
 $Comp
-L SW_Push SW1
+L Watch-rescue:SW_Push SW1
 U 1 1 5B58D48B
 P 9500 3200
 F 0 "SW1" H 9550 3300 50  0000 L CNN
@@ -369,7 +335,7 @@ T1
 Text GLabel 9300 2900 0    60   Input ~ 0
 T2
 $Comp
-L Conn_01x01 J1
+L Watch-rescue:Conn_01x01 J1
 U 1 1 5B58EA42
 P 3150 5800
 F 0 "J1" H 3300 5800 50  0000 C CNN
@@ -380,7 +346,7 @@ F 3 "" H 3150 5800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Conn_01x01 J2
+L Watch-rescue:Conn_01x01 J2
 U 1 1 5B58EB63
 P 3150 5600
 F 0 "J2" H 3300 5600 50  0000 C CNN
@@ -391,7 +357,7 @@ F 3 "" H 3150 5600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Conn_01x01 J3
+L Watch-rescue:Conn_01x01 J3
 U 1 1 5B58EC3D
 P 3150 5200
 F 0 "J3" H 3300 5200 50  0000 C CNN
@@ -402,7 +368,7 @@ F 3 "" H 3150 5200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Conn_01x01 J4
+L Watch-rescue:Conn_01x01 J4
 U 1 1 5B58ECAB
 P 3150 6200
 F 0 "J4" H 3300 6200 50  0000 C CNN
@@ -413,7 +379,7 @@ F 3 "" H 3150 6200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Conn_01x01 J5
+L Watch-rescue:Conn_01x01 J5
 U 1 1 5B58ED26
 P 3150 6000
 F 0 "J5" H 3300 6000 50  0000 C CNN
@@ -424,7 +390,7 @@ F 3 "" H 3150 6000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Conn_01x01 J6
+L Watch-rescue:Conn_01x01 J6
 U 1 1 5B58ED98
 P 3150 5400
 F 0 "J6" H 3300 5400 50  0000 C CNN
@@ -435,7 +401,7 @@ F 3 "" H 3150 5400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C4
+L Watch-rescue:C C4
 U 1 1 5B5F5A97
 P 1600 2500
 F 0 "C4" H 1625 2600 50  0000 L CNN
@@ -446,7 +412,7 @@ F 3 "" H 1600 2500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C3
+L Watch-rescue:C C3
 U 1 1 5B5F5B1C
 P 1400 2500
 F 0 "C3" H 1425 2600 50  0000 L CNN
@@ -457,7 +423,7 @@ F 3 "" H 1400 2500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C2
+L Watch-rescue:C C2
 U 1 1 5B5F5B93
 P 1200 2500
 F 0 "C2" H 1225 2600 50  0000 L CNN
@@ -468,7 +434,7 @@ F 3 "" H 1200 2500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C1
+L Watch-rescue:C C1
 U 1 1 5B5F5C0D
 P 1000 2500
 F 0 "C1" H 1025 2600 50  0000 L CNN
@@ -481,7 +447,7 @@ $EndComp
 Wire Wire Line
 	2500 1500 2400 1500
 Wire Wire Line
-	1900 3600 2500 3600
+	1900 3600 2100 3600
 Wire Wire Line
 	2500 3700 2400 3700
 Connection ~ 2400 3700
@@ -489,10 +455,10 @@ Wire Wire Line
 	1900 2650 1900 3600
 Connection ~ 2400 3600
 Wire Wire Line
-	1900 2350 1900 1600
+	1900 2350 1900 1800
 Connection ~ 2400 1600
 Wire Wire Line
-	5000 1550 7300 1550
+	5000 1550 5800 1550
 Wire Wire Line
 	5800 1550 5800 1400
 Wire Wire Line
@@ -505,7 +471,7 @@ Wire Wire Line
 	7300 1550 7300 1400
 Connection ~ 6800 1550
 Wire Wire Line
-	5200 1600 7300 1600
+	5200 1600 5800 1600
 Wire Wire Line
 	5800 1600 5800 1750
 Wire Wire Line
@@ -518,7 +484,7 @@ Wire Wire Line
 	7300 1600 7300 1750
 Connection ~ 6800 1600
 Wire Wire Line
-	5400 2250 7300 2250
+	5400 2250 5800 2250
 Wire Wire Line
 	5800 2250 5800 2100
 Wire Wire Line
@@ -544,7 +510,7 @@ Connection ~ 5800 2300
 Wire Wire Line
 	7600 1400 7650 1400
 Wire Wire Line
-	7650 1400 7650 3300
+	7650 1400 7650 1750
 Wire Wire Line
 	7650 2450 7600 2450
 Connection ~ 7650 2450
@@ -555,11 +521,11 @@ Wire Wire Line
 	7600 1750 7650 1750
 Connection ~ 7650 1750
 Wire Wire Line
-	7100 1400 7100 3400
+	7100 1400 7100 1750
 Wire Wire Line
-	6600 1400 6600 3500
+	6600 1400 6600 1750
 Wire Wire Line
-	6100 1400 6100 3600
+	6100 1400 6100 1750
 Connection ~ 6100 1750
 Connection ~ 6100 2100
 Connection ~ 6100 2450
@@ -594,7 +560,7 @@ Wire Wire Line
 Wire Wire Line
 	5600 2750 5600 2300
 Wire Wire Line
-	5600 2300 7300 2300
+	5600 2300 5800 2300
 Wire Wire Line
 	4400 3800 5400 3800
 Wire Wire Line
@@ -606,7 +572,7 @@ Wire Wire Line
 Wire Wire Line
 	2400 3800 2500 3800
 Wire Wire Line
-	1900 1600 2500 1600
+	1900 1600 2100 1600
 Wire Wire Line
 	2400 1500 2400 1600
 Connection ~ 2100 1600
@@ -615,21 +581,19 @@ Wire Wire Line
 	2100 1400 2100 1600
 Wire Wire Line
 	2100 3800 2100 3600
-Connection ~ 9700 2900
 Connection ~ 2400 3800
-Connection ~ 9700 3200
 Connection ~ 1200 2350
 Connection ~ 1400 2350
 Connection ~ 1600 2350
 Wire Wire Line
-	1000 2650 1900 2650
+	1000 2650 1200 2650
 Connection ~ 1600 2650
 Connection ~ 1400 2650
 Connection ~ 1200 2650
 Connection ~ 1900 2350
 Connection ~ 1900 2650
 $Comp
-L C C5
+L Watch-rescue:C C5
 U 1 1 5B816C43
 P 9950 2050
 F 0 "C5" H 9975 2150 50  0000 L CNN
@@ -640,7 +604,7 @@ F 3 "" H 9950 2050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C C6
+L Watch-rescue:C C6
 U 1 1 5B816CDF
 P 9950 1650
 F 0 "C6" H 9975 1750 50  0000 L CNN
@@ -654,7 +618,7 @@ Wire Wire Line
 	1900 1800 2500 1800
 Connection ~ 1900 1800
 $Comp
-L ATMEGA328-MU-RESCUE-Watch U1
+L Watch-rescue:ATMEGA328-MU-RESCUE-Watch U1
 U 1 1 5B541F8C
 P 3400 2600
 F 0 "U1" H 2650 3850 50  0000 L BNN
@@ -667,7 +631,7 @@ $EndComp
 Text GLabel 4400 2550 2    60   Input ~ 0
 VCC
 Wire Wire Line
-	1000 2350 1900 2350
+	1000 2350 1200 2350
 Text GLabel 9300 1650 0    60   Input ~ 0
 X1
 Text GLabel 9300 2050 0    60   Input ~ 0
@@ -677,20 +641,20 @@ X1
 Text GLabel 4400 2200 2    60   Input ~ 0
 X2
 Wire Wire Line
-	2400 3600 2400 4100
+	2400 3600 2400 3700
 Wire Wire Line
 	2400 4100 3100 4100
 Wire Wire Line
 	9700 2900 9950 2900
 Wire Wire Line
-	9950 2900 9950 3300
+	9950 2900 9950 3200
 Wire Wire Line
 	9950 3200 9700 3200
 $Comp
-L GND #PWR?
+L power:GND #PWR0101
 U 1 1 5C1659DE
 P 9950 3300
-F 0 "#PWR?" H 9950 3050 50  0001 C CNN
+F 0 "#PWR0101" H 9950 3050 50  0001 C CNN
 F 1 "GND" H 9950 3150 50  0000 C CNN
 F 2 "" H 9950 3300 50  0001 C CNN
 F 3 "" H 9950 3300 50  0001 C CNN
@@ -699,9 +663,9 @@ F 3 "" H 9950 3300 50  0001 C CNN
 $EndComp
 Connection ~ 9950 3200
 Wire Wire Line
-	9800 2050 9300 2050
+	9800 2050 9550 2050
 Wire Wire Line
-	9300 1650 9800 1650
+	9300 1650 9550 1650
 Wire Wire Line
 	9550 1700 9550 1650
 Connection ~ 9550 1650
@@ -711,14 +675,14 @@ Connection ~ 9550 2050
 Wire Wire Line
 	10100 2050 10200 2050
 Wire Wire Line
-	10200 1650 10200 2150
+	10200 1650 10200 2050
 Wire Wire Line
 	10200 1650 10100 1650
 $Comp
-L GND #PWR?
+L power:GND #PWR0102
 U 1 1 5C166759
 P 10200 2150
-F 0 "#PWR?" H 10200 1900 50  0001 C CNN
+F 0 "#PWR0102" H 10200 1900 50  0001 C CNN
 F 1 "GND" H 10200 2000 50  0000 C CNN
 F 2 "" H 10200 2150 50  0001 C CNN
 F 3 "" H 10200 2150 50  0001 C CNN
@@ -726,4 +690,178 @@ F 3 "" H 10200 2150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Connection ~ 10200 2050
+Wire Wire Line
+	2400 3700 2400 3800
+Wire Wire Line
+	2400 3600 2500 3600
+Wire Wire Line
+	2400 1600 2500 1600
+Wire Wire Line
+	5800 1550 6300 1550
+Wire Wire Line
+	6300 1550 6800 1550
+Wire Wire Line
+	6800 1550 7300 1550
+Wire Wire Line
+	5800 1600 6300 1600
+Wire Wire Line
+	6300 1600 6800 1600
+Wire Wire Line
+	6800 1600 7300 1600
+Wire Wire Line
+	5800 2250 6300 2250
+Wire Wire Line
+	6300 2250 6800 2250
+Wire Wire Line
+	6800 2250 7300 2250
+Wire Wire Line
+	6800 2300 7300 2300
+Wire Wire Line
+	6300 2300 6800 2300
+Wire Wire Line
+	5800 2300 6300 2300
+Wire Wire Line
+	7650 2450 7650 3300
+Wire Wire Line
+	7650 2100 7650 2450
+Wire Wire Line
+	7650 1750 7650 2100
+Wire Wire Line
+	6100 1750 6100 2100
+Wire Wire Line
+	6100 2100 6100 2450
+Wire Wire Line
+	6100 2450 6100 3600
+Wire Wire Line
+	6600 2100 6600 2450
+Wire Wire Line
+	6600 2450 6600 3500
+Wire Wire Line
+	6600 1750 6600 2100
+Wire Wire Line
+	7100 2100 7100 2450
+Wire Wire Line
+	7100 2450 7100 3400
+Wire Wire Line
+	7100 1750 7100 2100
+Wire Wire Line
+	2100 1600 2400 1600
+Wire Wire Line
+	2100 3600 2400 3600
+Wire Wire Line
+	2400 3800 2400 4100
+Wire Wire Line
+	1200 2350 1400 2350
+Wire Wire Line
+	1400 2350 1600 2350
+Wire Wire Line
+	1600 2350 1900 2350
+Wire Wire Line
+	1600 2650 1900 2650
+Wire Wire Line
+	1400 2650 1600 2650
+Wire Wire Line
+	1200 2650 1400 2650
+Wire Wire Line
+	1900 1800 1900 1600
+Wire Wire Line
+	9950 3200 9950 3300
+Wire Wire Line
+	9550 1650 9800 1650
+Wire Wire Line
+	9550 2050 9300 2050
+Wire Wire Line
+	10200 2050 10200 2150
+$Comp
+L Projectspecific:BMA456 IC1
+U 1 1 5CCC08E4
+P 4500 5500
+F 0 "IC1" H 5100 5765 50  0000 C CNN
+F 1 "BMA456" H 5100 5674 50  0000 C CNN
+F 2 "BMA456" H 5550 5600 50  0001 L CNN
+F 3 "https://kr.mouser.com/datasheet/2/783/BST-BMA456-DS000-1509567.pdf" H 5550 5500 50  0001 L CNN
+F 4 "Accelerometers Triaxial low-g 16bit Acceleration Sensor" H 5550 5400 50  0001 L CNN "Description"
+F 5 "0.7" H 5550 5300 50  0001 L CNN "Height"
+F 6 "262-BMA456" H 5550 5200 50  0001 L CNN "Mouser Part Number"
+F 7 "Bosch" H 5550 5000 50  0001 L CNN "Manufacturer_Name"
+F 8 "BMA456" H 5550 4900 50  0001 L CNN "Manufacturer_Part_Number"
+	1    4500 5500
+	1    0    0    -1  
+$EndComp
+Text GLabel 5950 6000 2    60   Input ~ 0
+SCK
+NoConn ~ 5700 5900
+NoConn ~ 4500 5800
+Text GLabel 5950 5800 2    60   Input ~ 0
+BMA_CS
+Text GLabel 4250 5500 0    60   Input ~ 0
+MISO
+Text GLabel 4250 5600 0    60   Input ~ 0
+MOSI
+Text GLabel 4250 5900 0    60   Input ~ 0
+BMA_INT1
+Text GLabel 4250 6000 0    60   Input ~ 0
+BMA_INT2
+Wire Wire Line
+	4250 5500 4500 5500
+Wire Wire Line
+	4250 5600 4500 5600
+Wire Wire Line
+	4250 5900 4500 5900
+Wire Wire Line
+	4250 6000 4500 6000
+Wire Wire Line
+	5700 5800 5950 5800
+Wire Wire Line
+	5700 6000 5950 6000
+$Comp
+L power:GND #PWR0103
+U 1 1 5CCE5514
+P 5800 6150
+F 0 "#PWR0103" H 5800 5900 50  0001 C CNN
+F 1 "GND" H 5805 5977 50  0000 C CNN
+F 2 "" H 5800 6150 50  0001 C CNN
+F 3 "" H 5800 6150 50  0001 C CNN
+	1    5800 6150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5800 6150 5800 5700
+Wire Wire Line
+	5800 5600 5700 5600
+Wire Wire Line
+	5700 5700 5800 5700
+Connection ~ 5800 5700
+Wire Wire Line
+	5800 5700 5800 5600
+$Comp
+L power:VCC #PWR0104
+U 1 1 5CCEDAB3
+P 4400 4950
+F 0 "#PWR0104" H 4400 4800 50  0001 C CNN
+F 1 "VCC" H 4417 5123 50  0000 C CNN
+F 2 "" H 4400 4950 50  0001 C CNN
+F 3 "" H 4400 4950 50  0001 C CNN
+	1    4400 4950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 5700 4500 5700
+Wire Wire Line
+	4400 4950 4400 5150
+Wire Wire Line
+	5700 5500 5800 5500
+Wire Wire Line
+	5800 5500 5800 5150
+Wire Wire Line
+	5800 5150 4400 5150
+Connection ~ 4400 5150
+Wire Wire Line
+	4400 5150 4400 5700
+Text GLabel 4400 1700 2    60   Input ~ 0
+BMA_CS
+Text GLabel 4400 2350 2    60   Input ~ 0
+BMA_INT1
+Text GLabel 4400 2450 2    60   Input ~ 0
+BMA_INT2
 $EndSCHEMATC
