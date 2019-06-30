@@ -42,7 +42,7 @@ module housingBody(height,inside,lid){
                     cylinder(40,1.5,1.5);
                     translate([0,0,3])
                     {
-                        cylinder(34,2.3,2.3); 
+                        cylinder(34,2.4,2.4);
                     }
                 }
             }
@@ -59,6 +59,11 @@ module housingBody(height,inside,lid){
                 cylinder(6,0.7,0.7);
             }
             //translate([0,0,height+3-LIDSize])scale([37.1,40,6])cube(1,center=true);
+            translate([0,0,height-LIDSize-1]){
+                //cylinder(6,18,18);
+                translate([11.5,7,0])cylinder(1,3.5,3.5);
+                translate([11.5,-7,0])cylinder(1,3.5,3.5);
+            }
             translate([0,0,height-LIDSize-0.1])hull()
             {
                 cylinder(6,17,17);
@@ -268,13 +273,13 @@ module rendering()
     translate([-2,15,6.1])rotate([90,0,0])button();
     translate([-2,-15,6.1])rotate([-90,0,0])button();
 }
-printall();
+//printall();
 
 //rendering();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
 //for Debugging
-//housingBodyAll(10);
+housingBodyAll(10);
 //housingBody(10,false,true);
 //translate([0,50,0])housingBody(10,true);
 
