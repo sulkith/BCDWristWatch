@@ -1,7 +1,7 @@
 // CSG.scad - Basic example of CSG usage
 
-
-module housingBody(height,inside,lid){
+ClockHeight = 10;
+module housingBody(_height,inside,lid){
     glassClamp = 0.1;
     glassSize = 1.5;
     PCBSize = 1.6;
@@ -9,6 +9,9 @@ module housingBody(height,inside,lid){
     PCBBackKeepout = 3.9;
     LIDSize=1.5;
     height=glassClamp+glassSize+PCBSize+PCBFrontKeepout+PCBBackKeepout+LIDSize;
+    echo("checking ig the requested Size is met");
+    assert(_height==height);
+    
     
     mHx=14.;
     mHy=10.5;
@@ -248,8 +251,8 @@ module housingBodyAll(height){
 
 module printall(){
     
-    housingBodyAll(9.5);
-    translate([0,0,8])housingBody(9.5,false,true);
+    housingBodyAll(ClockHeight);
+    translate([0,0,8])housingBody(ClockHeight,false,true);
     //translate([0,0,20.7])pcb();
     translate([5,7,6.1])rotate([180,0,0])button();
     translate([5,-7,6.1])rotate([180,0,0])button();
@@ -260,14 +263,22 @@ module printall(){
     translate([-9.5,-0.5,6.0])scale([0.5,0.8,12])cube(1);
 
 }
+module printSLASideBySide(){
+    
+    translate([0,0,ClockHeight])rotate([180,0,0])housingBodyAll(ClockHeight);
+    translate([0,37,-ClockHeight+1.5])housingBody(ClockHeight,false,true);
+    //translate([0,0,20.7])pcb();
+    translate([5,7,0])rotate([180,0,0])button();
+    translate([5,-7,0])rotate([180,0,0])button();
+}
 
 module rendering()
 {
     //$fs=0.05;
     //$fa=5;
 
-    housingBodyAll(10);
-    housingBody(10,false,true);
+    housingBodyAll(ClockHeight);
+    housingBody(ClockHeight,false,true);
     //translate([0,0,-15])housingBody(10,false,true);
     translate([0,0,2.8])pcb();
     translate([-2,15,6.1])rotate([90,0,0])button();
@@ -276,10 +287,11 @@ module rendering()
 //printall();
 
 //rendering();
+printSLASideBySide();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
 //for Debugging
-housingBodyAll(10);
+//housingBodyAll(ClockHeight);
 //housingBody(10,false,true);
 //translate([0,50,0])housingBody(10,true);
 
