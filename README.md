@@ -1,4 +1,5 @@
-# BCDWristWatch
+# (BCD)WristWatch
+![picture of Both clocks side by side](Pictures/AnalogClock.jpg)
 ## First PCB Version
 The First PCB Version was a desaster. The PCBs arrived very fast, but the QFN Package had the wrong size.<br>
 ATMEL only produces QFN32 in 7x7mm. Therefore the design of the PCB hat to be changed to the smaller package,<br> 
@@ -28,6 +29,12 @@ I had to sand the edges a bit, since it was a bit rough on the parts where i rem
 The overall Quality of the PCBs is very good, but you can not choose the thicknes or color of the PCB.<br>
 ![picture of PCB3](Pictures/PCB3.jpg)
 
+## PCB for an analog Version
+After the PCBs for the BCD Version were working, i also created an analog Version, so i dont have to explain the Clock everytime ;-)
+
+The Analog Watch features the same Schematics for the basic clock functionality, but the display is done via Charlieplexing the LEDs. There are 4 Clustes with 4 Pins which drive all the 42 LEDs. 12 LEDs on the inner ring are displaying the hours. On the outer ring 30 LEDs display the Minutes. Since it was not possible to fit 60 LEDs on the outer ring, uneven numbers are shown while lighting up the two neighbouring LEDs.
+![picture ofthe assembled PCB](Pictures/AnalogPCB.jpg)
+
 ## Housing
 The Housing was designed in OpenSCAD. <br>
 a very helpfull reference for the OpenSCAD syntax was<br>
@@ -49,3 +56,4 @@ Another goal was to make the second Housing slim, because the first one was very
 For the PCB to tightly fit in either the Housing has to get some aditional holes or at least the Battery clip has to be modified.<br>
 ![picture Housing 2](Pictures/Housing2.jpg)
 ![picture Housing 3 Backside](Pictures/Housing3b.jpg)
+
