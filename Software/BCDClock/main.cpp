@@ -1,3 +1,4 @@
+#include <util/delay.h>
 #include "EEPM.h"
 #include "ClockM.h"
 #include "DisplayManager.h"
@@ -16,6 +17,7 @@ extern UserInterface *UI;
 
 int main(void)
 {
+  _delay_ms(1000);
   EEPM_AVR eep;
 
   TwoButtonUI UIobj(hal, tbh, dman);
