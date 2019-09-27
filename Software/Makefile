@@ -7,6 +7,7 @@ CLOCK      = 1000000
 PROGRAMMER = -c buspirate
 OBJECTS    = main.o EEPM.o EEPM_AVR.o ClockM.o BinaryWatch.o TwoButtonUI.o SleepM.o
 OBJECTS_ANALOG    = main.o EEPM.o EEPM_AVR.o ClockM.o AnalogWatch.o TwoButtonUI.o SleepM.o
+OBJECTS_BINARY_G    = main.o EEPM.o EEPM_AVR.o ClockM.o BinaryGWatch.o TwoButtonUI.o SleepM.o libs/Bosch_BMA456/Bosch_BMA.o libs/Bosch_BMA456/Bosch_BMA456_config_file.o libs/Bosch_BMA456/spi_adap.o libs/spi/spi.o
 HEADERS    = Debouncer.h constants.h types.h settings.h
 PORT = /dev/ttyUSB0
 # for ATTiny85
@@ -20,7 +21,7 @@ AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE) -P $(PORT)
 COMPILE = avr-g++ -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 
 # symbolic targets:
-all:	main.hex
+all:	main.hex main_analog.hex main_binG.hex
 
 .c.o:
 	$(COMPILE) -c $< -o $@
@@ -81,6 +82,9 @@ main.elf: $(OBJECTS) $(HEADERS)
 main_analog.elf: $(OBJECTS_ANALOG) $(HEADERS)
 	$(COMPILE) -o main_analog.elf $(OBJECTS_ANALOG)
 
+main_binG.elf: $(OBJECTS_BINARY_G) $(HEADERS)
+	$(COMPILE) -o main_binG.elf $(OBJECTS_BINARY_G)
+
 main.hex: main.elf
 	rm -f main.hex
 	avr-objcopy -j .text -j .data -O ihex main.elf main.hex
@@ -96,6 +100,14 @@ main_analog.hex: main_analog.elf
 	avr-objcopy -j .eeprom --set-section-flags=.eeprom="alloc,load" \
    --change-section-lma .eeprom=0 -O ihex main_analog.elf eeprom_analog.eep
 	avr-size --format=avr --mcu=$(DEVICE) main_analog.elf
+
+main_binG.hex: main_binG.elf
+	rm -f main_binG.hex
+	avr-objcopy -j .text -j .data -O ihex main_binG.elf main_binG.hex
+	avr-objcopy -j .eeprom -O ihex main_binG.elf eeprom.hex
+	avr-objcopy -j .eeprom --set-section-flags=.eeprom="alloc,load" \
+   --change-section-lma .eeprom=0 -O ihex main_binG.elf eeprom_binG.eep
+	avr-size --format=avr --mcu=$(DEVICE) main_binG.elf
 # If you have an EEPROM section, you must also create a hex file for the
 # EEPROM and add it to the "flash" target.
 

@@ -1,0 +1,6 @@
+[submodule "Software/libs/Bosch_BMA456"]
+	path = Software/libs/Bosch_BMA456
+	url = git@github.com:sulkith/Bosch_BMA456.git
+[submodule "Software/libs/spi"]
+	path = Software/libs/spi
+	url = git@github.com:sulkith/lib_spi_avr.git
