@@ -6,6 +6,14 @@
 const uint16_t ontime_short=5;
 const uint16_t ontime_long=30;
 
+extern HAL *hal;
+extern DisplayManager *dman;
+extern TwoButtonHAL *tbh;
+extern UserInterface *UI;
+
+TwoButtonUI tbui;
+UserInterface *UI = &tbui;
+
 #define RIGHT_PUSH rightButton->valueUpdatedTo(1)
 #define LEFT_PUSH leftButton->valueUpdatedTo(1)
 #define RIGHT_HOLD rightButton->getValue()
@@ -127,6 +135,11 @@ inline void requestScreen(DisplayManager *dm, DisplayRequestType type, uint16_t 
 void TwoButtonUI::init()
 {
 	SleepM::getInstance()->subscribe(this);
+
+	if(rightButton == NULL)rightButton = tbh->getRightButtonDeb();
+	if(leftButton == NULL) leftButton = tbh->getLeftButtonDeb();
+	if(mHal==NULL) mHal = hal;
+	if(DisplMan == NULL) DisplMan = dman;
 }
 
 void TwoButtonUI::stateDisplayReuest()
@@ -166,7 +179,7 @@ void TwoButtonUI::stateDisplayReuest()
 
 void TwoButtonUI::cyclic()
 {
-  if(hal->HAL_getWakeupReason()>0)
+  if(mHal->HAL_getWakeupReason()>0)
   {
 		stateDisplayReuest();
 		stateTransition();

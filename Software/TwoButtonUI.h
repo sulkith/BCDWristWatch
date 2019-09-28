@@ -12,7 +12,7 @@ class TwoButtonUI: public UserInterface, public SleepSubscriber
 {
   Debouncer<uint8_t> *rightButton;
   Debouncer<uint8_t> *leftButton;
-  HAL *hal;
+  HAL *mHal;
   DisplayManager *DisplMan;
   DisplayRequestType UIstate = FadeIn;
   bool inputEnabled = false;
@@ -23,8 +23,9 @@ public:
   virtual void init();
   TwoButtonUI(HAL *hwhal,TwoButtonHAL *tbh, DisplayManager *dm):
   rightButton(tbh->getRightButtonDeb()), leftButton(tbh->getLeftButtonDeb()),
-  hal(hwhal), DisplMan(dm){};
-  TwoButtonUI() = delete;
+  mHal(hwhal), DisplMan(dm){};
+  TwoButtonUI():rightButton(NULL), leftButton(NULL),
+  mHal(NULL), DisplMan(NULL){};
   virtual void executeSleepSubscription();
 };
 

@@ -20,8 +20,8 @@ int main(void)
   _delay_ms(1000);
   EEPM_AVR eep;
 
-  TwoButtonUI UIobj(hal, tbh, dman);
-  UserInterface *UI=&UIobj;
+  //TwoButtonUI UIobj(hal, tbh, dman);
+  //UserInterface *UI=&UIobj;
 
   SleepM sleepM(hal);
 
