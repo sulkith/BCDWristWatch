@@ -37,7 +37,7 @@ module housingBody(_height,inside,lid){
             translate([0,0,glassSize+PCBFrontKeepout]) {//PCB Mounting
                 cylinder(height,15.5,15.5);
             }
-            
+            /*
             translate([-2,20,glassSize+PCBFrontKeepout+PCBSize+2.3]) {//Holes for buttons
                 rotate(a=[90,0,0])
                 {
@@ -49,6 +49,7 @@ module housingBody(_height,inside,lid){
                     }
                 }
             }
+            */
             translate([mHx,mHy,height-5]) {
                 cylinder(6,0.7,0.7);
             }
@@ -254,8 +255,8 @@ module printall(){
     housingBodyAll(ClockHeight);
     translate([0,0,8])housingBody(ClockHeight,false,true);
     //translate([0,0,20.7])pcb();
-    translate([5,7,6.1])rotate([180,0,0])button();
-    translate([5,-7,6.1])rotate([180,0,0])button();
+    //translate([5,7,6.1])rotate([180,0,0])button();
+    //translate([5,-7,6.1])rotate([180,0,0])button();
     translate([5,0,6.5])scale([0.5,35,0.8])cube(1,center=true);
     translate([0,0,6.5])scale([32,0.5,0.8])cube(1,center=true);
     translate([5,11,6.0])scale([0.5,0.8,12])cube(1);
@@ -268,8 +269,8 @@ module printSLASideBySide(){
     translate([0,0,ClockHeight])rotate([180,0,0])housingBodyAll(ClockHeight);
     translate([0,37,-ClockHeight+1.5])housingBody(ClockHeight,false,true);
     //translate([0,0,20.7])pcb();
-    translate([5,7,0])rotate([180,0,0])button();
-    translate([5,-7,0])rotate([180,0,0])button();
+    //translate([5,7,0])rotate([180,0,0])button();
+    //translate([5,-7,0])rotate([180,0,0])button();
 }
 
 module rendering()
@@ -281,13 +282,13 @@ module rendering()
     housingBody(ClockHeight,false,true);
     //translate([0,0,-15])housingBody(10,false,true);
     translate([0,0,2.8])pcb();
-    translate([-2,15,6.1])rotate([90,0,0])button();
-    translate([-2,-15,6.1])rotate([-90,0,0])button();
+    //translate([-2,15,6.1])rotate([90,0,0])button();
+    //translate([-2,-15,6.1])rotate([-90,0,0])button();
 }
 //printall();
 
-//rendering();
-printSLASideBySide();
+rendering();
+//printSLASideBySide();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
 //for Debugging
