@@ -29,6 +29,8 @@ public:
 	uint32_t getCtr(){return ctr;}
   uint8_t advanceMinute();
   uint8_t advanceHour();
+	uint8_t decreaseMinute();
+  uint8_t decreaseHour();
 
   static ClockM& getInstance()
   {

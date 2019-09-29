@@ -1,17 +1,19 @@
-#include "TwoButtonUI.h"
+#include "GForceUI.h"
 #include "ClockM.h"
 #include "EEPM.h"
 #include "SleepM.h"
 
 const uint16_t ontime_short=5;
 const uint16_t ontime_long=30;
+const uint16_t ontime_very_long=60;
 
 extern HAL *hal;
 extern DisplayManager *dman;
 extern TwoButtonHAL *tbh;
+extern GForceHAL *_gHAL;
 extern UserInterface *UI;
 
-TwoButtonUI tbui;
+GForceUI tbui;
 UserInterface *UI = &tbui;
 
 #define RIGHT_PUSH rightButton->valueUpdatedTo(1)
@@ -48,7 +50,7 @@ uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Deboun
 	return 0;
 }
 
-void TwoButtonUI::stateTransition()
+void GForceUI::stateTransition()
 {
 	if(UIstate == FadeIn)
 	{
@@ -70,18 +72,125 @@ void TwoButtonUI::stateTransition()
 			UIstate =  Time;
 			wakeTime = ontime_short;
 			break;
+		case Debouncing:
     case Time:
+			//debouncerGForce=1;//TODO Only for testing
+			//UIstate = Debouncing;
       if(rightButton->valueUpdatedTo(1) && leftButton->getValue()==1)UIstate = SetHour;
+			if(gHAL->getTap())
+			{
+				if(debouncerGForce == 0)
+				{
+					if(gHAL->getZ() < -7000)//Check if it is upside Down
+					{
+						debouncerGForce = 1;
+						UIstate = Debouncing;
+					}
+				}
+				else if(debouncerGForce == 1)
+				{
+					if(gHAL->getZ() > 7000)//Check if it is in normal Position
+					{
+						//debouncerGForce = 2;//To hard to achieve
+						UIstate = SetHour;
+						SleepM::requestProlong(ontime_very_long);
+						debouncerGForce = 0xFF;
+					}
+					else
+					{
+						UIstate = Time;
+						debouncerGForce = 0;
+					}
+				}
+				/*if(0&&debouncerGForce == 2)//To hard to achieve
+				{
+					if(gHAL->getZ() > 7000)//Check if it is normal Position
+					{
+						UIstate = SetHour;
+						SleepM::requestProlong(ontime_very_long);
+					}
+					debouncerGForce = 0;
+				}*/
+				SleepM::requestProlong(ontime_long);
+			}
       wakeTime = ontime_short;
       break;
     case SetHour:
       if(LEFT_PUSH)ClockM::getInstance().advanceHour();
       if(RIGHT_PUSH)UIstate = SetMinute;
+			if(gHAL->getTap())
+			{
+				UIstate = SetMinute;
+				SleepM::requestProlong(ontime_very_long);
+			}
+			if(debouncerGForce == 0xFF)
+			{
+				int16_t axis_val = -gHAL->getY();
+				if(axis_val > 1024)
+				{
+					debounce++;
+				}
+				else if(axis_val < -1024)
+				{
+					debounce--;
+				}
+				else
+				{
+					debounce = 0;
+				}
+				if(debounce > 50)
+				{
+					ClockM::getInstance().advanceHour();
+					debounce = 0;
+				}
+				if(debounce < -50)
+				{
+					ClockM::getInstance().decreaseHour();
+					debounce = 0;
+				}
+			}
       break;
     case SetMinute:
       if(LEFT_PUSH)ClockM::getInstance().advanceMinute();
       if(RIGHT_PUSH)UIstate = Time;
       if(LEFT_HOLD && RIGHT_HOLD) UIstate = SetCorrMinute;
+			if(gHAL->getTap())
+			{
+				if(gHAL->getZ() < -7000)//Check if it is upside Down maybe check the Status from Hour also to make sure it is intended)
+				{
+					UIstate = SetCorrMinute;
+				}
+				else
+				{
+					UIstate = Time;
+				}
+			}
+			if(debouncerGForce == 0xFF)
+			{
+				int16_t axis_val = -gHAL->getY();
+				if(axis_val > 1024)
+				{
+					debounce++;
+				}
+				else if(axis_val < -1024)
+				{
+					debounce--;
+				}
+				else
+				{
+					debounce = 0;
+				}
+				if(debounce > 50)
+				{
+					ClockM::getInstance().advanceMinute();
+					debounce = 0;
+				}
+				if(debounce < -50)
+				{
+					ClockM::getInstance().decreaseMinute();
+					debounce = 0;
+				}
+			}
       break;
     case SetCorrMinute:
     {
@@ -112,7 +221,6 @@ void TwoButtonUI::stateTransition()
       break;
     }
     case Empty:
-		case Debouncing:
     case SetTempCorr:
     case ShowTemperature:
       UIstate = Time;
@@ -133,7 +241,7 @@ inline void requestScreen(DisplayManager *dm, DisplayRequestType type, uint16_t 
   dm->requestDisplay(dr);
 }
 
-void TwoButtonUI::init()
+void GForceUI::init()
 {
 	SleepM::getInstance()->subscribe(this);
 
@@ -141,9 +249,10 @@ void TwoButtonUI::init()
 	if(leftButton == NULL) leftButton = tbh->getLeftButtonDeb();
 	if(mHal==NULL) mHal = hal;
 	if(DisplMan == NULL) DisplMan = dman;
+	if(gHAL == NULL) gHAL = _gHAL;
 }
 
-void TwoButtonUI::stateDisplayReuest()
+void GForceUI::stateDisplayReuest()
 {
   //uint16_t data[DisplayRequest::dataLength] = {0};
   switch (UIstate) {
@@ -151,6 +260,7 @@ void TwoButtonUI::stateDisplayReuest()
     case Time:
     case SetHour:
     case SetMinute:
+		case Debouncing:
       requestScreen(DisplMan,UIstate,ClockM::getInstance().getHour(),ClockM::getInstance().getMinute(),ClockM::getInstance().getSecond());
       break;
     case SetCorrMinute:
@@ -178,7 +288,7 @@ void TwoButtonUI::stateDisplayReuest()
 }
 
 
-void TwoButtonUI::cyclic()
+void GForceUI::cyclic()
 {
   if(mHal->HAL_getWakeupReason()>0)
   {
@@ -186,8 +296,9 @@ void TwoButtonUI::cyclic()
 		stateTransition();
   }
 }
-void TwoButtonUI::executeSleepSubscription()
+void GForceUI::executeSleepSubscription()
 {
   UIstate = FadeIn;
   inputEnabled = false;
+	debouncerGForce = 0;
 }

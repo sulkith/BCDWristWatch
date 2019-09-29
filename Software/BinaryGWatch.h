@@ -2,10 +2,11 @@
 #define __BINARYWATCH_HEADER_INCLUDE__
 
 #include "HAL.h"
+#include "GForceHAL.h"
 #include "TwoButtonHAL.h"
 #include "DisplayManager.h"
 
-class BinaryWatch: public HAL, public TwoButtonHAL, public DisplayManager
+class BinaryGWatch: public HAL, public TwoButtonHAL, public GForceHAL, public DisplayManager
 {
   uint8_t wakeupReason=1;//TODO ONLY TEST SHOULD BE 0
   uint16_t cyclicCounter=1000;//best case guess
@@ -18,6 +19,10 @@ public:
   virtual void HAL_cyclic();
   virtual Debouncer<uint8_t> *getRightButtonDeb();
   virtual Debouncer<uint8_t> *getLeftButtonDeb();
+  virtual uint8_t getTap();
+  virtual int16_t getX();
+  virtual int16_t getY();
+  virtual int16_t getZ();
   virtual void show();
 };
 

@@ -12,7 +12,8 @@ typedef enum
   SetCorrDay,
   SetCorrMonth,
   SetTempCorr,
-  ShowTemperature
+  ShowTemperature,
+  Debouncing
 } DisplayRequestType;
 
 class DisplayRequest

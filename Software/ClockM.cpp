@@ -70,3 +70,20 @@ uint8_t ClockM::advanceHour()
   return t.hour = (t.hour + 1)%24;
 
 }
+uint8_t ClockM::decreaseMinute()
+{
+  t.second = 0;
+  t.day=0;
+  if(t.minute==0)t.minute=60;
+  t.minute--;
+  return t.minute;
+}
+uint8_t ClockM::decreaseHour()
+{
+  t.second = 0;
+  t.day=0;
+  if(t.hour == 0)t.hour=24;
+  t.hour--;
+  return t.hour;
+
+}

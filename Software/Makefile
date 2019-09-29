@@ -7,7 +7,7 @@ CLOCK      = 1000000
 PROGRAMMER = -c buspirate
 OBJECTS    = main.o EEPM.o EEPM_AVR.o ClockM.o BinaryWatch.o TwoButtonUI.o SleepM.o
 OBJECTS_ANALOG    = main.o EEPM.o EEPM_AVR.o ClockM.o AnalogWatch.o TwoButtonUI.o SleepM.o
-OBJECTS_BINARY_G    = main.o EEPM.o EEPM_AVR.o ClockM.o BinaryGWatch.o TwoButtonUI.o SleepM.o libs/Bosch_BMA456/Bosch_BMA.o libs/Bosch_BMA456/Bosch_BMA456_config_file.o libs/Bosch_BMA456/spi_adap.o libs/spi/spi.o
+OBJECTS_BINARY_G    = main.o EEPM.o EEPM_AVR.o ClockM.o BinaryGWatch.o GForceUI.o SleepM.o libs/Bosch_BMA456/Bosch_BMA.o libs/Bosch_BMA456/Bosch_BMA456_config_file.o libs/Bosch_BMA456/spi_adap.o libs/spi/spi.o
 HEADERS    = Debouncer.h constants.h types.h settings.h
 PORT = /dev/ttyUSB0
 # for ATTiny85
@@ -46,6 +46,9 @@ test:	all flash
 
 flash_all:	flash flash_eep
 produce:	fuse flash_all
+
+flash_binG:	main_binG.hex
+	$(AVRDUDE) -U flash:w:main_binG.hex:i
 
 flash_analog:	main_analog.hex
 	$(AVRDUDE) -U flash:w:main_analog.hex:i
