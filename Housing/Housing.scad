@@ -179,6 +179,7 @@ module housingBody(_height,inside,lid){
                         translate([mHx,-mHy,height-0.8]) {
                             cylinder(0.9,0.7,1.8);
                         }
+                        /*
                         translate([-2,20,glassSize+PCBFrontKeepout+PCBSize+2.3]) {//Holes for buttons
                             rotate(a=[90,0,0])
                             {
@@ -190,7 +191,7 @@ module housingBody(_height,inside,lid){
                                     translate([0,0,28])cylinder(6,2.5,2.5); 
                                 }
                             }
-                        }
+                        }*/
                     }
                 }
             }
@@ -285,9 +286,9 @@ module rendering()
     //translate([-2,15,6.1])rotate([90,0,0])button();
     //translate([-2,-15,6.1])rotate([-90,0,0])button();
 }
-//printall();
+printall();
 
-rendering();
+//rendering();
 //printSLASideBySide();
 //translate([0,0,0])housingBody(10,false);
 //translate([0,0,10])lid();
