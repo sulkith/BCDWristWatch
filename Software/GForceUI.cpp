@@ -23,8 +23,9 @@ UserInterface *UI = &tbui;
 #define PUSH_BOTH (RIGHT_PUSH && LEFT_HOLD) || (LEFT_PUSH && RIGHT_HOLD)
 
 template <typename T>
-uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Debouncer<uint8_t> *leftButton, const T maxvalue, const T minvalue=0)
+uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Debouncer<uint8_t> *leftButton, GForceHAL *gfh, const T maxvalue, const T minvalue=0)
 {
+	static uint16_t debounce = 0;
 	if(rightButton->valueUpdatedTo(1)==1)
 	{
 		if((*value)==minvalue)
@@ -46,6 +47,40 @@ uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Deboun
 		{
 			return 1;
 		}
+	}
+	if(gfh->getTap())
+	{
+		debounce = 0;
+		return 1;
+	}
+	int16_t axis_val = -gfh->getY();
+	if(axis_val > 1024)
+	{
+		debounce++;
+	}
+	else if(axis_val < -1024)
+	{
+		debounce--;
+	}
+	else
+	{
+		debounce = 0;
+	}
+	if(debounce > 50)
+	{
+		if((*value)==maxvalue)
+			(*value)=minvalue;
+		else
+			(*value)++;
+		debounce = 0;
+	}
+	if(debounce < -50)
+	{
+		if((*value)==maxvalue)
+			(*value)=minvalue;
+		else
+			(*value)++;
+		debounce = 0;
 	}
 	return 0;
 }
@@ -195,28 +230,28 @@ void GForceUI::stateTransition()
     case SetCorrMinute:
     {
       uint8_t t = EEPM::getInstance()->getCorrEveryMinute();
-      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,30))UIstate = SetCorrHour;
+      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,30))UIstate = SetCorrHour;
       EEPM::getInstance()->setCorrEveryMinute(t);
       break;
     }
     case SetCorrHour:
     {
       uint8_t t = EEPM::getInstance()->getCorrEveryHour();
-      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,30))UIstate = SetCorrDay;
+      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,30))UIstate = SetCorrDay;
       EEPM::getInstance()->setCorrEveryHour(t);
       break;
     }
     case SetCorrDay:
     {
       uint8_t t = EEPM::getInstance()->getCorrEveryDay();
-      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,24))UIstate = SetCorrMonth;
+      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,24))UIstate = SetCorrMonth;
       EEPM::getInstance()->setCorrEveryDay(t);
       break;
     }
     case SetCorrMonth:
     {
       uint8_t t = EEPM::getInstance()->getCorrEveryMonth();
-      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,30))UIstate = Time;
+      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,30))UIstate = Time;
       EEPM::getInstance()->setCorrEveryMonth(t);
       break;
     }
