@@ -124,9 +124,20 @@ inline void setupTimer0()
 	while(ASSR&((1<<TCN2UB)|(1<<OCR2BUB)|(1<<TCR2BUB)|(1<<OCR2AUB)|(1<<TCR2AUB)));	//Wait until TC0 is updated
 	TIMSK2 |= (1<<TOIE2);									//Set 8-bit Timer/Counter0 Overflow Interrupt Enable
 }
-
+void showERROR(uint8_t error, uint8_t data) {
+	uint8_t test[4];
+	test[0] = numToPortD[data%10];
+	test[1] = numToPortD[(data/10)%10];
+	test[2] = numToPortD[error&0x0F];
+	test[3] = numToPortD[0x0E];
+	showLEDs(test,1);
+}
 inline void setupBMA()
 {
+	while(bma.getChipID() != 0x16)
+	{
+		showERROR(1,bma.getChipID());
+	}
 	bma.init();
 	bma.startInterruptConfig();
 	bma.setTapDetection(0, 3, 1);
@@ -141,7 +152,10 @@ inline void setupBMA()
 	bma.writeAddress(0x56,0xFF);//Enable All Interrupts
 	bma.writeAddress(0x53,0x0A);//Interrupt Output, LevelBased (High_Active) interrupt and PushPull
 	bma.writeAddress(0x55,0x01);
-	bma.getInternalState();
+	while((bma.getInternalState()&0x01) != 0x01)//should be 0x01
+	{
+		showERROR(2,bma.getInternalState());
+	}
 }
 void setCS(uint8_t t){
 	if(t==0)
@@ -159,6 +173,7 @@ void BinaryGWatch::HAL_init()
 	set_SPI_activate_CS(&setCS);
 	setupBMA();
 
+/*
 	if(bma.getInternalState() != 0x01)
 	{
 		while (1) {
@@ -170,7 +185,7 @@ void BinaryGWatch::HAL_init()
 		}
 		//Displays ErrorCode E1
 	}
-
+*/
 	while (0) {
 		int16_t xAccel = getX();
 		int16_t yAccel = getY();
