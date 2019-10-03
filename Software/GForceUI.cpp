@@ -25,7 +25,7 @@ UserInterface *UI = &tbui;
 template <typename T>
 uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Debouncer<uint8_t> *leftButton, GForceHAL *gfh, const T maxvalue, const T minvalue=0)
 {
-	static uint16_t debounce = 0;
+	static int16_t debounce = 0;
 	if(rightButton->valueUpdatedTo(1)==1)
 	{
 		if((*value)==minvalue)
