@@ -149,13 +149,20 @@ inline void setupBMA()
 	bma.writeInterruptConfig();
 	bma.writeAddress(0x00,0xb0);
 	//bma.writeAddress(0x56,0x28);//Enable DoubleTap and WristTilt Interrupt on INT1 --> PC0
-	bma.writeAddress(0x56,0xFF);//Enable All Interrupts
+	bma.writeAddress(0x56,0x28);//Enable All Interrupts
 	bma.writeAddress(0x53,0x0A);//Interrupt Output, LevelBased (High_Active) interrupt and PushPull
-	bma.writeAddress(0x55,0x01);
-	while((bma.getInternalState()&0x01) != 0x01)//should be 0x01
+	bma.writeAddress(0x55,0x01);//latched output
+	bma.writeAddress(BMA4_POWER_CONF_ADDR,0x01);//Enable advanced Powersave
+  bma.writeAddress(BMA4_ACCEL_CONFIG_ADDR,0x09);//Disable ACC per Mode --> only draws ~14µA
+	while((bma.getInternalState()&0x01) != 0x01)//Bit 0 should be set
 	{
 		showERROR(2,bma.getInternalState());
 	}
+	while((bma.getInternalState()) != 0x01)//should be 0x01
+	{
+		showERROR(3,bma.getInternalState());
+	}
+
 }
 void setCS(uint8_t t){
 	if(t==0)
