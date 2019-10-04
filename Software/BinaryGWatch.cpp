@@ -146,6 +146,7 @@ inline void setupBMA()
 	//map_x_axis = 0 map_x_axis_sign = 0 map_y_axis = 1 map_y_axis_sign = 1 map_z_axis = 2 map_z_axis_sign = 1
 	bma.setAxisMapping(0, 0, 1, 1, 2, 1);
 	bma.setWristTiltFunction(1);
+	bma.setStepCounter(1);
 	bma.writeInterruptConfig();
 	bma.writeAddress(0x00,0xb0);
 	//bma.writeAddress(0x56,0x28);//Enable DoubleTap and WristTilt Interrupt on INT1 --> PC0
@@ -251,7 +252,11 @@ uint8_t BinaryGWatch::HAL_sleep()
 	leftButton.directSetValue(getLeftButton());
 	rightButton.directSetValue(getRightButton());
 	wakeupReason = wakeupTriggered;
-	if(ClockM::getInstance().isHourChanged())wakeupReason = 255; //Wakeup for hourly display
+	if(ClockM::getInstance().isHourChanged())
+	{
+		wakeupReason = 255; //Wakeup for hourly display
+		if(ClockM::getInstance().getHour()==0)bma.resetSteps();
+	}
 	if(wakeupReason == 0xF0)//Wakeup from BMA
 	{
 		uint8_t interruptState = bma.readAddress(0x1C);
