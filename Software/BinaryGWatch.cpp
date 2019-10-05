@@ -380,6 +380,12 @@ void BinaryGWatch::show()
 			DisplayBuffer[0]=numToPortD[request[0]%10];
 			DisplayBuffer[3]=DISP_F;
 			break;
+		case showStepCounter:
+				DisplayBuffer[2]=numToPortD[request[0]/10];
+				DisplayBuffer[1]=numToPortD[(request[0])%10];
+				DisplayBuffer[0]=numToPortD[request[1]&0xF];
+				DisplayBuffer[3]=DISP_3;
+				break;
 		case ShowTemperature:
 		default:
 			DisplayBuffer[0]=DISP_F;
@@ -425,4 +431,8 @@ int16_t BinaryGWatch::getY()
 int16_t BinaryGWatch::getZ()
 {
 	return -bma.get_Z_Accel();
+}
+uint32_t BinaryGWatch::getSteps()
+{
+	return bma.getSteps();
 }

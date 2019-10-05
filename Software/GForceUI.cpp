@@ -121,6 +121,10 @@ void GForceUI::stateTransition()
 						debouncerGForce = 1;
 						UIstate = Debouncing;
 					}
+					else
+					{
+						UIstate = showStepCounter;
+					}
 				}
 				else if(debouncerGForce == 1)
 				{
@@ -255,6 +259,12 @@ void GForceUI::stateTransition()
       EEPM::getInstance()->setCorrEveryMonth(t);
       break;
     }
+		case showStepCounter:
+			if(gHAL->getTap())
+			{
+				UIstate = Time;
+			}
+			break;
     case Empty:
     case SetTempCorr:
     case ShowTemperature:
@@ -313,6 +323,17 @@ void GForceUI::stateDisplayReuest()
     case SetTempCorr:
       requestScreen(DisplMan, UIstate, EEPM::getInstance()->getTempOffset());
       break;
+		case showStepCounter:
+		{
+			uint32_t steps = gHAL->getSteps();
+			uint8_t exp = 0;
+			for(;steps>99;steps=steps/10)
+			{
+				exp++;
+			}
+			requestScreen(DisplMan, UIstate, steps,exp);
+			break;
+		}
     case ShowTemperature:
     case Empty:
     default:

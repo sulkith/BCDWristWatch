@@ -23,6 +23,7 @@ public:
   virtual int16_t getX();
   virtual int16_t getY();
   virtual int16_t getZ();
+  virtual uint32_t getSteps();
   virtual void show();
 };
 
