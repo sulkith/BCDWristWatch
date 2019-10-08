@@ -120,6 +120,7 @@ void GForceUI::stateTransition()
 					{
 						debouncerGForce = 1;
 						UIstate = Debouncing;
+						SleepM::requestProlong(ontime_short);
 					}
 					else
 					{
@@ -138,6 +139,7 @@ void GForceUI::stateTransition()
 					else
 					{
 						UIstate = Time;
+						SleepM::requestProlong(ontime_short);
 						debouncerGForce = 0;
 					}
 				}
@@ -150,7 +152,7 @@ void GForceUI::stateTransition()
 					}
 					debouncerGForce = 0;
 				}*/
-				SleepM::requestProlong(ontime_long);
+				//SleepM::requestProlong(ontime_long);
 			}
       wakeTime = ontime_short;
       break;
@@ -202,6 +204,7 @@ void GForceUI::stateTransition()
 				else
 				{
 					UIstate = Time;
+					SleepM::requestProlong(ontime_short);
 				}
 			}
 			if(debouncerGForce == 0xFF)
@@ -263,6 +266,7 @@ void GForceUI::stateTransition()
 			if(gHAL->getTap())
 			{
 				UIstate = Time;
+				SleepM::requestProlong(ontime_short);
 			}
 			break;
     case Empty:
