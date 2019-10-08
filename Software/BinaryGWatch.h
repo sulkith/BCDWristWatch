@@ -10,6 +10,7 @@ class BinaryGWatch: public HAL, public TwoButtonHAL, public GForceHAL, public Di
 {
   uint8_t wakeupReason=1;//TODO ONLY TEST SHOULD BE 0
   uint16_t cyclicCounter=1000;//best case guess
+  uint32_t stepsOffset = 0;
 public:
   virtual void HAL_init();
   virtual uint8_t HAL_sleep();

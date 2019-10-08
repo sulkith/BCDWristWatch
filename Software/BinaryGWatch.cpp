@@ -255,7 +255,11 @@ uint8_t BinaryGWatch::HAL_sleep()
 	if(ClockM::getInstance().isHourChanged())
 	{
 		wakeupReason = 255; //Wakeup for hourly display
-		if(ClockM::getInstance().getHour()==0)bma.resetSteps();
+		if(ClockM::getInstance().getHour()==0)
+		{
+			//bma.resetSteps();
+			stepsOffset = bma.getSteps();
+		}
 	}
 	if(wakeupReason == 0xF0)//Wakeup from BMA
 	{
@@ -269,6 +273,11 @@ uint8_t BinaryGWatch::HAL_sleep()
 			wakeupReason |= 0x02;//Set Bit for WristTilt
 		}
 
+	}else{
+		if((bma.getInternalState()) != 0x01)//should be 0x01
+		{
+			setupBMA();//Reinit BMA if something went wrong --> Will also show init Errors if there is a HW Problem
+		}
 	}
 	return wakeupReason;
 }
@@ -434,5 +443,6 @@ int16_t BinaryGWatch::getZ()
 }
 uint32_t BinaryGWatch::getSteps()
 {
-	return bma.getSteps();
+	if(bma.getSteps()<stepsOffset)stepsOffset=0;
+	return bma.getSteps()-stepsOffset;
 }
