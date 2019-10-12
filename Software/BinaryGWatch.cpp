@@ -140,7 +140,7 @@ inline void setupBMA()
 	}
 	bma.init();
 	bma.startInterruptConfig();
-	bma.setTapDetection(0, 3, 1);
+	bma.setTapDetection(0, 5, 1);
 	//bma.setMotionDetection(10,5,7,1);
 	bma.setConfigID(1);
 	//map_x_axis = 0 map_x_axis_sign = 0 map_y_axis = 1 map_y_axis_sign = 1 map_z_axis = 2 map_z_axis_sign = 1
