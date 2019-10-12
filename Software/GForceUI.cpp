@@ -143,6 +143,10 @@ void GForceUI::stateTransition()
 						debouncerGForce = 0;
 					}
 				}
+				else if(debouncerGForce == 0xFF)
+				{
+					debouncerGForce = 0;
+				}
 				/*if(0&&debouncerGForce == 2)//To hard to achieve
 				{
 					if(gHAL->getZ() > 7000)//Check if it is normal Position
