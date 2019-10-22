@@ -96,7 +96,7 @@ module housingBody(_height,inside,lid){
                 union(){
                     //translate([0,0,height-1])scale([47,25,2])cube(1, center=true);
                     minkowski(){
-                        translate([0,0,0])cylinder(5,16.5,18.5);
+                        translate([0,0,0.7])cylinder(5-0.7,16.5,17.8);
                         sphere(0.7);
                     }
                     translate([0,0,5])cylinder(height-5-LIDSize,18.5,18.5);
@@ -250,7 +250,8 @@ module housingBodyAll(height){
         housingBody(height,true);
     }
 }
-
+//$fs=0.05;
+//$fa=5;
 module printall(){
     
     housingBodyAll(ClockHeight);
