@@ -4,4 +4,4 @@ html:
 pdf: 
 	pdflatex Story.tex
 clean:
-	rm *.4ct *.4tc *.aux *.dvi *.tmp *.lg *.log *.out *.xref
+	rm *.4ct *.4tc *.aux *.dvi *.tmp *.lg *.log *.out *.xref *.idv
