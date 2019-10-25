@@ -39,20 +39,6 @@ The overall Quality of the PCBs is very good, but you can not choose the thickne
 \end{center}
 
 \newpage
-\subsection{PCB for an analog Version}
-After the PCBs for the BCD Version were working, i also created an analog Version, so i dont have to explain the Clock everytime ;-)
-
-The Analog Watch features the same Schematics for the basic clock functionality, but the display is done via Charlieplexing the LEDs. There are 4 Clustes with 4 Pins which drive all the 42 LEDs. 12 LEDs on the inner ring are displaying the hours. On the outer ring 30 LEDs display the Minutes. Since it was not possible to fit 60 LEDs on the outer ring, uneven numbers are shown while lighting up the two neighbouring LEDs.
-\begin{center}
-  \includegraphics[width=0.5\textwidth]{../Pictures/AnalogPCB.jpg}
-\end{center}
-\newpage
-\subsubsection{first Watch which i gave away}
-The first Watch i gave away was one of the analog PCB ones i built for my dads birthday.
-for this Watch i replaced all the resistors for the LEDs with Zero $\Omega$ resistors, so the LEDs got more bright and are clearly readable also in the sunlight.
-\begin{center}
-  \includegraphics[width=0.7\textwidth]{../Pictures/AnalogWatch1.jpg}
-\end{center}
 
 \subsection{Housing}
 The Housing was designed in OpenSCAD.\
@@ -107,3 +93,36 @@ Adding Nailpolish was also not the real solution. The Clock also stopped to work
 \paragraph{commercial products to insulate PCBs}
 The next attempt will be to use a commercial Product to insulate the PCB.
 For this i will try \href{https://www.reichelt.de/korrosionsschutzlack-plastik-70-super-400-ml-isolierlack-kontakt-32046-p125737.html}{Plastik 70 Super} from Kontakchemie.
+\subsection{Manual}
+\subsubsection{How to read the Watch}
+The time is displayed in BCD Code. For further reference please see the Picture below:
+\begin{center}
+  \includegraphics[width=0.5\textwidth]{drawings/BinDia1359.png}
+\label{fig:BinWatchFace}
+\end{center}
+There are Two Buttons on the Watch:
+\begin{itemize}
+	\item BL: left Button
+	\item BR: right Button
+\end{itemize}
+To read the Watch it is necessary to activate the Display via one of the Buttons
+
+The LEDs are read columnwise. So the right two columns are showing the Minutes. If an LED is litone have to add its Value to the Minutes if not then nothing is added. So for the full hour no led in the right two columns will be lit.
+
+In the Example above the following LEDs are lit: M40, M10, M08 and M01.
+The sum of all the values is the current minute value $40+10+8+1=59$
+
+The Hours are displayed exactly like the Minutes. For the hours the 24 Hour Format is used. In the Example above the following LEDs are lit: H10, H01, H02. The current Hour Value is also determined by summing everythin up: $10+1+2=13$.
+
+So the current Time in the example is 13:59. If it is 0:00 the watch will display 24:00 to make sure 0:00 is not confused with a broken watch.
+\subsubsection{set the time}
+To set the time first of all the display has to be activated, afterwards both buttons have to be released (to make sure that the setup mode is not accessed accidently). Now both buttons have to be pressed. Now the LED H80 lights up, to signalize that now it is in set hour mode. Now Both buttons can be released again.
+
+To switch to the set minute mode the right button has to be pressed. In set minute mode the right button switches back to the normal mode.
+
+With the right button the value which is set currently can be incremented.
+The hour will not be incremented wen incrementing the minutes from 59 to 0.
+
+Both setup modes will timeout if no button is pressed for 30 seconds.
+While the watch is in setup mode the clock will be stopped, after returning to normal mode the seconds will start from 0 so it is easy to set the time precisely.
+

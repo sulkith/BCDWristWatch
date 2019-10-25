@@ -111,142 +111,107 @@ src="../Pictures/PCB3.jpg" alt="pict"
                                                                                             
 </p>
    <h4 class="subsectionHead"><span class="titlemark">1.2   </span> <a 
- id="x1-80001.2"></a>PCB for an analog Version</h4>
-<!--l. 43--><p class="noindent" >After the PCBs for the BCD Version were working, i also created an analog Version, so i dont have to
-explain the Clock everytime ;-)
-</p><!--l. 45--><p class="indent" >   The Analog Watch features the same Schematics for the basic clock functionality, but the display
-is done via Charlieplexing the LEDs. There are 4 Clustes with 4 Pins which drive all the 42 LEDs. 12
-LEDs on the inner ring are displaying the hours. On the outer ring 30 LEDs display the Minutes.
-Since it was not possible to fit 60 LEDs on the outer ring, uneven numbers are shown while lighting
-up the two neighbouring LEDs. </p>
-<div class="center" 
->
-<!--l. 46--><p class="noindent" >
-</p><!--l. 47--><p class="noindent" ><img 
-src="../Pictures/AnalogPCB.jpg" alt="pict"  
- width="241.84843pt.5"  /></p></div>
-<!--l. 49--><p class="noindent" >
-                                                                                            
-                                                                                            
-</p>
-   <h5 class="subsubsectionHead"><span class="titlemark">1.2.1   </span> <a 
- id="x1-90001.2.1"></a>first Watch which i gave away</h5>
-<!--l. 51--><p class="noindent" >The first Watch i gave away was one of the analog PCB ones i built for my dads birthday. for this
-Watch i replaced all the resistors for the LEDs with Zero <span 
-class="rm-lmr-12">&#x03A9; </span>resistors, so the LEDs got more bright
-and are clearly readable also in the sunlight. </p>
-<div class="center" 
->
-<!--l. 53--><p class="noindent" >
-</p><!--l. 54--><p class="noindent" ><img 
-src="../Pictures/AnalogWatch1.jpg" alt="pict"  
- width="338.58632pt.5"  /></p></div>
-<!--l. 57--><p class="noindent" >
-</p>
-   <h4 class="subsectionHead"><span class="titlemark">1.3   </span> <a 
- id="x1-100001.3"></a>Housing</h4>
-<!--l. 58--><p class="noindent" >The Housing was designed in OpenSCAD.&#x00A0;a very helpfull reference for the OpenSCAD syntax
+ id="x1-80001.2"></a>Housing</h4>
+<!--l. 44--><p class="noindent" >The Housing was designed in OpenSCAD.&#x00A0;a very helpfull reference for the OpenSCAD syntax
 was&#x00A0;<a 
 href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations" class="url" ><span 
 class="ec-lmtt-12">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations</span></a>
-</p><!--l. 62--><p class="noindent" >
+</p><!--l. 48--><p class="noindent" >
 </p>
-   <h5 class="subsubsectionHead"><span class="titlemark">1.3.1   </span> <a 
- id="x1-110001.3.1"></a>Housing 1</h5>
-<!--l. 63--><p class="noindent" >The Housing was printed by the TOOM Printing Service as SLS in PLA.&#x00A0;Sadly all the surfaces are
+   <h5 class="subsubsectionHead"><span class="titlemark">1.2.1   </span> <a 
+ id="x1-90001.2.1"></a>Housing 1</h5>
+<!--l. 49--><p class="noindent" >The Housing was printed by the TOOM Printing Service as SLS in PLA.&#x00A0;Sadly all the surfaces are
 not really smooth, therefore the Buttons are working very bad.&#x00A0;I tried to glue in the glass with
 superglue, but the glue dried out white, this looks really bad :-(&#x00A0;
-</p><!--l. 67--><p class="noindent" >
+</p><!--l. 53--><p class="noindent" >
 </p>
-   <h5 class="subsubsectionHead"><span class="titlemark">1.3.2   </span> <a 
- id="x1-120001.3.2"></a>Plans for Housing 2</h5>
-<!--l. 68--><p class="noindent" >The next housing should be produced via SLA with transparent Resin, so no glass for Protection is
+   <h5 class="subsubsectionHead"><span class="titlemark">1.2.2   </span> <a 
+ id="x1-100001.2.2"></a>Plans for Housing 2</h5>
+<!--l. 54--><p class="noindent" >The next housing should be produced via SLA with transparent Resin, so no glass for Protection is
 needed, since the resin could be used.
 </p>
-<!--l. 70--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-130001.3.2"></a><span 
+<!--l. 56--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-110001.2.2"></a><span 
 class="ec-lmbx-12">Problems while printing with SLA</span></span>
    It turns out, that there is no completely transparent Resin available. All of them get a yellow color
 sooner or later. So it is not really beautiful as a glass.
-</p><!--l. 74--><p class="noindent" >
+</p><!--l. 60--><p class="noindent" >
 </p>
-   <h5 class="subsubsectionHead"><span class="titlemark">1.3.3   </span> <a 
- id="x1-140001.3.3"></a>Housing 2</h5>
-<!--l. 75--><p class="noindent" >A friend told me that most of the time the resin will not reflect light equally in every spot, therefore i
+   <h5 class="subsubsectionHead"><span class="titlemark">1.2.3   </span> <a 
+ id="x1-120001.2.3"></a>Housing 2</h5>
+<!--l. 61--><p class="noindent" >A friend told me that most of the time the resin will not reflect light equally in every spot, therefore i
 decided to order a PCB without glass and do the mounting of the glass with very tight tolerances and
 a rim on the top edge.&#x00A0;this worked out extremely well.&#x00A0;Another goal was to make the second Housing
 slim, because the first one was very bulky. With a bit of optimization is was possible to integrate the
 bottom plate completely in the housing. The overall thicknes was reduced from about 15mm to
 9.4mm with the 1mm PCB or 10mm with the new 1.6mm PCB.&#x00A0;For the PCB to tightly fit in
-                                                                                            
-                                                                                            
 either the Housing has to get some aditional holes or at least the Battery clip has to be
 modified.&#x00A0;</p>
 <div class="center" 
 >
-<!--l. 79--><p class="noindent" >
-</p><!--l. 80--><p class="noindent" ><img 
+<!--l. 65--><p class="noindent" >
+</p><!--l. 66--><p class="noindent" ><img 
 src="../Pictures/Housing2.jpg" alt="pict"  
  width="217.66211pt.5"  /> <img 
 src="../Pictures/Housing3b.jpg" alt="pict"  
  width="217.66211pt.5"  /></p></div>
-<!--l. 83--><p class="noindent" >
+<!--l. 69--><p class="noindent" >
 </p>
-   <h4 class="subsectionHead"><span class="titlemark">1.4   </span> <a 
- id="x1-150001.4"></a>Problems</h4>
-<!--l. 84--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">1.3   </span> <a 
+ id="x1-130001.3"></a>Problems</h4>
+                                                                                            
+                                                                                            
+<!--l. 70--><p class="noindent" >
 </p>
-   <h5 class="subsubsectionHead"><span class="titlemark">1.4.1   </span> <a 
- id="x1-160001.4.1"></a>Sweat is entering the Housing</h5>
-<!--l. 85--><p class="noindent" >The first watch broke down after nearly 1 year. After opening the Housing the Problem was very
+   <h5 class="subsubsectionHead"><span class="titlemark">1.3.1   </span> <a 
+ id="x1-140001.3.1"></a>Sweat is entering the Housing</h5>
+<!--l. 71--><p class="noindent" >The first watch broke down after nearly 1 year. After opening the Housing the Problem was very
 obvious. Sweat was entering the Housing and corroded the PCB and the mounted parts.
 </p>
 <div class="center" 
 >
-<!--l. 86--><p class="noindent" >
-</p><!--l. 87--><p class="noindent" ><img 
+<!--l. 72--><p class="noindent" >
+</p><!--l. 73--><p class="noindent" ><img 
 src="../Pictures/ProbCorr1.jpg" alt="pict"  
  width="241.84843pt.5"  /></p></div>
-<!--l. 89--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-170001.4.1"></a><span 
+<!--l. 75--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-150001.3.1"></a><span 
 class="ec-lmbx-12">Cleaning the PCB and adding something to absorb the moisture</span></span>
    As a solution i tried to clean the PCB with Isopropanol and glued some rice to the PCB to absorb
 the moisture, that helped only for about a week and the Watch stopped working again. So that is not
 the best solution, but is is an extraordinary try ;-) </p>
 <div class="center" 
 >
-<!--l. 91--><p class="noindent" >
-</p><!--l. 92--><p class="noindent" ><img 
+<!--l. 77--><p class="noindent" >
+</p><!--l. 78--><p class="noindent" ><img 
 src="../Pictures/ProbCorrSol1.jpg" alt="pict"  
  width="241.84843pt.5"  /></p></div>
-<!--l. 94--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-180001.4.1"></a><span 
+<!--l. 80--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-160001.3.1"></a><span 
 class="ec-lmbx-12">adding isolation Tape between the lid and the housing</span></span>
    The second solution was to add Tape, which is originally designed to be used to seal threads,
 between the housing and the lid.&#x00A0;That worked out a little bit better, but the Watch also stopped
 working after a few weeks.
 </p>
-<!--l. 97--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-190001.4.1"></a><span 
+<!--l. 83--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-170001.3.1"></a><span 
 class="ec-lmbx-12">Analyzing the Watch again</span></span>
    After analyzing it again the PCB seemd to be ok. The PCB was only a little damaged from the
 first sweat attack. The Problem was that the time stopped to run, but another point was that the
 LEDs wont go off anymore. But it was possible to set the time. So the conclusion is that the clock
 which is run by the crystal stopped running.
-                                                                                            
-                                                                                            
 </p>
-<!--l. 102--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-200001.4.1"></a><span 
+<!--l. 88--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-180001.3.1"></a><span 
 class="ec-lmbx-12">Adding clear Nailpolish to guard the Crystal</span></span>
    The next attempted solution was to add clear Nailpolish to the PCB, so the crystal is completely
 covered. This is an attempt to stop moisture from crawling below the crystal and stopping the
 clock.
-</p><!--l. 105--><p class="indent" >   Adding Nailpolish was also not the real solution. The Clock also stopped to work after a few
+</p><!--l. 91--><p class="indent" >   Adding Nailpolish was also not the real solution. The Clock also stopped to work after a few
 weeks.
 </p>
-<!--l. 107--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-210001.4.1"></a><span 
+<!--l. 93--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-190001.3.1"></a><span 
 class="ec-lmbx-12">commercial products to insulate PCBs</span></span>
    The next attempt will be to use a commercial Product to insulate the PCB. For this i will try
 <a 
@@ -254,12 +219,62 @@ href="https://www.reichelt.de/korrosionsschutzlack-plastik-70-super-400-ml-isoli
                                                                                             
                                                                                             
 </p>
+   <h4 class="subsectionHead"><span class="titlemark">1.4   </span> <a 
+ id="x1-200001.4"></a>Manual</h4>
+<!--l. 97--><p class="noindent" >
+</p>
+   <h5 class="subsubsectionHead"><span class="titlemark">1.4.1   </span> <a 
+ id="x1-210001.4.1"></a>How to read the Watch</h5>
+<!--l. 98--><p class="noindent" >The time is displayed in BCD Code. For further reference please see the Picture below:
+</p>
+<div class="center" 
+>
+<!--l. 99--><p class="noindent" >
+</p><!--l. 100--><p class="noindent" ><img 
+src="drawings/BinDia1359.png" alt="pict"  
+ width="241.84843pt"  /> </p></div>
+<!--l. 103--><p class="noindent" >There are Two Buttons on the Watch: </p>
+      <ul class="itemize1">
+      <li class="itemize">BL: left Button
+      </li>
+      <li class="itemize">BR: right Button</li></ul>
+<!--l. 108--><p class="noindent" >To read the Watch it is necessary to activate the Display via one of the Buttons
+</p><!--l. 110--><p class="indent" >   The LEDs are read columnwise. So the right two columns are showing the Minutes. If an LED is
+litone have to add its Value to the Minutes if not then nothing is added. So for the full hour no led in
+the right two columns will be lit.
+</p><!--l. 112--><p class="indent" >   In the Example above the following LEDs are lit: M40, M10, M08 and M01. The sum of all the
+values is the current minute value <span 
+class="rm-lmr-12">40 + 10 + 8 + 1 = 59</span>
+</p><!--l. 115--><p class="indent" >   The Hours are displayed exactly like the Minutes. For the hours the 24 Hour Format is used. In
+the Example above the following LEDs are lit: H10, H01, H02. The current Hour Value is also
+determined by summing everythin up: <span 
+class="rm-lmr-12">10 + 1 + 2 = 13</span>.
+</p><!--l. 117--><p class="indent" >   So the current Time in the example is 13:59. If it is 0:00 the watch will display 24:00 to make sure
+0:00 is not confused with a broken watch.
+</p>
+   <h5 class="subsubsectionHead"><span class="titlemark">1.4.2   </span> <a 
+ id="x1-220001.4.2"></a>set the time</h5>
+<!--l. 119--><p class="noindent" >To set the time first of all the display has to be activated, afterwards both buttons have to be released
+(to make sure that the setup mode is not accessed accidently). Now both buttons have to be pressed.
+Now the LED H80 lights up, to signalize that now it is in set hour mode. Now Both buttons can be
+released again.
+</p><!--l. 121--><p class="indent" >   To switch to the set minute mode the right button has to be pressed. In set minute mode the right
+button switches back to the normal mode.
+</p><!--l. 123--><p class="indent" >   With the right button the value which is set currently can be incremented. The hour will not be
+incremented wen incrementing the minutes from 59 to 0.
+</p><!--l. 126--><p class="indent" >   Both setup modes will timeout if no button is pressed for 30 seconds. While the watch is in setup
+mode the clock will be stopped, after returning to normal mode the seconds will start from 0 so it is
+easy to set the time precisely.
+</p><!--l. 1--><p class="indent" >
+                                                                                            
+                                                                                            
+</p>
    <h3 class="sectionHead"><span class="titlemark">2   </span> <a 
- id="x1-220002"></a>Analog Watch</h3>
+ id="x1-230002"></a>Analog Watch</h3>
 <!--l. 3--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">2.1   </span> <a 
- id="x1-230002.1"></a>PCB</h4>
+ id="x1-240002.1"></a>PCB</h4>
 <!--l. 4--><p class="noindent" >After the PCBs for the BCD Version were working, i also created an analog Version, so i dont have to
 explain the Clock everytime ;-)
 </p><!--l. 6--><p class="indent" >   The Analog Watch features the same Schematics for the basic clock functionality, but the display
@@ -278,13 +293,13 @@ src="../Pictures/AnalogPCB.jpg" alt="pict"
                                                                                             
 </p>
    <h4 class="subsectionHead"><span class="titlemark">2.2   </span> <a 
- id="x1-240002.2"></a>Housing</h4>
+ id="x1-250002.2"></a>Housing</h4>
 <!--l. 13--><p class="noindent" >The PCB for the analog Version is designed with the same mechanical Interface as the Binary Version
 therefore the Housing from the Binary Version can be used.
 </p><!--l. 15--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">2.3   </span> <a 
- id="x1-250002.3"></a>first Watch which i gave away</h4>
+ id="x1-260002.3"></a>first Watch which i gave away</h4>
 <!--l. 16--><p class="noindent" >The first Watch i gave away was one of the analog PCB ones i built for my dads birthday. for this
 Watch i replaced all the resistors for the LEDs with Zero <span 
 class="rm-lmr-12">&#x03A9; </span>resistors, so the LEDs got more bright
