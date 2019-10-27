@@ -218,51 +218,52 @@ class="ec-lmbx-12">commercial products to insulate PCBs</span></span>
 href="https://www.reichelt.de/korrosionsschutzlack-plastik-70-super-400-ml-isolierlack-kontakt-32046-p125737.html" >Plastik 70 Super</a> from Kontakchemie.
                                                                                             
                                                                                             
+</p><!--l. 98--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">1.4   </span> <a 
  id="x1-200001.4"></a>Manual</h4>
-<!--l. 97--><p class="noindent" >
+<!--l. 99--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.4.1   </span> <a 
  id="x1-210001.4.1"></a>How to read the Watch</h5>
-<!--l. 98--><p class="noindent" >The time is displayed in BCD Code. For further reference please see the Picture below:
+<!--l. 100--><p class="noindent" >The time is displayed in BCD Code. For further reference please see the Picture below:
 </p>
 <div class="center" 
 >
-<!--l. 99--><p class="noindent" >
-</p><!--l. 100--><p class="noindent" ><img 
+<!--l. 101--><p class="noindent" >
+</p><!--l. 102--><p class="noindent" ><img 
 src="drawings/BinDia1359.png" alt="pict"  
  width="241.84843pt"  /> </p></div>
-<!--l. 103--><p class="noindent" >There are Two Buttons on the Watch: </p>
+<!--l. 105--><p class="noindent" >There are Two Buttons on the Watch: </p>
       <ul class="itemize1">
       <li class="itemize">BL: left Button
       </li>
       <li class="itemize">BR: right Button</li></ul>
-<!--l. 108--><p class="noindent" >To read the Watch it is necessary to activate the Display via one of the Buttons
-</p><!--l. 110--><p class="indent" >   The LEDs are read columnwise. So the right two columns are showing the Minutes. If an LED is
+<!--l. 110--><p class="noindent" >To read the Watch it is necessary to activate the Display via one of the Buttons
+</p><!--l. 112--><p class="indent" >   The LEDs are read columnwise. So the right two columns are showing the Minutes. If an LED is
 litone have to add its Value to the Minutes if not then nothing is added. So for the full hour no led in
 the right two columns will be lit.
-</p><!--l. 112--><p class="indent" >   In the Example above the following LEDs are lit: M40, M10, M08 and M01. The sum of all the
+</p><!--l. 114--><p class="indent" >   In the Example above the following LEDs are lit: M40, M10, M08 and M01. The sum of all the
 values is the current minute value <span 
 class="rm-lmr-12">40 + 10 + 8 + 1 = 59</span>
-</p><!--l. 115--><p class="indent" >   The Hours are displayed exactly like the Minutes. For the hours the 24 Hour Format is used. In
+</p><!--l. 117--><p class="indent" >   The Hours are displayed exactly like the Minutes. For the hours the 24 Hour Format is used. In
 the Example above the following LEDs are lit: H10, H01, H02. The current Hour Value is also
 determined by summing everythin up: <span 
 class="rm-lmr-12">10 + 1 + 2 = 13</span>.
-</p><!--l. 117--><p class="indent" >   So the current Time in the example is 13:59. If it is 0:00 the watch will display 24:00 to make sure
+</p><!--l. 119--><p class="indent" >   So the current Time in the example is 13:59. If it is 0:00 the watch will display 24:00 to make sure
 0:00 is not confused with a broken watch.
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.4.2   </span> <a 
  id="x1-220001.4.2"></a>set the time</h5>
-<!--l. 119--><p class="noindent" >To set the time first of all the display has to be activated, afterwards both buttons have to be released
+<!--l. 121--><p class="noindent" >To set the time first of all the display has to be activated, afterwards both buttons have to be released
 (to make sure that the setup mode is not accessed accidently). Now both buttons have to be pressed.
 Now the LED H80 lights up, to signalize that now it is in set hour mode. Now Both buttons can be
 released again.
-</p><!--l. 121--><p class="indent" >   To switch to the set minute mode the right button has to be pressed. In set minute mode the right
+</p><!--l. 123--><p class="indent" >   To switch to the set minute mode the right button has to be pressed. In set minute mode the right
 button switches back to the normal mode.
-</p><!--l. 123--><p class="indent" >   With the right button the value which is set currently can be incremented. The hour will not be
+</p><!--l. 125--><p class="indent" >   With the right button the value which is set currently can be incremented. The hour will not be
 incremented wen incrementing the minutes from 59 to 0.
-</p><!--l. 126--><p class="indent" >   Both setup modes will timeout if no button is pressed for 30 seconds. While the watch is in setup
+</p><!--l. 128--><p class="indent" >   Both setup modes will timeout if no button is pressed for 30 seconds. While the watch is in setup
 mode the clock will be stopped, after returning to normal mode the seconds will start from 0 so it is
 easy to set the time precisely.
 </p><!--l. 1--><p class="indent" >
@@ -322,12 +323,75 @@ src="../Pictures/AnalogWatch1.jpg" alt="pict"
 Additionally to the original Schematics there is a Bosch BMA456 connected to the SPI, which is
 already on the back of the PCB to enable programming via Pogo Pins. Additionally there is also the
 Chip select pin used and two interrupt pins to enable the wakeup functionality via the BMA
-sensor
-</p><!--l. 5--><p class="indent" >   The BMA Sensor is mounted on the back of the PCB to keep the symetric watch face.
-</p><!--l. 7--><p class="indent" >   The concept is to use the BMA Sensor also as interface. To enable the Display and also to set the
+sensor.
+</p><!--l. 5--><p class="indent" >   The SPI interface was chosen, to keep thepower consumption low, since SPI compared to I2C
+doesn&#8217;t need PullUp Resistors.
+</p><!--l. 7--><p class="indent" >   The BMA Sensor is mounted on the back of the PCB to keep the symetric watch face.
+</p><!--l. 9--><p class="indent" >   The concept is to use the BMA Sensor also as interface. To enable the Display and also to set the
 time. So no buttons will be needed this should also enable a housing without holes to
 keep sweat from crawling into and solve the corroded PCB problems I had with the first
 BinaryWatch
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">3.2   </span> <a 
+ id="x1-290003.2"></a>Software</h4>
+<!--l. 11--><p class="noindent" >For interfacing with the BMA i use my own <a 
+href="https://github.com/sulkith/Bosch_BMA456" >Bosch_BMA456</a> with an additional SPI-adapter.
+</p><!--l. 13--><p class="indent" >   The Software still has the ability to work with Buttons, but since the BMA is working
+really well there is no point in using th buttons. and risking that sweat will enter the
+housing.
+                                                                                            
+                                                                                            
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">3.3   </span> <a 
+ id="x1-300003.3"></a>Housing</h4>
+<!--l. 15--><p class="noindent" >Adapting the housing was very easy, just remove the holes for the buttons. A little smoothing was
+done afterwards, because there were some thickened walls around the holes, where the Buttons were
+mounted.
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">3.4   </span> <a 
+ id="x1-310003.4"></a>Manual</h4>
+<!--l. 18--><p class="noindent" >
+</p>
+   <h5 class="subsubsectionHead"><span class="titlemark">3.4.1   </span> <a 
+ id="x1-320003.4.1"></a>How to read the Watch</h5>
+<!--l. 19--><p class="noindent" >The time is displayed in BCD Code. For further reference please see the Picture below:
+</p>
+<div class="center" 
+>
+<!--l. 20--><p class="noindent" >
+</p><!--l. 21--><p class="noindent" ><img 
+src="drawings/BinDia1359.png" alt="pict"  
+ width="241.84843pt"  /> </p></div>
+<!--l. 24--><p class="noindent" >To read the Watch it is necessary to activate the Display this can be either done via double tapping the
+Housing or raising the arm to take a look on the watch(tilt it by a minimum of 12 degrees with the
+Watchface facing up and holding it steady for about one second)
+</p><!--l. 26--><p class="indent" >   The LEDs are read columnwise. So the right two columns are showing the Minutes. If an LED is
+litone have to add its Value to the Minutes if not then nothing is added. So for the full hour no led in
+the right two columns will be lit.
+</p><!--l. 28--><p class="indent" >   In the Example above the following LEDs are lit: M40, M10, M08 and M01. The sum of all the
+values is the current minute value <span 
+class="rm-lmr-12">40 + 10 + 8 + 1 = 59</span>
+</p><!--l. 31--><p class="indent" >   The Hours are displayed exactly like the Minutes. For the hours the 24 Hour Format is used. In
+the Example above the following LEDs are lit: H10, H01, H02. The current Hour Value is also
+determined by summing everythin up: <span 
+class="rm-lmr-12">10 + 1 + 2 = 13</span>.
+</p><!--l. 33--><p class="indent" >   So the current Time in the example is 13:59. If it is 0:00 the watch will display 24:00 to make sure
+0:00 is not confused with a broken watch.
+</p>
+   <h5 class="subsubsectionHead"><span class="titlemark">3.4.2   </span> <a 
+ id="x1-330003.4.2"></a>set the time</h5>
+<!--l. 35--><p class="noindent" >To set the time first of all the display has to be activated, afterwards the watchface needs to be
+turned down and double tapping the Housing. If the First step was succesful the two LEDs H80 and
+M80 will light up together. To enter the set hour mode the watchface needs to be turned up again and
+the watch needs to be double tapped again.
+</p><!--l. 38--><p class="indent" >   Now the LED M80 will be turned off.
+</p><!--l. 40--><p class="indent" >   To change the Value the watch needs to be tilted up to increase the value or tilted down to
+decrease the value, to switch to set minute mode the watch needs to be double tapped again.
+Changing the minutes works exactly like changing hours. To finish the setup process double tap the
+cloak again. Now the second counter will also start with zero, so it is possible to set the time
+precisely.
+                                                                                            
+                                                                                            
 </p>
     
 </body></html> 
