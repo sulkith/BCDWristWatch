@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:Watch-cache
-EELAYER 29 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -773,7 +773,7 @@ Wire Wire Line
 Wire Wire Line
 	10200 2050 10200 2150
 $Comp
-L Projectspecific:BMA456 IC1
+L Watch-rescue:BMA456-Projectspecific IC1
 U 1 1 5CCC08E4
 P 4500 5500
 F 0 "IC1" H 5100 5765 50  0000 C CNN
