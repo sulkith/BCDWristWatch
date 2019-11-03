@@ -125,6 +125,7 @@ void GForceUI::stateTransition()
 					else
 					{
 						UIstate = showStepCounter;
+						SleepM::requestProlong(ontime_short);
 					}
 				}
 				else if(debouncerGForce == 1)
