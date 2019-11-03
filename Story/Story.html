@@ -29,20 +29,45 @@ class="ec-lmr-12x-x-120">SulKith</span></div><br />
 </p><!--l. 24--><p class="noindent" ><img 
 src="../Pictures/AnalogClock.jpg" alt="pict"  
  width="483.69687pt.5"  /></p></div>
-<!--l. 1--><p class="indent" >
+<!--l. 26--><p class="noindent" >
+                                                                                            
+                                                                                            
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-1000"></a>Summary</h3>
+<!--l. 28--><p class="noindent" >It all started with the idea of a PCB which could display the time in BCD code and is small
+enough to wear it on the wrist. Sadly i was not able to find a Housing which could be used
+for the Clock, so i created one myself in OpenSCAD and 3D-printed it. After a while
+i got tired to explain the BCD code to everybody, so there is also a Analogish Version
+available.
+</p><!--l. 31--><p class="indent" >   The Software for both Versions is unified and just differentiated by the Linker. So there is no
+change to the Code needed.
+</p><!--l. 33--><p class="indent" >   After some problems with sweat entering the Housing and destroying the electronics, i tried
+several possible solutions (read more in the story). <br 
+class="newline" /><br 
+class="newline" />The alternative try to solve the sweat issue was to remove the buttons completely and replace them
+with a G-Force sensor. As sensor the Bosch BMA456 is used, since it features various
+interrupt functionalities to wakeup the microcontroller and only draws a few microamps in
+standby.
+</p><!--l. 38--><p class="indent" >   The powerful Sensor also made some other cool features for a wrist watch. There is a Wrist Tilt
+detection to activate the Watchface once the user rises the arm and takes a look on the
+watch. Now the watch can also be turned on while only using one hand e.g. while carrying
+stuff.
+</p><!--l. 41--><p class="indent" >   Another cool new feature is a stepcounter, so the watch is also a (not completely sweat resistant
+;-) ) fitness tracker.
                                                                                             
                                                                                             
 </p>
    <h3 class="sectionHead"><span class="titlemark">1   </span> <a 
- id="x1-10001"></a>Binary Watch</h3>
+ id="x1-20001"></a>Binary Watch</h3>
 <!--l. 3--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">1.1   </span> <a 
- id="x1-20001.1"></a>PCB</h4>
+ id="x1-30001.1"></a>PCB</h4>
 <!--l. 4--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.1.1   </span> <a 
- id="x1-30001.1.1"></a>First PCB Version</h5>
+ id="x1-40001.1.1"></a>First PCB Version</h5>
 <!--l. 5--><p class="noindent" >The First PCB Version was a desaster. The PCBs arrived very fast, but the QFN Package had the
 wrong size. ATMEL only produces QFN32 in 7x7mm. Therefore the design of the PCB hat to be
 changed to the smaller package, but that gave me the Chance to shrink the Design to a smaller form
@@ -51,13 +76,13 @@ PCBs there was the order number printed on the Front side, which would be visble
 assembly.
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.1.2   </span> <a 
- id="x1-40001.1.2"></a>Second PCB Version</h5>
+ id="x1-50001.1.2"></a>Second PCB Version</h5>
 <!--l. 12--><p class="noindent" >The second PCB Version was designed from scratch. But the Front was the side with the Battery, so
 hopefully the Order Number would not be printed on the visible side of the PCB. This worked out
 very well for the second Version of the PCBs.
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.1.3   </span> <a 
- id="x1-50001.1.3"></a>PCB1</h5>
+ id="x1-60001.1.3"></a>PCB1</h5>
 <!--l. 15--><p class="noindent" >since the PCBs finally arrived. it was possible to assemble all the parts. The first PCB was assembled
 with some Cables soldered to the Testpins on the Backside of the Board. And the Battery case
 was also not assembled. Here is a Picture of the uncleaned but already soldered PCB
@@ -71,7 +96,7 @@ src="../Pictures/PCB1_F1.jpg" alt="pict"
 <!--l. 23--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.1.4   </span> <a 
- id="x1-60001.1.4"></a>PCB2</h5>
+ id="x1-70001.1.4"></a>PCB2</h5>
 <!--l. 24--><p class="noindent" >The PCB2 was assembled and cleaned as a First Prototype with the Housing.&#x00A0;Here aretwo Pictures of
 the PCB one without the LEDs turned on and one with the LEDs turned on.&#x00A0;Brightness
 was set in the Program to 100/255 (see software void showLEDs, constant perc=100)
@@ -91,7 +116,7 @@ src="../Pictures/PCB2_F1_on.jpg" alt="pict"
 <!--l. 32--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.1.5   </span> <a 
- id="x1-70001.1.5"></a>PCB3</h5>
+ id="x1-80001.1.5"></a>PCB3</h5>
 <!--l. 33--><p class="noindent" >The third PCB was ordered at <a 
 href="https://aisler.net" >aisler.net</a>. It only took around one and a half week to
 arrive(to Germany).&#x00A0;The PCB was not completely milled out. It was in a carrier PCB
@@ -111,7 +136,7 @@ src="../Pictures/PCB3.jpg" alt="pict"
                                                                                             
 </p>
    <h4 class="subsectionHead"><span class="titlemark">1.2   </span> <a 
- id="x1-80001.2"></a>Housing</h4>
+ id="x1-90001.2"></a>Housing</h4>
 <!--l. 44--><p class="noindent" >The Housing was designed in OpenSCAD.&#x00A0;a very helpfull reference for the OpenSCAD syntax
 was&#x00A0;<a 
 href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations" class="url" ><span 
@@ -119,26 +144,26 @@ class="ec-lmtt-12">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transforma
 </p><!--l. 48--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.2.1   </span> <a 
- id="x1-90001.2.1"></a>Housing 1</h5>
+ id="x1-100001.2.1"></a>Housing 1</h5>
 <!--l. 49--><p class="noindent" >The Housing was printed by the TOOM Printing Service as SLS in PLA.&#x00A0;Sadly all the surfaces are
 not really smooth, therefore the Buttons are working very bad.&#x00A0;I tried to glue in the glass with
 superglue, but the glue dried out white, this looks really bad :-(&#x00A0;
 </p><!--l. 53--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.2.2   </span> <a 
- id="x1-100001.2.2"></a>Plans for Housing 2</h5>
+ id="x1-110001.2.2"></a>Plans for Housing 2</h5>
 <!--l. 54--><p class="noindent" >The next housing should be produced via SLA with transparent Resin, so no glass for Protection is
 needed, since the resin could be used.
 </p>
 <!--l. 56--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-110001.2.2"></a><span 
+ id="x1-120001.2.2"></a><span 
 class="ec-lmbx-12">Problems while printing with SLA</span></span>
    It turns out, that there is no completely transparent Resin available. All of them get a yellow color
 sooner or later. So it is not really beautiful as a glass.
 </p><!--l. 60--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.2.3   </span> <a 
- id="x1-120001.2.3"></a>Housing 2</h5>
+ id="x1-130001.2.3"></a>Housing 2</h5>
 <!--l. 61--><p class="noindent" >A friend told me that most of the time the resin will not reflect light equally in every spot, therefore i
 decided to order a PCB without glass and do the mounting of the glass with very tight tolerances and
 a rim on the top edge.&#x00A0;this worked out extremely well.&#x00A0;Another goal was to make the second Housing
@@ -158,13 +183,13 @@ src="../Pictures/Housing3b.jpg" alt="pict"
 <!--l. 69--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">1.3   </span> <a 
- id="x1-130001.3"></a>Problems</h4>
+ id="x1-140001.3"></a>Problems</h4>
                                                                                             
                                                                                             
 <!--l. 70--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.3.1   </span> <a 
- id="x1-140001.3.1"></a>Sweat is entering the Housing</h5>
+ id="x1-150001.3.1"></a>Sweat is entering the Housing</h5>
 <!--l. 71--><p class="noindent" >The first watch broke down after nearly 1 year. After opening the Housing the Problem was very
 obvious. Sweat was entering the Housing and corroded the PCB and the mounted parts.
 </p>
@@ -175,7 +200,7 @@ obvious. Sweat was entering the Housing and corroded the PCB and the mounted par
 src="../Pictures/ProbCorr1.jpg" alt="pict"  
  width="241.84843pt.5"  /></p></div>
 <!--l. 75--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-150001.3.1"></a><span 
+ id="x1-160001.3.1"></a><span 
 class="ec-lmbx-12">Cleaning the PCB and adding something to absorb the moisture</span></span>
    As a solution i tried to clean the PCB with Isopropanol and glued some rice to the PCB to absorb
 the moisture, that helped only for about a week and the Watch stopped working again. So that is not
@@ -187,14 +212,14 @@ the best solution, but is is an extraordinary try ;-) </p>
 src="../Pictures/ProbCorrSol1.jpg" alt="pict"  
  width="241.84843pt.5"  /></p></div>
 <!--l. 80--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-160001.3.1"></a><span 
+ id="x1-170001.3.1"></a><span 
 class="ec-lmbx-12">adding isolation Tape between the lid and the housing</span></span>
    The second solution was to add Tape, which is originally designed to be used to seal threads,
 between the housing and the lid.&#x00A0;That worked out a little bit better, but the Watch also stopped
 working after a few weeks.
 </p>
 <!--l. 83--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-170001.3.1"></a><span 
+ id="x1-180001.3.1"></a><span 
 class="ec-lmbx-12">Analyzing the Watch again</span></span>
    After analyzing it again the PCB seemd to be ok. The PCB was only a little damaged from the
 first sweat attack. The Problem was that the time stopped to run, but another point was that the
@@ -202,7 +227,7 @@ LEDs wont go off anymore. But it was possible to set the time. So the conclusion
 which is run by the crystal stopped running.
 </p>
 <!--l. 88--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-180001.3.1"></a><span 
+ id="x1-190001.3.1"></a><span 
 class="ec-lmbx-12">Adding clear Nailpolish to guard the Crystal</span></span>
    The next attempted solution was to add clear Nailpolish to the PCB, so the crystal is completely
 covered. This is an attempt to stop moisture from crawling below the crystal and stopping the
@@ -211,7 +236,7 @@ clock.
 weeks.
 </p>
 <!--l. 93--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-190001.3.1"></a><span 
+ id="x1-200001.3.1"></a><span 
 class="ec-lmbx-12">commercial products to insulate PCBs</span></span>
    The next attempt will be to use a commercial Product to insulate the PCB. For this i will try
 <a 
@@ -221,11 +246,11 @@ href="https://www.reichelt.de/korrosionsschutzlack-plastik-70-super-400-ml-isoli
 </p><!--l. 98--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">1.4   </span> <a 
- id="x1-200001.4"></a>Manual</h4>
+ id="x1-210001.4"></a>Manual</h4>
 <!--l. 99--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.4.1   </span> <a 
- id="x1-210001.4.1"></a>How to read the Watch</h5>
+ id="x1-220001.4.1"></a>How to read the Watch</h5>
 <!--l. 100--><p class="noindent" >The time is displayed in BCD Code. For further reference please see the Picture below:
 </p>
 <div class="center" 
@@ -254,7 +279,7 @@ class="rm-lmr-12">10 + 1 + 2 = 13</span>.
 0:00 is not confused with a broken watch.
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">1.4.2   </span> <a 
- id="x1-220001.4.2"></a>set the time</h5>
+ id="x1-230001.4.2"></a>set the time</h5>
 <!--l. 121--><p class="noindent" >To set the time first of all the display has to be activated, afterwards both buttons have to be released
 (to make sure that the setup mode is not accessed accidently). Now both buttons have to be pressed.
 Now the LED H80 lights up, to signalize that now it is in set hour mode. Now Both buttons can be
@@ -271,11 +296,11 @@ easy to set the time precisely.
                                                                                             
 </p>
    <h3 class="sectionHead"><span class="titlemark">2   </span> <a 
- id="x1-230002"></a>Analog Watch</h3>
+ id="x1-240002"></a>Analog Watch</h3>
 <!--l. 3--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">2.1   </span> <a 
- id="x1-240002.1"></a>PCB</h4>
+ id="x1-250002.1"></a>PCB</h4>
 <!--l. 4--><p class="noindent" >After the PCBs for the BCD Version were working, i also created an analog Version, so i dont have to
 explain the Clock everytime ;-)
 </p><!--l. 6--><p class="indent" >   The Analog Watch features the same Schematics for the basic clock functionality, but the display
@@ -294,13 +319,13 @@ src="../Pictures/AnalogPCB.jpg" alt="pict"
                                                                                             
 </p>
    <h4 class="subsectionHead"><span class="titlemark">2.2   </span> <a 
- id="x1-250002.2"></a>Housing</h4>
+ id="x1-260002.2"></a>Housing</h4>
 <!--l. 13--><p class="noindent" >The PCB for the analog Version is designed with the same mechanical Interface as the Binary Version
 therefore the Housing from the Binary Version can be used.
 </p><!--l. 15--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">2.3   </span> <a 
- id="x1-260002.3"></a>first Watch which i gave away</h4>
+ id="x1-270002.3"></a>first Watch which i gave away</h4>
 <!--l. 16--><p class="noindent" >The first Watch i gave away was one of the analog PCB ones i built for my dads birthday. for this
 Watch i replaced all the resistors for the LEDs with Zero <span 
 class="rm-lmr-12">&#x03A9; </span>resistors, so the LEDs got more bright
@@ -314,11 +339,11 @@ src="../Pictures/AnalogWatch1.jpg" alt="pict"
 <!--l. 1--><p class="noindent" >
 </p>
    <h3 class="sectionHead"><span class="titlemark">3   </span> <a 
- id="x1-270003"></a>BinaryGWatch</h3>
+ id="x1-280003"></a>BinaryGWatch</h3>
 <!--l. 2--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">3.1   </span> <a 
- id="x1-280003.1"></a>PCB</h4>
+ id="x1-290003.1"></a>PCB</h4>
 <!--l. 3--><p class="noindent" >The PCB is based on the Binary Watch. Even the Buttons would still work if soldered on the board.
 Additionally to the original Schematics there is a Bosch BMA456 connected to the SPI, which is
 already on the back of the PCB to enable programming via Pogo Pins. Additionally there is also the
@@ -333,7 +358,7 @@ keep sweat from crawling into and solve the corroded PCB problems I had with the
 BinaryWatch
 </p>
    <h4 class="subsectionHead"><span class="titlemark">3.2   </span> <a 
- id="x1-290003.2"></a>Software</h4>
+ id="x1-300003.2"></a>Software</h4>
 <!--l. 11--><p class="noindent" >For interfacing with the BMA i use my own <a 
 href="https://github.com/sulkith/Bosch_BMA456" >Bosch_BMA456</a> with an additional SPI-adapter.
 </p><!--l. 13--><p class="indent" >   The Software still has the ability to work with Buttons, but since the BMA is working
@@ -343,17 +368,17 @@ housing.
                                                                                             
 </p>
    <h4 class="subsectionHead"><span class="titlemark">3.3   </span> <a 
- id="x1-300003.3"></a>Housing</h4>
+ id="x1-310003.3"></a>Housing</h4>
 <!--l. 15--><p class="noindent" >Adapting the housing was very easy, just remove the holes for the buttons. A little smoothing was
 done afterwards, because there were some thickened walls around the holes, where the Buttons were
 mounted.
 </p>
    <h4 class="subsectionHead"><span class="titlemark">3.4   </span> <a 
- id="x1-310003.4"></a>Manual</h4>
+ id="x1-320003.4"></a>Manual</h4>
 <!--l. 18--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">3.4.1   </span> <a 
- id="x1-320003.4.1"></a>How to read the Watch</h5>
+ id="x1-330003.4.1"></a>How to read the Watch</h5>
 <!--l. 19--><p class="noindent" >The time is displayed in BCD Code. For further reference please see the Picture below:
 </p>
 <div class="center" 
@@ -379,7 +404,7 @@ class="rm-lmr-12">10 + 1 + 2 = 13</span>.
 0:00 is not confused with a broken watch.
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">3.4.2   </span> <a 
- id="x1-330003.4.2"></a>read the Stepcounter</h5>
+ id="x1-340003.4.2"></a>read the Stepcounter</h5>
 <!--l. 35--><p class="noindent" >To switch between time display and stepcounter display one needs to double tap the watch. In the
 stepcounter mode the value is displayed differently. the first column from the left is used to signalize
 that the stepcounter is shown, it will always display 3(H20 &amp; H10) in this mode, because this would
@@ -388,7 +413,7 @@ of the stepcounter. The most right column is used to display a exponent on the b
 10.
 </p>
 <!--l. 36--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-340003.4.2"></a><span 
+ id="x1-350003.4.2"></a><span 
 class="ec-lmbx-12">Example</span></span>
                                                                                             
                                                                                             
@@ -451,7 +476,7 @@ class="rm-lmr-8">2</span></sup> <span
 class="rm-lmr-12">= 5400</span>
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">3.4.3   </span> <a 
- id="x1-350003.4.3"></a>set the time</h5>
+ id="x1-360003.4.3"></a>set the time</h5>
 <!--l. 60--><p class="noindent" >To set the time first of all the display has to be activated, afterwards the watchface needs to be
 turned down and double tapping the Housing. If the First step was succesful the two LEDs H80 and
 M80 will light up together. To enter the set hour mode the watchface needs to be turned up again and
