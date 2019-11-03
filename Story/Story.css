@@ -12,6 +12,7 @@
 .ec-lmbx-12{ font-weight: bold;}
 .ec-lmbx-12{ font-weight: bold;}
 .ec-lmbx-12{ font-weight: bold;}
+.rm-lmr-8{font-size:66%;}
 p.noindent { text-indent: 0em }
 td p.noindent { text-indent: 0em; margin-top:0em; }
 p.nopar { text-indent: 0em; }
@@ -135,5 +136,15 @@ table.gather {width:100%;}
 div.gather-star {text-align:center;}
 .rotatebox{display: inline-block;}
 .figure img.graphics {margin-left:10%;}
+#TBL-2 colgroup{border-left: 1px solid black;border-right:1px solid black;}
+#TBL-2{border-collapse:collapse;}
+#TBL-2 colgroup{border-left: 1px solid black;border-right:1px solid black;}
+#TBL-2{border-collapse:collapse;}
+#TBL-2 colgroup{border-left: 1px solid black;border-right:1px solid black;}
+#TBL-2{border-collapse:collapse;}
+#TBL-2 colgroup{border-left: 1px solid black;border-right:1px solid black;}
+#TBL-2{border-collapse:collapse;}
+#TBL-2 colgroup{border-left: 1px solid black;border-right:1px solid black;}
+#TBL-2{border-collapse:collapse;}
 /* end css.sty */
 

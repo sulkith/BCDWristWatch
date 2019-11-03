@@ -31,6 +31,31 @@ The sum of all the values is the current minute value $40+10+8+1=59$
 The Hours are displayed exactly like the Minutes. For the hours the 24 Hour Format is used. In the Example above the following LEDs are lit: H10, H01, H02. The current Hour Value is also determined by summing everythin up: $10+1+2=13$.
 
 So the current Time in the example is 13:59. If it is 0:00 the watch will display 24:00 to make sure 0:00 is not confused with a broken watch.
+\subsubsection{read the Stepcounter}
+To switch between time display and stepcounter display one needs to double tap the watch. In the stepcounter mode the value is displayed differently. the first column from the left is used to signalize that the stepcounter is shown, it will always display 3(H20 \& H10) in this mode, because this would be an unplausible time. the two middle columns are used to display the two most significant numbers of the stepcounter. The most right column is used to display a exponent on the base of 10.
+\paragraph{Example}
+\vspace{5mm}
+
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ &  &  &  \\ 
+\hline 
+ & 1 & 1 &  \\ 
+\hline 
+1 &  &  & 1 \\ 
+\hline 
+1 & 1 &  &  \\ 
+\hline 
+\end{tabular}\\
+\vspace{5mm}\\
+so the following LEDs are lit:
+\begin{itemize}
+	\item H10, H20 $\Rightarrow$ 3 signalizes stepcounter mode
+	\item H01, H04 $\Rightarrow$ 5
+	\item M40 $\Rightarrow$ 4
+	\item M02 $\Rightarrow$ 2
+\end{itemize}
+$54 \cdot 10 ^{2} = 5400$
 \subsubsection{set the time}
 To set the time first of all the display has to be activated, afterwards the watchface needs to be turned down and double tapping the Housing.
 If the First step was succesful the two LEDs H80 and M80 will light up together. To enter the set hour mode the watchface needs to be turned up again and the watch needs to be double tapped again.
