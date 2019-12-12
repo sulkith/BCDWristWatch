@@ -76,10 +76,10 @@ uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Deboun
 	}
 	if(debounce < -50)
 	{
-		if((*value)==maxvalue)
-			(*value)=minvalue;
+		if((*value)==minvalue)
+			(*value)=maxvalue;
 		else
-			(*value)++;
+			(*value)--;
 		debounce = 0;
 	}
 	return 0;
@@ -202,9 +202,10 @@ void GForceUI::stateTransition()
       if(LEFT_HOLD && RIGHT_HOLD) UIstate = SetCorrMinute;
 			if(gHAL->getTap())
 			{
-				if(gHAL->getZ() < -7000)//Check if it is upside Down maybe check the Status from Hour also to make sure it is intended)
+				if((gHAL->getZ() < -7000) && (ClockM::getInstance().getHour() == 0))//Check if it is upside Down maybe check the Status from Hour also to make sure it is intended)
 				{
 					UIstate = SetCorrMinute;
+					SleepM::requestProlong(ontime_very_long);
 				}
 				else
 				{
@@ -242,21 +243,33 @@ void GForceUI::stateTransition()
     case SetCorrMinute:
     {
       uint8_t t = EEPM::getInstance()->getCorrEveryMinute();
-      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,30))UIstate = SetCorrHour;
+      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,30))
+			{
+				UIstate = SetCorrHour;
+				SleepM::requestProlong(ontime_very_long);
+			}
       EEPM::getInstance()->setCorrEveryMinute(t);
       break;
     }
     case SetCorrHour:
     {
       uint8_t t = EEPM::getInstance()->getCorrEveryHour();
-      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,30))UIstate = SetCorrDay;
+      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,30))
+			{
+				UIstate = SetCorrDay;
+				SleepM::requestProlong(ontime_very_long);
+			}
       EEPM::getInstance()->setCorrEveryHour(t);
       break;
     }
     case SetCorrDay:
     {
       uint8_t t = EEPM::getInstance()->getCorrEveryDay();
-      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,24))UIstate = SetCorrMonth;
+      if(caseForAdjusting<uint8_t>(&t,rightButton,leftButton,gHAL,24))
+			{
+				UIstate = SetCorrMonth;
+				SleepM::requestProlong(ontime_very_long);
+			}
       EEPM::getInstance()->setCorrEveryDay(t);
       break;
     }
