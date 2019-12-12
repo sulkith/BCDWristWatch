@@ -11,6 +11,7 @@ class BinaryGWatch: public HAL, public TwoButtonHAL, public GForceHAL, public Di
   uint8_t wakeupReason=1;//TODO ONLY TEST SHOULD BE 0
   uint16_t cyclicCounter=1000;//best case guess
   uint32_t stepsOffset = 0;
+  uint32_t stepsMeasured = 0;
 public:
   virtual void HAL_init();
   virtual uint8_t HAL_sleep();
@@ -25,6 +26,7 @@ public:
   virtual int16_t getY();
   virtual int16_t getZ();
   virtual uint32_t getSteps();
+  virtual void updateSteps();
   virtual void show();
 };
 

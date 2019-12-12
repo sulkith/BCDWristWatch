@@ -280,6 +280,7 @@ uint8_t BinaryGWatch::HAL_sleep()
 			setupBMA();//Reinit BMA if something went wrong --> Will also show init Errors if there is a HW Problem
 		}
 	}
+	if(wakeupReason != 0)updateSteps();
 	return wakeupReason;
 }
 void BinaryGWatch::HAL_lockInts()
@@ -445,8 +446,13 @@ int16_t BinaryGWatch::getZ()
 {
 	return -bma.get_Z_Accel();
 }
+void BinaryGWatch::updateSteps()
+{
+	uint32_t steps = bma.getSteps();
+	if(steps<stepsOffset)stepsOffset=0;
+	stepsMeasured = steps-stepsOffset;
+}
 uint32_t BinaryGWatch::getSteps()
 {
-	if(bma.getSteps()<stepsOffset)stepsOffset=0;
-	return bma.getSteps()-stepsOffset;
+	return stepsMeasured;
 }
