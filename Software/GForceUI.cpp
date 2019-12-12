@@ -353,7 +353,7 @@ void GForceUI::stateDisplayReuest()
 			{
 				exp++;
 			}
-			requestScreen(DisplMan, UIstate, steps,exp);
+			requestScreen(DisplMan, UIstate, steps,exp,gHAL->getSteps()&0xFFFF,gHAL->getSteps()>>16);
 			break;
 		}
     case ShowTemperature:
