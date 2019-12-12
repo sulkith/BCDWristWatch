@@ -391,11 +391,14 @@ void BinaryGWatch::show()
 			DisplayBuffer[3]=DISP_F;
 			break;
 		case showStepCounter:
-				DisplayBuffer[2]=numToPortD[request[0]/10];
-				DisplayBuffer[1]=numToPortD[(request[0])%10];
-				DisplayBuffer[0]=numToPortD[request[1]&0xF];
+		{
+				uint32_t steps = request[3] + (request[4]<<16);
+				DisplayBuffer[2]=numToPortD[(steps/10000)%16];
+				DisplayBuffer[1]=numToPortD[((steps)/1000)%10];
+				DisplayBuffer[0]=numToPortD[((steps/100)%10)];
 				DisplayBuffer[3]=DISP_3;
 				break;
+		}
 		case ShowTemperature:
 		default:
 			DisplayBuffer[0]=DISP_F;
