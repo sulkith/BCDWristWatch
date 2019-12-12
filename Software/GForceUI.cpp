@@ -3,7 +3,7 @@
 #include "EEPM.h"
 #include "SleepM.h"
 
-const uint16_t ontime_short=5;
+const uint16_t ontime_short=4;
 const uint16_t ontime_long=30;
 const uint16_t ontime_very_long=60;
 
