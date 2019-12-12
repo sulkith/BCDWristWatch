@@ -266,6 +266,7 @@ uint8_t BinaryGWatch::HAL_sleep()
 		uint8_t interruptState = bma.readAddress(0x1C);
 		if((interruptState&0x20)>0)
 		{
+			if(getZ() < 2000) wakeupReason = 0;//Ignore Tap if the Watch is not facing upwards
 			wakeupReason |= 0x01;//Set Bit for Tap Detected
 		}
 		if((interruptState&0x08)>0)
