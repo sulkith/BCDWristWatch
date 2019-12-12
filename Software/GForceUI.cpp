@@ -348,12 +348,13 @@ void GForceUI::stateDisplayReuest()
 		case showStepCounter:
 		{
 			uint32_t steps = gHAL->getSteps();
+			uint32_t steps_most_significant = steps;
 			uint8_t exp = 0;
-			for(;steps>99;steps=steps/10)
+			for(;steps_most_significant>99;steps_most_significant=steps_most_significant/10)
 			{
 				exp++;
 			}
-			requestScreen(DisplMan, UIstate, steps,exp,gHAL->getSteps()&0xFFFF,gHAL->getSteps()>>16);
+			requestScreen(DisplMan, UIstate, steps_most_significant,exp,steps&0xFFFF,steps>>16);
 			break;
 		}
     case ShowTemperature:
