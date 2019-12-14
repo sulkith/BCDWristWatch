@@ -261,6 +261,7 @@ uint8_t BinaryGWatch::HAL_sleep()
 			stepsOffset = bma.getSteps();
 		}
 	}
+
 	if(wakeupReason == 0xF0)//Wakeup from BMA
 	{
 		uint8_t interruptState = bma.readAddress(0x1C);
@@ -393,7 +394,7 @@ void BinaryGWatch::show()
 			break;
 		case showStepCounter:
 		{
-				uint32_t steps = request[3] + (request[4]<<16);
+				uint32_t steps = request[3] + (((uint32_t)request[4])<<16);
 				DisplayBuffer[2]=numToPortD[(steps/10000)%16];
 				DisplayBuffer[1]=numToPortD[((steps)/1000)%10];
 				DisplayBuffer[0]=numToPortD[((steps/100)%10)];
