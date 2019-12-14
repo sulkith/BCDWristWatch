@@ -276,9 +276,12 @@ uint8_t BinaryGWatch::HAL_sleep()
 		}
 
 	}else{
-		if((bma.getInternalState()) != 0x01)//should be 0x01
+		if(ClockM::getInstance().getSecond() == 0)
 		{
-			setupBMA();//Reinit BMA if something went wrong --> Will also show init Errors if there is a HW Problem
+			if((bma.getInternalState()) != 0x01)//should be 0x01
+			{
+				setupBMA();//Reinit BMA if something went wrong --> Will also show init Errors if there is a HW Problem
+			}
 		}
 	}
 	if(wakeupReason != 0)updateSteps();
