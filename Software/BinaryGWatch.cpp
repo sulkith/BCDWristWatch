@@ -397,10 +397,10 @@ void BinaryGWatch::show()
 			break;
 		case showStepCounter:
 		{
-				uint32_t steps = request[3] + (((uint32_t)request[4])<<16);
-				DisplayBuffer[2]=numToPortD[(steps/10000)%16];
-				DisplayBuffer[1]=numToPortD[((steps)/1000)%10];
-				DisplayBuffer[0]=numToPortD[((steps/100)%10)];
+				uint32_t steps = request[3];
+				DisplayBuffer[2]=numToPortD[(steps/100)%16];
+				DisplayBuffer[1]=numToPortD[((steps)/10)%10];
+				DisplayBuffer[0]=numToPortD[((steps)%10)];
 				DisplayBuffer[3]=DISP_3;
 				break;
 		}
