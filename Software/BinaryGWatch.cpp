@@ -19,6 +19,7 @@ Bosch_BMA bma;
 
 const uint8_t LED_Brightness = 120;
 const uint16_t Button_debounceTime=30;
+const uint8_t HourlyDisplay_enabled = 0;
 
 #define DISP_0 0b00000000
 #define DISP_1 0b01000000
@@ -255,7 +256,11 @@ uint8_t BinaryGWatch::HAL_sleep()
 	wakeupReason = wakeupTriggered;
 	if(ClockM::getInstance().isHourChanged())
 	{
-		wakeupReason = 255; //Wakeup for hourly display
+		if(HourlyDisplay_enabled == 1)wakeupReason = 255; //Wakeup for hourly display only if enabled
+		if((bma.getInternalState()) != 0x01)//should be 0x01
+		{
+			setupBMA();//Reinit BMA if something went wrong --> Will also show init Errors if there is a HW Problem
+		}
 		if(ClockM::getInstance().getHour()==0)
 		{
 			//bma.resetSteps();
@@ -276,14 +281,6 @@ uint8_t BinaryGWatch::HAL_sleep()
 			wakeupReason |= 0x02;//Set Bit for WristTilt
 		}
 
-	}else{
-		if(ClockM::getInstance().getSecond() == 0)
-		{
-			if((bma.getInternalState()) != 0x01)//should be 0x01
-			{
-				setupBMA();//Reinit BMA if something went wrong --> Will also show init Errors if there is a HW Problem
-			}
-		}
 	}
 	if(wakeupReason != 0)updateSteps();
 	return wakeupReason;
