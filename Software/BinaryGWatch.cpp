@@ -240,6 +240,7 @@ void BinaryGWatch::HAL_init()
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);					//Selecting power save mode as the sleep mode to be used
 	sleep_enable();											//Enabling sleep mode
   HAL_releaseInts();
+	updateSteps();
 
 }
 uint8_t BinaryGWatch::HAL_sleep()
@@ -397,7 +398,7 @@ void BinaryGWatch::show()
 			break;
 		case showStepCounter:
 		{
-				uint32_t steps = request[3];
+				uint16_t steps = request[2];
 				DisplayBuffer[2]=numToPortD[(steps/100)%16];
 				DisplayBuffer[1]=numToPortD[((steps)/10)%10];
 				DisplayBuffer[0]=numToPortD[((steps)%10)];
