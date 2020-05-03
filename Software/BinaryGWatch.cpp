@@ -113,7 +113,7 @@ inline void deactivatePCINT()
 {
 	PCICR &= ~((1<<PCIE0)|(1<<PCIE1));
 }
-inline void setupTimer0()
+inline void setupTimer2()
 {
 	//_delay_us(15000);	//Wait for external clock crystal to stabilize;//Unnecessary since init is called after reading EEP
 
@@ -241,7 +241,7 @@ void BinaryGWatch::HAL_init()
 		showLEDs(test,1);
 	}
 
-  setupTimer0();
+  setupTimer2();
   setupPCINT();
   sei();													//Set the Global Interrupt Enable Bit
 	set_sleep_mode(SLEEP_MODE_PWR_SAVE);					//Selecting power save mode as the sleep mode to be used
