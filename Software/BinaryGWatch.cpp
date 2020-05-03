@@ -2,6 +2,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+#include <avr/power.h>
 #include <util/delay.h>
 #include "ClockM.h"
 #include "libs/Bosch_BMA456/Bosch_BMA.h"
@@ -177,7 +178,11 @@ void setCS(uint8_t t){
 void BinaryGWatch::HAL_init()
 {
 	uint8_t test[4];
-  setupPorts();
+	power_all_disable();//powerdown everything
+	power_timer2_enable();
+	power_spi_enable();
+
+	setupPorts();
 	spi_init();
 	set_SPI_activate_CS(&setCS);
 	setupBMA();
@@ -235,6 +240,7 @@ void BinaryGWatch::HAL_init()
 		test[3] = numToPortD[0x0F];
 		showLEDs(test,1);
 	}
+
   setupTimer0();
   setupPCINT();
   sei();													//Set the Global Interrupt Enable Bit
