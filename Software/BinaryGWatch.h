@@ -15,6 +15,10 @@ class BinaryGWatch: public HAL, public TwoButtonHAL, public GForceHAL, public Di
   //for testing
   //uint16_t stepsHist[4] = {11111,22222,33333,44444};
   uint32_t stepsMeasured = 0;
+  static const uint8_t UBattFilterLen = 5;
+  uint8_t UBattCtr;
+  uint16_t UBattFilterValues[UBattFilterLen];
+  uint16_t UBatt;
 public:
   virtual void HAL_init();
   virtual uint8_t HAL_sleep();
@@ -33,6 +37,9 @@ public:
   virtual void show();
   virtual void pushNewSteps(uint16_t steps);
   virtual uint16_t getHistSteps(uint8_t days);
+  virtual void setupUBattMeasure();
+  virtual void ADC_cyclic();
+  virtual uint16_t getUBatt();
 };
 
 #endif //__BINARYGWATCH_HEADER_INCLUDE__

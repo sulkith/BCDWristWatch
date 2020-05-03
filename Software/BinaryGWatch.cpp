@@ -8,6 +8,7 @@
 #include "libs/Bosch_BMA456/Bosch_BMA.h"
 #include "libs/Bosch_BMA456/spi_adap.h"
 #include "libs/spi/spi.h"
+#include "settings.h"
 
 BinaryGWatch bwatch;
 HAL *hal=&bwatch;
@@ -18,7 +19,7 @@ Bosch_BMA bma;
 
 
 
-const uint8_t LED_Brightness = 120;
+const uint8_t LED_Brightness = 200;
 const uint16_t Button_debounceTime=30;
 const uint8_t HourlyDisplay_enabled = 0;
 
@@ -138,7 +139,7 @@ inline void setupBMA()
 {
 	while(bma.getChipID() != 0x16)
 	{
-		showERROR(1,bma.getChipID());
+		showERROR(1,bma.getChipID());//E1
 	}
 	bma.init();
 	bma.startInterruptConfig();
@@ -159,11 +160,11 @@ inline void setupBMA()
   bma.writeAddress(BMA4_ACCEL_CONFIG_ADDR,0x09);//Disable ACC per Mode --> only draws ~14µA
 	while((bma.getInternalState()&0x01) != 0x01)//Bit 0 should be set
 	{
-		showERROR(2,bma.getInternalState());
+		showERROR(2,bma.getInternalState());//E2
 	}
 	while((bma.getInternalState()) != 0x01)//should be 0x01
 	{
-		showERROR(3,bma.getInternalState());
+		showERROR(3,bma.getInternalState());//E3
 	}
 
 }
@@ -186,6 +187,7 @@ void BinaryGWatch::HAL_init()
 	spi_init();
 	set_SPI_activate_CS(&setCS);
 	setupBMA();
+	setupUBattMeasure(); // start initial Measuring of UBatt
 
 /*
 	if(bma.getInternalState() != 0x01)
@@ -249,7 +251,60 @@ void BinaryGWatch::HAL_init()
   HAL_releaseInts();
 	updateSteps();
 
+	//Check config
+	while(LED_Brightness >=250)showERROR(0xC,1);//EC01
 }
+void BinaryGWatch::setupUBattMeasure()
+{
+	while((UBattCtr) != 0)showERROR(0xA, 1);////EA01
+	power_adc_enable();
+	ADMUX |= (1<<REFS0); //VCC as refernce for ADC
+	ADMUX |= (1<<MUX3) | (1<<MUX2) | (1<<MUX1);  //1.1V refernce Voltage as input
+	UBattCtr = 1;
+}
+void BinaryGWatch::ADC_cyclic()
+{
+	if(UBattCtr == 0)return;
+
+	while (((ADCSRA&(1<<ADSC))>0)) showERROR(0xA,10+UBattCtr);////EA1x
+
+	if(UBattCtr == 1)
+	{
+		ADCSRA |= (1<<ADEN);   //activate ADC
+		ADCSRA |= (1<<ADSC);  //start Measurement
+		UBattCtr=2;
+	}
+	else
+	{
+		uint8_t adc_low = ADCL;
+		uint8_t adc_high = ADCH;
+		uint16_t adc_result = (adc_high<<8) | adc_low; //Gesamtergebniss der ADC-Messung
+	  uint16_t vcc = 1125300L / adc_result;  //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
+		UBattFilterValues[(UBattCtr)-2] = vcc;
+		if(UBattCtr < UBattFilterLen+2)
+		{
+			UBattCtr++;
+			ADCSRA |= (1<<ADSC);  //restart measurement
+		}
+		else
+		{
+			ADCSRA &= ~(1<<ADEN);//deactivate ADC
+			power_adc_disable();//powerdown ADC module
+			uint16_t avg = 0;
+			for(uint8_t i=0;i<UBattFilterLen;++i)
+			{
+				avg += UBattFilterValues[i];
+			}
+			UBatt = avg / UBattFilterLen;
+			UBattCtr = 0;
+		}
+	}
+}
+uint16_t BinaryGWatch::getUBatt()
+{
+	return UBatt;
+}
+
 uint8_t BinaryGWatch::HAL_sleep()
 {
 	wakeupTriggered=0;
@@ -260,6 +315,7 @@ uint8_t BinaryGWatch::HAL_sleep()
 	leftButton.directSetValue(getLeftButton());
 	rightButton.directSetValue(getRightButton());
 	wakeupReason = wakeupTriggered;
+	ADC_cyclic();
 	if(ClockM::getInstance().isHourChanged())
 	{
 		if(HourlyDisplay_enabled == 1)wakeupReason = 255; //Wakeup for hourly display only if enabled
@@ -267,12 +323,36 @@ uint8_t BinaryGWatch::HAL_sleep()
 		{
 			setupBMA();//Reinit BMA if something went wrong --> Will also show init Errors if there is a HW Problem
 		}
+		if(development==1)
+		{
+			while((ADCSRA & 1<<ADEN) > 0)showERROR(0xD, 1);//ED01// ADC is still enabled
+			while((PRR & (1<<PRADC)) == 0)showERROR(0xD, 2);//ED02// ADC is still powered up
+			while((PRR & (1<<PRUSART0)) == 0)showERROR(0xD, 3);//ED03// USART is still powered up
+			while((PRR & (1<<PRSPI)) > 0)showERROR(0xD, 4);//ED04// SPI is powered down
+			while((PRR & (1<<PRTIM1)) == 0)showERROR(0xD, 5);//ED05// Timer1 is still powered up
+			while((PRR & (1<<PRTIM0)) == 0)showERROR(0xD, 6);//ED06// Timer0 is still powered up
+			while((PRR & (1<<PRTIM2)) > 0)showERROR(0xD, 7);//ED07// Timer2 is powered down
+			while((PRR & (1<<PRTWI)) == 0)showERROR(0xD, 8);//ED08// Timer0 is still powered up
+		}
 		if(ClockM::getInstance().getHour()==0)
 		{
 			//bma.resetSteps();
 			pushNewSteps(bma.getSteps()-stepsOffset);
 			stepsOffset = bma.getSteps();
+			setupUBattMeasure();
+		}
+	}
 
+	if(development > 1)
+	{
+		if(UBattCtr == 0)
+		{
+			while((ADCSRA & 0x80) > 0)showERROR(0xD, 9);//ED09// ADC is still enabled
+			while((PRR & (1<<PRADC)) == 0)showERROR(0xD, 10);//ED10// ADC is still powered up
+		}
+		else
+		{
+			while(ClockM::getInstance().getMinute()>=1)showERROR(0xD, 11);//ED11//ADC Measurement is not done after 1 Minute
 		}
 	}
 
@@ -412,13 +492,22 @@ void BinaryGWatch::show()
 		}
 		case ShowStepsHistory:
 		{
-
 				uint16_t steps = request[(request[0]%4)+1]/100;
 
 				DisplayBuffer[2]=numToPortD[(steps/100)%16];
 				DisplayBuffer[1]=numToPortD[((steps)/10)%10];
 				DisplayBuffer[0]=numToPortD[((steps)%10)];
 				DisplayBuffer[3]=DISP_4|numToPortD[request[0]%4];
+				break;
+		}
+		case ShowUBatt:
+		{
+				uint16_t Ubatt_10mv = request[0]/10;
+
+				DisplayBuffer[2]=numToPortD[(Ubatt_10mv/100)%16];
+				DisplayBuffer[1]=numToPortD[((Ubatt_10mv)/10)%10];
+				DisplayBuffer[0]=numToPortD[((Ubatt_10mv)%10)];
+				DisplayBuffer[3]=DISP_8;
 				break;
 		}
 		case ShowTemperature:

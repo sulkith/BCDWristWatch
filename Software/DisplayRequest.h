@@ -14,6 +14,7 @@ typedef enum
   SetTempCorr,
   ShowTemperature,
   ShowStepsHistory,
+  ShowUBatt,
   Debouncing,
   showStepCounter
 } DisplayRequestType;

@@ -283,13 +283,30 @@ void GForceUI::stateTransition()
 		case showStepCounter:
 			if(gHAL->getTap())
 			{
-				UIstate = ShowStepsHistory;
-				SleepM::requestProlong(ontime_long);
+				if(gHAL->getZ() < -7000)//Check if it is upside Down
+				{
+					UIstate = ShowStepsHistory;
+					SleepM::requestProlong(ontime_very_long);
+				}
+				else
+				{
+					UIstate = Time;
+					SleepM::requestProlong(ontime_short);
+				}
 			}
 			break;
 		case ShowStepsHistory:
 		{
 			if(caseForAdjusting<uint8_t>(&HistCtr,rightButton,leftButton,gHAL,3,150))
+			{
+				UIstate = ShowUBatt;
+				SleepM::requestProlong(ontime_short);
+			}
+			break;
+		}
+		case ShowUBatt:
+		{
+			if(gHAL->getTap())
 			{
 				UIstate = Time;
 				SleepM::requestProlong(ontime_short);
@@ -370,6 +387,11 @@ void GForceUI::stateDisplayReuest()
 		case ShowStepsHistory:
 		{
 			requestScreen(DisplMan, UIstate, HistCtr,gHAL->getHistSteps(0),gHAL->getHistSteps(1),gHAL->getHistSteps(2),gHAL->getHistSteps(3));
+			break;
+		}
+		case ShowUBatt:
+		{
+			requestScreen(DisplMan, UIstate, gHAL->getUBatt());
 			break;
 		}
     case ShowTemperature:
