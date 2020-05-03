@@ -2,7 +2,7 @@
 
 #include "DisplayManager.h" //only for testing
 
-ClockM ClockM::instance(23,59,50);
+ClockM ClockM::instance(23,59,30);
 EEPM DummyEEPM;
 
 ClockM::ClockM(uint8_t h, uint8_t m, uint8_t s)
