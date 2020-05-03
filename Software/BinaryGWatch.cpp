@@ -353,6 +353,8 @@ uint8_t BinaryGWatch::HAL_sleep()
 		else
 		{
 			while(ClockM::getInstance().getMinute()>=1)showERROR(0xD, 11);//ED11//ADC Measurement is not done after 1 Minute
+			//This Error will be show at startup, since the Clock is at 23:59 and the ADC Measurement is triggered in the init
+			//But it will disapear, when the Clock gets increased to 0:00 --> then the Watch will behave normally.
 		}
 	}
 
