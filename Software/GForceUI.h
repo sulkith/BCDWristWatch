@@ -19,6 +19,7 @@ class GForceUI: public UserInterface, public SleepSubscriber
   DisplayRequestType UIstate = FadeIn;
   bool inputEnabled = false;
   uint8_t debouncerGForce = 0;
+  uint8_t HistCtr = 0;
   int16_t debounce = 0;
   void stateTransition();
   void stateDisplayReuest();

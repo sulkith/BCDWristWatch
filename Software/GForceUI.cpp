@@ -23,7 +23,7 @@ UserInterface *UI = &tbui;
 #define PUSH_BOTH (RIGHT_PUSH && LEFT_HOLD) || (LEFT_PUSH && RIGHT_HOLD)
 
 template <typename T>
-uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Debouncer<uint8_t> *leftButton, GForceHAL *gfh, const T maxvalue, const T minvalue=0)
+uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Debouncer<uint8_t> *leftButton, GForceHAL *gfh, const T maxvalue, const T minvalue=0, const int16_t debounceThreshold = 50)
 {
 	static int16_t debounce = 0;
 	if(rightButton->valueUpdatedTo(1)==1)
@@ -66,7 +66,7 @@ uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Deboun
 	{
 		debounce = 0;
 	}
-	if(debounce > 50)
+	if(debounce > debounceThreshold)
 	{
 		if((*value)==maxvalue)
 			(*value)=minvalue;
@@ -74,7 +74,7 @@ uint8_t caseForAdjusting(T* const value, Debouncer<uint8_t> *rightButton, Deboun
 			(*value)++;
 		debounce = 0;
 	}
-	if(debounce < -50)
+	if(debounce < -debounceThreshold)
 	{
 		if((*value)==minvalue)
 			(*value)=maxvalue;
@@ -283,10 +283,19 @@ void GForceUI::stateTransition()
 		case showStepCounter:
 			if(gHAL->getTap())
 			{
+				UIstate = ShowStepsHistory;
+				SleepM::requestProlong(ontime_long);
+			}
+			break;
+		case ShowStepsHistory:
+		{
+			if(caseForAdjusting<uint8_t>(&HistCtr,rightButton,leftButton,gHAL,3,150))
+			{
 				UIstate = Time;
 				SleepM::requestProlong(ontime_short);
 			}
 			break;
+		}
     case Empty:
     case SetTempCorr:
     case ShowTemperature:
@@ -297,13 +306,14 @@ void GForceUI::stateTransition()
   if(leftButton->getValue() == 1)SleepM::requestProlong(wakeTime);
 }
 
-inline void requestScreen(DisplayManager *dm, DisplayRequestType type, uint16_t d0, uint16_t d1=0, uint16_t d2=0, uint16_t d3=0)
+inline void requestScreen(DisplayManager *dm, DisplayRequestType type, uint16_t d0, uint16_t d1=0, uint16_t d2=0, uint16_t d3=0, uint16_t d4=0)
 {
   uint16_t data[DisplayRequest::dataLength] = {0};
   data[0] = d0;
   data[1] = d1;
   data[2] = d2;
   data[3] = d3;
+	data[4] = d4;
   DisplayRequest dr(type,data);
   dm->requestDisplay(dr);
 }
@@ -354,7 +364,12 @@ void GForceUI::stateDisplayReuest()
 			{
 				exp++;
 			}
-			requestScreen(DisplMan, UIstate, steps_most_significant,exp,steps/100);
+			requestScreen(DisplMan, UIstate, steps_most_significant,exp,steps);
+			break;
+		}
+		case ShowStepsHistory:
+		{
+			requestScreen(DisplMan, UIstate, HistCtr,gHAL->getHistSteps(0),gHAL->getHistSteps(1),gHAL->getHistSteps(2),gHAL->getHistSteps(3));
 			break;
 		}
     case ShowTemperature:

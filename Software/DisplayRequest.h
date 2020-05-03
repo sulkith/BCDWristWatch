@@ -13,6 +13,7 @@ typedef enum
   SetCorrMonth,
   SetTempCorr,
   ShowTemperature,
+  ShowStepsHistory,
   Debouncing,
   showStepCounter
 } DisplayRequestType;
@@ -20,7 +21,7 @@ typedef enum
 class DisplayRequest
 {
 public:
-    static const uint8_t dataLength = 4;
+    static const uint8_t dataLength = 5;
 private:
   DisplayRequestType type = Empty;
   uint16_t data[DisplayRequest::dataLength] = {0};

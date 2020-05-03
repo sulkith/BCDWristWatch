@@ -114,6 +114,7 @@ void TwoButtonUI::stateTransition()
     case Empty:
 		case Debouncing:
 		case showStepCounter:
+		case ShowStepsHistory:
     case SetTempCorr:
     case ShowTemperature:
       UIstate = Time;

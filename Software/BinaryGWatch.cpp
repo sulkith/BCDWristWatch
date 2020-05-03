@@ -264,7 +264,9 @@ uint8_t BinaryGWatch::HAL_sleep()
 		if(ClockM::getInstance().getHour()==0)
 		{
 			//bma.resetSteps();
+			pushNewSteps(bma.getSteps()-stepsOffset);
 			stepsOffset = bma.getSteps();
+
 		}
 	}
 
@@ -395,11 +397,22 @@ void BinaryGWatch::show()
 			break;
 		case showStepCounter:
 		{
-				uint16_t steps = request[2];
+				uint16_t steps = request[2]/100;
 				DisplayBuffer[2]=numToPortD[(steps/100)%16];
 				DisplayBuffer[1]=numToPortD[((steps)/10)%10];
 				DisplayBuffer[0]=numToPortD[((steps)%10)];
 				DisplayBuffer[3]=DISP_3;
+				break;
+		}
+		case ShowStepsHistory:
+		{
+
+				uint16_t steps = request[(request[0]%4)+1]/100;
+
+				DisplayBuffer[2]=numToPortD[(steps/100)%16];
+				DisplayBuffer[1]=numToPortD[((steps)/10)%10];
+				DisplayBuffer[0]=numToPortD[((steps)%10)];
+				DisplayBuffer[3]=DISP_4|numToPortD[request[0]%4];
 				break;
 		}
 		case ShowTemperature:
@@ -457,4 +470,14 @@ void BinaryGWatch::updateSteps()
 uint32_t BinaryGWatch::getSteps()
 {
 	return stepsMeasured;
+}
+void BinaryGWatch::pushNewSteps(uint16_t steps) {
+	stepsHist[3]=stepsHist[2];
+	stepsHist[2]=stepsHist[1];
+	stepsHist[1]=stepsHist[0];
+	stepsHist[0] = steps;
+}
+uint16_t BinaryGWatch::getHistSteps(uint8_t days)
+{
+	return stepsHist[days];
 }

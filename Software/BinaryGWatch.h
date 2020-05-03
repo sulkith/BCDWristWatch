@@ -1,5 +1,5 @@
-#ifndef __BINARYWATCH_HEADER_INCLUDE__
-#define __BINARYWATCH_HEADER_INCLUDE__
+#ifndef __BINARYGWATCH_HEADER_INCLUDE__
+#define __BINARYGWATCH_HEADER_INCLUDE__
 
 #include "HAL.h"
 #include "GForceHAL.h"
@@ -11,6 +11,9 @@ class BinaryGWatch: public HAL, public TwoButtonHAL, public GForceHAL, public Di
   uint8_t wakeupReason=1;//TODO ONLY TEST SHOULD BE 0
   uint16_t cyclicCounter=1000;//best case guess
   uint32_t stepsOffset = 0;
+  uint16_t stepsHist[4] = {0};
+  //for testing
+  //uint16_t stepsHist[4] = {11111,22222,33333,44444};
   uint32_t stepsMeasured = 0;
 public:
   virtual void HAL_init();
@@ -28,6 +31,8 @@ public:
   virtual uint32_t getSteps();
   virtual void updateSteps();
   virtual void show();
+  virtual void pushNewSteps(uint16_t steps);
+  virtual uint16_t getHistSteps(uint8_t days);
 };
 
-#endif //__BINARYWATCH_HEADER_INCLUDE__
+#endif //__BINARYGWATCH_HEADER_INCLUDE__
