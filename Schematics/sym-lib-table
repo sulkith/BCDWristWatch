@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name Watch-rescue)(type Legacy)(uri ${KIPRJMOD}/Watch-rescue.lib)(options "")(descr ""))
+  (lib (name BMA456)(type Legacy)(uri ${KIPRJMOD}/ProjectSpecific.pretty/BMA456.lib)(options "")(descr ""))
 )
