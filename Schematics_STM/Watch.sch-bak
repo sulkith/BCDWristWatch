@@ -4,8 +4,8 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title "BCD Wrist Watch"
-Date "2018-08-26"
+Title "BCD Wrist Watch STM32"
+Date "2020-07-17"
 Rev "2"
 Comp ""
 Comment1 ""
@@ -14,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Watch-rescue:Crystal Y1
+L Watch-rescue:Crystal-Watch-rescue Y1
 U 1 1 5B523549
 P 9550 1850
 F 0 "Y1" H 9550 2000 50  0000 C CNN
@@ -25,7 +25,7 @@ F 3 "https://www.mouser.de/ProductDetail/ABRACON/ABS05W-32768kHz-D-2-T?qs=sGAEpi
 	0    1    1    0   
 $EndComp
 $Comp
-L Watch-rescue:LED D3
+L Watch-rescue:LED-Watch-rescue D3
 U 1 1 5B52384D
 P 5950 2100
 F 0 "D3" H 5950 2200 50  0000 C CNN
@@ -36,7 +36,7 @@ F 3 "" H 5950 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D4
+L Watch-rescue:LED-Watch-rescue D4
 U 1 1 5B52393E
 P 5950 2450
 F 0 "D4" H 5950 2550 50  0000 C CNN
@@ -47,7 +47,7 @@ F 3 "" H 5950 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D8
+L Watch-rescue:LED-Watch-rescue D8
 U 1 1 5B5239F0
 P 6450 2450
 F 0 "D8" H 6450 2550 50  0000 C CNN
@@ -58,7 +58,7 @@ F 3 "" H 6450 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D7
+L Watch-rescue:LED-Watch-rescue D7
 U 1 1 5B523B46
 P 6450 2100
 F 0 "D7" H 6450 2200 50  0000 C CNN
@@ -69,7 +69,7 @@ F 3 "" H 6450 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D6
+L Watch-rescue:LED-Watch-rescue D6
 U 1 1 5B523CC0
 P 6450 1750
 F 0 "D6" H 6450 1850 50  0000 C CNN
@@ -80,7 +80,7 @@ F 3 "" H 6450 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D5
+L Watch-rescue:LED-Watch-rescue D5
 U 1 1 5B524335
 P 6450 1400
 F 0 "D5" H 6450 1500 50  0000 C CNN
@@ -91,7 +91,7 @@ F 3 "" H 6450 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D11
+L Watch-rescue:LED-Watch-rescue D11
 U 1 1 5B524745
 P 6950 2100
 F 0 "D11" H 6950 2200 50  0000 C CNN
@@ -102,7 +102,7 @@ F 3 "" H 6950 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D12
+L Watch-rescue:LED-Watch-rescue D12
 U 1 1 5B524950
 P 6950 2450
 F 0 "D12" H 6950 2550 50  0000 C CNN
@@ -113,7 +113,7 @@ F 3 "" H 6950 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D10
+L Watch-rescue:LED-Watch-rescue D10
 U 1 1 5B5254B0
 P 6950 1750
 F 0 "D10" H 6950 1850 50  0000 C CNN
@@ -124,7 +124,7 @@ F 3 "" H 6950 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D14
+L Watch-rescue:LED-Watch-rescue D14
 U 1 1 5B52569F
 P 7450 1750
 F 0 "D14" H 7450 1850 50  0000 C CNN
@@ -135,7 +135,7 @@ F 3 "" H 7450 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D13
+L Watch-rescue:LED-Watch-rescue D13
 U 1 1 5B525E7D
 P 7450 1400
 F 0 "D13" H 7450 1500 50  0000 C CNN
@@ -146,7 +146,7 @@ F 3 "" H 7450 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D15
+L Watch-rescue:LED-Watch-rescue D15
 U 1 1 5B5261B9
 P 7450 2100
 F 0 "D15" H 7450 2200 50  0000 C CNN
@@ -157,7 +157,7 @@ F 3 "" H 7450 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D16
+L Watch-rescue:LED-Watch-rescue D16
 U 1 1 5B526441
 P 7450 2450
 F 0 "D16" H 7450 2550 50  0000 C CNN
@@ -168,7 +168,7 @@ F 3 "" H 7450 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:R R1
+L Watch-rescue:R-Watch-rescue R1
 U 1 1 5B539875
 P 5650 1400
 F 0 "R1" V 5730 1400 50  0000 C CNN
@@ -179,7 +179,7 @@ F 3 "" H 5650 1400 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Watch-rescue:R R2
+L Watch-rescue:R-Watch-rescue R2
 U 1 1 5B53B0EE
 P 5650 1750
 F 0 "R2" V 5730 1750 50  0000 C CNN
@@ -190,7 +190,7 @@ F 3 "" H 5650 1750 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Watch-rescue:R R3
+L Watch-rescue:R-Watch-rescue R3
 U 1 1 5B53B4F9
 P 5650 2100
 F 0 "R3" V 5730 2100 50  0000 C CNN
@@ -201,18 +201,21 @@ F 3 "" H 5650 2100 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Watch-rescue:Battery_Cell BT1
+L Watch-rescue:Battery_Cell-Watch-rescue BT1
 U 1 1 5B54EA0A
 P 1900 2550
 F 0 "BT1" H 2000 2650 50  0000 L CNN
 F 1 "Battery_Cell" H 2000 2550 50  0000 L CNN
 F 2 "ProjectSpecific:BatteryHolderCR2032" V 1900 2610 50  0001 C CNN
 F 3 "https://www.mouser.de/ProductDetail/Eagle-Plastic-Devices/12BH002-GR?qs=sGAEpiMZZMtT9MhkajLHrnejQIlN9juzOiIi1hcyqKY%3d" V 1900 2610 50  0001 C CNN
+F 4 "V" H 1900 2550 50  0001 C CNN "Spice_Primitive"
+F 5 "dc 3" H 1900 2550 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 1900 2550 50  0001 C CNN "Spice_Netlist_Enabled"
 	1    1900 2550
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D2
+L Watch-rescue:LED-Watch-rescue D2
 U 1 1 5B54D556
 P 5950 1750
 F 0 "D2" H 5950 1850 50  0000 C CNN
@@ -223,7 +226,7 @@ F 3 "" H 5950 1750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D1
+L Watch-rescue:LED-Watch-rescue D1
 U 1 1 5B54D5AD
 P 5950 1400
 F 0 "D1" H 5950 1500 50  0000 C CNN
@@ -234,7 +237,7 @@ F 3 "" H 5950 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:LED D9
+L Watch-rescue:LED-Watch-rescue D9
 U 1 1 5B54D60B
 P 6950 1400
 F 0 "D9" H 6950 1500 50  0000 C CNN
@@ -271,7 +274,7 @@ F 3 "" H 2100 1400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:C C4
+L Watch-rescue:C-Watch-rescue C4
 U 1 1 5B5F5A97
 P 1600 2500
 F 0 "C4" H 1625 2600 50  0000 L CNN
@@ -282,7 +285,7 @@ F 3 "" H 1600 2500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:C C3
+L Watch-rescue:C-Watch-rescue C3
 U 1 1 5B5F5B1C
 P 1400 2500
 F 0 "C3" H 1425 2600 50  0000 L CNN
@@ -293,7 +296,7 @@ F 3 "" H 1400 2500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:C C2
+L Watch-rescue:C-Watch-rescue C2
 U 1 1 5B5F5B93
 P 1200 2500
 F 0 "C2" H 1225 2600 50  0000 L CNN
@@ -304,7 +307,7 @@ F 3 "" H 1200 2500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:C C1
+L Watch-rescue:C-Watch-rescue C1
 U 1 1 5B5F5C0D
 P 1000 2500
 F 0 "C1" H 1025 2600 50  0000 L CNN
@@ -399,7 +402,7 @@ Connection ~ 1200 2650
 Connection ~ 1900 2350
 Connection ~ 1900 2650
 $Comp
-L Watch-rescue:C C5
+L Watch-rescue:C-Watch-rescue C5
 U 1 1 5B816C43
 P 9950 2050
 F 0 "C5" H 9975 2150 50  0000 L CNN
@@ -410,7 +413,7 @@ F 3 "" H 9950 2050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Watch-rescue:C C6
+L Watch-rescue:C-Watch-rescue C6
 U 1 1 5B816CDF
 P 9950 1650
 F 0 "C6" H 9975 1750 50  0000 L CNN
@@ -513,7 +516,7 @@ Wire Wire Line
 Wire Wire Line
 	10200 2050 10200 2150
 $Comp
-L Watch-rescue:BMA456-Projectspecific IC1
+L Watch-rescue:BMA456-Projectspecific-Watch-rescue IC1
 U 1 1 5CCC08E4
 P 4500 5500
 F 0 "IC1" H 5100 5765 50  0000 C CNN
@@ -648,7 +651,7 @@ Connection ~ 5800 1400
 Connection ~ 5800 1750
 Connection ~ 5800 2100
 $Comp
-L Watch-rescue:R R4
+L Watch-rescue:R-Watch-rescue R4
 U 1 1 5B53B987
 P 5650 2450
 F 0 "R4" V 5730 2450 50  0000 C CNN
@@ -733,8 +736,6 @@ Wire Wire Line
 Wire Wire Line
 	3250 3550 3250 3600
 Connection ~ 3250 3600
-Wire Wire Line
-	3250 3600 2100 3600
 $Comp
 L Connector_Generic:Conn_01x10 J1
 U 1 1 5F1BDC02
@@ -766,4 +767,38 @@ Text GLabel 2050 5200 0    60   Input ~ 0
 MISO
 Text GLabel 2050 5100 0    60   Input ~ 0
 SCK
+NoConn ~ 3850 1950
+NoConn ~ 3850 2550
+NoConn ~ 3850 2650
+NoConn ~ 3850 3350
+NoConn ~ 2850 3350
+NoConn ~ 2850 2850
+NoConn ~ 2850 2750
+Text GLabel 2050 5000 0    60   Input ~ 0
+BOOT
+NoConn ~ 2050 5000
+Wire Wire Line
+	2100 3600 3250 3600
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5F16FAF2
+P 1900 2350
+F 0 "#FLG0101" H 1900 2425 50  0001 C CNN
+F 1 "PWR_FLAG" V 1900 2478 50  0000 L CNN
+F 2 "" H 1900 2350 50  0001 C CNN
+F 3 "~" H 1900 2350 50  0001 C CNN
+	1    1900 2350
+	0    1    1    0   
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5F17301C
+P 1900 2650
+F 0 "#FLG0102" H 1900 2725 50  0001 C CNN
+F 1 "PWR_FLAG" V 1900 2778 50  0000 L CNN
+F 2 "" H 1900 2650 50  0001 C CNN
+F 3 "~" H 1900 2650 50  0001 C CNN
+	1    1900 2650
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC

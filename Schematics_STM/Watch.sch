@@ -208,6 +208,9 @@ F 0 "BT1" H 2000 2650 50  0000 L CNN
 F 1 "Battery_Cell" H 2000 2550 50  0000 L CNN
 F 2 "ProjectSpecific:BatteryHolderCR2032" V 1900 2610 50  0001 C CNN
 F 3 "https://www.mouser.de/ProductDetail/Eagle-Plastic-Devices/12BH002-GR?qs=sGAEpiMZZMtT9MhkajLHrnejQIlN9juzOiIi1hcyqKY%3d" V 1900 2610 50  0001 C CNN
+F 4 "V" H 1900 2550 50  0001 C CNN "Spice_Primitive"
+F 5 "dc 3" H 1900 2550 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 1900 2550 50  0001 C CNN "Spice_Netlist_Enabled"
 	1    1900 2550
 	1    0    0    -1  
 $EndComp
@@ -733,8 +736,6 @@ Wire Wire Line
 Wire Wire Line
 	3250 3550 3250 3600
 Connection ~ 3250 3600
-Wire Wire Line
-	3250 3600 2100 3600
 $Comp
 L Connector_Generic:Conn_01x10 J1
 U 1 1 5F1BDC02
@@ -766,4 +767,38 @@ Text GLabel 2050 5200 0    60   Input ~ 0
 MISO
 Text GLabel 2050 5100 0    60   Input ~ 0
 SCK
+NoConn ~ 3850 1950
+NoConn ~ 3850 2550
+NoConn ~ 3850 2650
+NoConn ~ 3850 3350
+NoConn ~ 2850 3350
+NoConn ~ 2850 2850
+NoConn ~ 2850 2750
+Text GLabel 2050 5000 0    60   Input ~ 0
+BOOT
+NoConn ~ 2050 5000
+Wire Wire Line
+	2100 3600 3250 3600
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5F16FAF2
+P 1900 2350
+F 0 "#FLG0101" H 1900 2425 50  0001 C CNN
+F 1 "PWR_FLAG" V 1900 2478 50  0000 L CNN
+F 2 "" H 1900 2350 50  0001 C CNN
+F 3 "~" H 1900 2350 50  0001 C CNN
+	1    1900 2350
+	0    1    1    0   
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5F17301C
+P 1900 2650
+F 0 "#FLG0102" H 1900 2725 50  0001 C CNN
+F 1 "PWR_FLAG" V 1900 2778 50  0000 L CNN
+F 2 "" H 1900 2650 50  0001 C CNN
+F 3 "~" H 1900 2650 50  0001 C CNN
+	1    1900 2650
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC
