@@ -76,7 +76,8 @@ load: all
 	bootloadHID main.hex
 
 clean:
-	rm -f main.hex main.elf $(OBJECTS)
+	rm -f main.hex main.elf main_binG.hex main_binG.elf main_analog.hex main_analog.elf $(OBJECTS)
+	rm -f eeprom_analog.eep eeprom.eep eeprom_binG.eep eeprom_analog.hex eeprom.hex $(OBJECTS_ANALOG) $(OBJECTS_BINARY_G)
 
 # file targets:
 main.elf: $(OBJECTS) $(HEADERS)
