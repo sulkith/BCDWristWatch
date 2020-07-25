@@ -4,3 +4,6 @@
 [submodule "Software/libs/spi"]
 	path = Software/libs/spi
 	url = git@github.com:sulkith/lib_spi_avr.git
+[submodule "Software_STM/usercode/libs/Bosch_BMA456"]
+	path = Software_STM/usercode/libs/Bosch_BMA456
+	url = git@github.com:sulkith/Bosch_BMA456.git

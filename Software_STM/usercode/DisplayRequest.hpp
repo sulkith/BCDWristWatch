@@ -1,0 +1,47 @@
+#ifndef __DISPLAYREQUEST_HEADER_INCLUDE__
+#define __DISPLAYREQUEST_HEADER_INCLUDE__
+
+#include "main.h"
+
+typedef enum
+{
+  Empty,
+  FadeIn,
+  Time,
+  SetMinute,
+  SetHour,
+  SetCorrMinute,
+  SetCorrHour,
+  SetCorrDay,
+  SetCorrMonth,
+  SetTempCorr,
+  ShowTemperature,
+  ShowStepsHistory,
+  ShowUBatt,
+  Debouncing,
+  showStepCounter,
+  showError,
+  Raw_Output
+} DisplayRequestType;
+
+class DisplayRequest
+{
+public:
+    static const uint8_t dataLength = 6;
+private:
+  DisplayRequestType type __attribute__ ((aligned (16))) = Empty;
+  uint16_t data[DisplayRequest::dataLength] __attribute__ ((aligned (16))) = {0} ;
+public:
+  DisplayRequest(){};
+  DisplayRequest(DisplayRequestType drt, uint16_t dp[]):type(drt)
+  {
+    for(uint8_t i =0;i<DisplayRequest::dataLength;++i)
+      data[i]=dp[i];
+  }
+  uint16_t *getData(){return (uint16_t*)data;}
+  DisplayRequestType getType(){return type;}
+  bool operator <(const DisplayRequest &b) const {return this->type < b.type;};
+  bool operator >(const DisplayRequest &b) const {return this->type > b.type;};
+  uint16_t operator[](uint8_t i){return data[i];}
+};
+#endif //__DISPLAYMANAGER_HEADER_INCLUDE__
