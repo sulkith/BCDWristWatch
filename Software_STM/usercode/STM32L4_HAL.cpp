@@ -20,6 +20,7 @@ const uint8_t alreadyRunningOffset = 0;
 const uint8_t stepsOffsetOffset = 1;
 const uint8_t stepsHistOffset = 2;
 const uint8_t axisVariantOffset = 6;
+const uint8_t DBG_Offset = 31;
 
 void setCS(uint8_t t) {
 	if (t == 0)
@@ -218,7 +219,10 @@ void STM32L4_HAL::HAL_init() {
 	}
 
 	//Check config
-	DBGMCU->CR = 7;	 //Debugging in Standby//XXX
+	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
+	{
+		DBGMCU->CR = 7;	 //Debugging in Standby//XXX
+	}
 	HAL_RTCEx_BKUPWrite(&hrtc, alreadyRunningOffset, 1);//set already running
 
 	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
@@ -273,7 +277,7 @@ void STM32L4_HAL::setAxisMappingVariant(Watch_Type_t av) {
 }
 uint8_t STM32L4_HAL::HAL_sleep() {
 	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);	//Clear Wakeup Flag
-	//HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode
+	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode if Debuger is present
 	HAL_PWREx_EnterSHUTDOWNMode();
 	return 0;
 }
