@@ -13,6 +13,7 @@
 #include "libs/Bosch_BMA456/spi_adap.h"
 
 extern RTC_HandleTypeDef hrtc;
+extern ADC_HandleTypeDef hadc1;
 
 Bosch_BMA bma;
 const uint8_t alreadyRunningOffset = 0;
@@ -210,6 +211,11 @@ void STM32L4_HAL::HAL_init() {
 			stepsOffset = bma.getSteps();
 		}
 	}
+	if(wakeupReason >= 0x10)
+	{
+	  MX_ADC1_Init();
+	  HAL_ADC_Start(&hadc1);
+	}
 
 	//Check config
 	DBGMCU->CR = 7;	 //Debugging in Standby//XXX
@@ -279,6 +285,17 @@ void STM32L4_HAL::HAL_releaseInts() {
 }
 void STM32L4_HAL::HAL_cyclic() {
 	//TODO
+	if(UBatt == 0)
+	{
+		HAL_ADC_PollForConversion(&hadc1, 0);
+		if((HAL_ADC_GetState(&hadc1) & HAL_ADC_STATE_REG_EOC)>0)
+		{
+			uint32_t adc_result = HAL_ADC_GetValue(&hadc1);
+			HAL_ADCEx_DisableVoltageRegulator(&hadc1);
+			UBatt = 1125300L / adc_result;  //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
+			HAL_ADC_DeInit(&hadc1);
+		}
+	}
 }
 uint16_t STM32L4_HAL::getUBatt() {
 	return UBatt;

@@ -19,7 +19,8 @@
  extern void RTC_Event_Callback();
 
  extern void SystemClock_Config();
- extern void MX_GPIO_Init();
+ //extern void MX_GPIO_Init();
+ extern void MX_ADC1_Init();
  extern void MX_RTC_Init();
  extern void MX_SPI1_Init();
 
