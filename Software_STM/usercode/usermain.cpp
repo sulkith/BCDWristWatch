@@ -20,15 +20,12 @@
 
 extern RTC_HandleTypeDef hrtc;
 
-HAL *hal;
+
 DisplayManager *dman;
-UserInterface *UI;
-extern GForceHAL *_gHAL;
-
 STM32L4_HAL stm_hal;
-
 STM32L4_BCDDisplayManager BCDdm;
 GForceUI gfui;
+
 void RTC_Event_Callback()
 {
 	stm_hal.updateSteps();
@@ -68,15 +65,9 @@ uint32_t DWT_Delay_Init(void)
 void usermain_init() {
 
 	  SystemClock_Config();
-	  GPIO_InitTypeDef GPIO_InitStruct = {0};
-	  	  /*Configure GPIO pin : PH3 */
-	  	  GPIO_InitStruct.Pin = GPIO_PIN_3;
-	  	  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	  	  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-	  	  HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
-	  //MX_GPIO_Init();
+
 	  MX_RTC_Init();
-	  // Moved to HAL MX_SPI1_Init();
+	  // Moved to HAL: MX_SPI1_Init();
 	  Watch_Type_t wt = (Watch_Type_t)HAL_RTCEx_BKUPRead(&hrtc, 0);
 
 	  //hal = &stm_hal;
@@ -102,7 +93,10 @@ void usermain_init() {
 	  gfui.init(dman, &stm_hal, &stm_hal);
 	  SleepM::getInstance()->setHal(&stm_hal);
 
-
+	  if(stm_hal.HAL_getWakeupReason() < 0x10)//No Wakeup for Hourly Display
+	  {
+		  stm_hal.HAL_sleep();
+	  }
 
 
 
@@ -129,4 +123,5 @@ void usermain_loop() {
 	gfui.cyclic();
 	dman->show();
 	SleepM::getInstance()->cyclic();
+	stm_hal.HAL_cyclic();
 }
