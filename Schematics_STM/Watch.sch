@@ -774,7 +774,7 @@ NoConn ~ 3850 3350
 NoConn ~ 2850 3350
 NoConn ~ 2850 2850
 NoConn ~ 2850 2750
-Text GLabel 2050 5000 0    60   Input ~ 0
+Text GLabel 2250 4600 0    60   Input ~ 0
 BOOT
 NoConn ~ 2050 5000
 Wire Wire Line
@@ -801,4 +801,28 @@ F 3 "~" H 1900 2650 50  0001 C CNN
 	1    1900 2650
 	0    1    1    0   
 $EndComp
+$Comp
+L Device:R R5
+U 1 1 5F1CD3E1
+P 2400 4600
+F 0 "R5" V 2193 4600 50  0000 C CNN
+F 1 "R" V 2284 4600 50  0000 C CNN
+F 2 "" V 2330 4600 50  0001 C CNN
+F 3 "~" H 2400 4600 50  0001 C CNN
+	1    2400 4600
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR03
+U 1 1 5F1D1190
+P 2700 4600
+F 0 "#PWR03" H 2700 4350 50  0001 C CNN
+F 1 "GND" H 2700 4450 50  0000 C CNN
+F 2 "" H 2700 4600 50  0001 C CNN
+F 3 "" H 2700 4600 50  0001 C CNN
+	1    2700 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2550 4600 2700 4600
 $EndSCHEMATC
