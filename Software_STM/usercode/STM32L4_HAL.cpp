@@ -124,6 +124,18 @@ void STM32L4_HAL::HAL_init() {
 	} else {
 		wakeupReason = WAKEUP_POR;
 		//TODO Init RTC Correction Registers
+		uint16_t CALM = 0;
+		uint8_t CALP = 0;
+		uint32_t *ID = (uint32_t*)(0x1FFF7590);
+		if(ID[0] == 0x002c0030 && ID[1] == 0x58525018 && ID[2] == 0x20393357)
+		{
+			CALM = 210;
+			CALP = RTC_SMOOTHCALIB_PLUSPULSES_RESET;
+		}
+		if(CALM != 0 || CALP != 0)
+		{
+			HAL_RTCEx_SetSmoothCalib(&hrtc, RTC_SMOOTHCALIB_PERIOD_8SEC, CALP, CALM);
+		}
 	}
 
 	if ((bma.getInternalState()) != 0x01) //should be 0x01
