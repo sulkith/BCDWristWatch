@@ -135,6 +135,7 @@ void GForceUI::stateTransition() {
 	case SetMinute:
 		if (gHAL->getTap()) {
 			UIstate = Time;
+			ClockM::getInstance().clearSeconds();
 			SleepM::requestProlong(ontime_short);
 		}
 		if (debouncerGForce == 0xFF) {
