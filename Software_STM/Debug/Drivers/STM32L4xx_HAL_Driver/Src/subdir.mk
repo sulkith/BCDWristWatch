@@ -28,31 +28,6 @@ C_SRCS += \
 ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c \
 ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c 
 
-OBJS += \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o \
-./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o 
-
 C_DEPS += \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.d \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.d \
@@ -77,6 +52,31 @@ C_DEPS += \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.d \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.d \
 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.d 
+
+OBJS += \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_flash_ramfunc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rtc_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi_ex.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.o \
+./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.o 
 
 
 # Each subdirectory must supply rules for building sources it contributes
