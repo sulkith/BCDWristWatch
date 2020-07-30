@@ -622,7 +622,7 @@ Text GLabel 2850 2550 0    60   Input ~ 0
 X2
 Text GLabel 4100 1850 2    60   Input ~ 0
 BMA_INT1
-Text GLabel 3850 2050 2    60   Input ~ 0
+Text GLabel 3750 6200 2    60   Input ~ 0
 BMA_INT2
 Text GLabel 2850 2950 0    60   Input ~ 0
 SCK
@@ -807,7 +807,7 @@ U 1 1 5F1CD3E1
 P 2400 4600
 F 0 "R5" V 2193 4600 50  0000 C CNN
 F 1 "R" V 2284 4600 50  0000 C CNN
-F 2 "" V 2330 4600 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2330 4600 50  0001 C CNN
 F 3 "~" H 2400 4600 50  0001 C CNN
 	1    2400 4600
 	0    1    1    0   
@@ -825,4 +825,6 @@ F 3 "" H 2700 4600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2550 4600 2700 4600
+NoConn ~ 3750 6200
+NoConn ~ 3850 2050
 $EndSCHEMATC

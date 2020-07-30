@@ -1,4 +1,4 @@
-18353831737891250
+18349121335292717
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -71413,27 +71413,6 @@ Potentiometer vertical Vishay T73YP
 0
 3
 3
-ProjectSpecific
-BMA456
-BMA456-3
-Integrated Circuit
-0
-12
-12
-ProjectSpecific
-BatteryHolderCR2032
-
-
-0
-3
-2
-ProjectSpecific
-TestPoint
-
-
-0
-1
-1
 RF
 Skyworks_SKY13575_639LF
 http://www.skyworksinc.com/uploads/documents/SKY13575_639LF_203270D.pdf
