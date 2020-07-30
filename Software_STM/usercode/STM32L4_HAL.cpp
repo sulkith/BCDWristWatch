@@ -125,7 +125,7 @@ void STM32L4_HAL::HAL_init() {
 		wakeupReason = WAKEUP_POR;
 		//TODO Init RTC Correction Registers
 		uint16_t CALM = 0;
-		uint8_t CALP = 0;
+		uint16_t CALP = 0;
 		uint32_t *ID = (uint32_t*)(0x1FFF7590);
 		if(ID[0] == 0x002c0030 && ID[1] == 0x58525018 && ID[2] == 0x20393357)
 		{
