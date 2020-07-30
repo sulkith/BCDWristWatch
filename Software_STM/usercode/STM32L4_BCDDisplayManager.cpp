@@ -47,7 +47,7 @@ const uint16_t numToPort[] = { DISP_0, // 0
 const uint32_t mask_for_pins = (((HS8_Pin | HS4_Pin | HS2_Pin | HS1_Pin)) << 16);
 const uint32_t mask_clear = (((HS8_Pin | HS4_Pin | HS2_Pin | HS1_Pin)
 		| (LSH10_Pin) | (LSH01_Pin) | (LSM10_Pin) | (LSM01_Pin)) << 16);
-uint32_t Column[] = { mask_for_pins | (LSH10_Pin << 16) | (LSH01_Pin)
+const uint32_t Column[] = { mask_for_pins | (LSH10_Pin << 16) | (LSH01_Pin)
 		| (LSM10_Pin) | (LSM01_Pin), // H10 Column
 mask_for_pins | (LSH01_Pin << 16) | (LSH10_Pin) | (LSM10_Pin) | (LSM01_Pin), // H01 Column
 mask_for_pins | (LSM10_Pin << 16) | (LSH10_Pin) | (LSH01_Pin) | (LSM01_Pin), // M10 Column
