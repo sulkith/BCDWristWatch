@@ -71,7 +71,7 @@ const uint8_t LED_Brightness = 240;
 uint32_t IC_Value1 = 0;
 uint32_t IC_Value2 = 0;
 uint32_t Is_First_Captured = 0;
-#define Bufflen 2
+#define Bufflen 20
 uint32_t DiffVals[Bufflen] = { 0 };
 uint8_t Bufful = 0;
 uint8_t Buffpos = 0;
@@ -317,6 +317,7 @@ int main(void)
 					}
 					uint32_t EEPVAL = CALP | CALM;
 					writeFlash(FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE, EEPVAL); //Write CalibrationValue to beginning of last Page
+					HAL_RTCEx_SetSmoothCalib(&hrtc, RTC_SMOOTHCALIB_PERIOD_32SEC, CALP, CALM);//Correct RTC Immediately, to make sure the values are used even without POR
 					//Note CALP, CALM, DEVID and REVID for the STM32L4_HAL.cpp File
 					//__asm__("BKPT");
 					State=Finished;
