@@ -21,7 +21,10 @@ const uint8_t stepsOffsetOffset = 1;
 const uint8_t stepsHistOffset = 2;
 const uint8_t axisVariantOffset = 6;
 const uint8_t DBG_Offset = 31;
-
+const uint32_t CALR_Address = FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE;
+uint64_t readFlash(uint32_t Address) {
+	return *((uint64_t*) Address);
+}
 void setCS(uint8_t t) {
 	if (t == 0)
 		HAL_GPIO_WritePin(BMA_CS_GPIO_Port, BMA_CS_Pin, GPIO_PIN_SET);
@@ -124,14 +127,10 @@ void STM32L4_HAL::HAL_init() {
 	} else {
 		wakeupReason = WAKEUP_POR;
 		//TODO Init RTC Correction Registers
-		uint16_t CALM = 0;
-		uint16_t CALP = 0;
-		uint32_t *ID = (uint32_t*)(0x1FFF7590);
-		if(ID[0] == 0x002c0030 && ID[1] == 0x58525018 && ID[2] == 0x20393357)
-		{
-			CALM = 302;
-			CALP = RTC_SMOOTHCALIB_PLUSPULSES_SET;
-		}
+		uint32_t EEPVAL = readFlash(CALR_Address);
+
+		uint16_t CALM = EEPVAL&0x1FF;
+		uint16_t CALP = EEPVAL&RTC_SMOOTHCALIB_PLUSPULSES_SET;
 		if(CALM != 0 || CALP != 0)
 		{
 			HAL_RTCEx_SetSmoothCalib(&hrtc, RTC_SMOOTHCALIB_PERIOD_32SEC, CALP, CALM);
