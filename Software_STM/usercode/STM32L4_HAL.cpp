@@ -19,7 +19,6 @@ Bosch_BMA bma;
 const uint8_t alreadyRunningOffset = 0;
 const uint8_t stepsOffsetOffset = 1;
 const uint8_t stepsHistOffset = 2;
-const uint8_t axisVariantOffset = 6;
 const uint8_t DBG_Offset = 31;
 const uint32_t CALR_Address = FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE;
 uint64_t readFlash(uint32_t Address) {
@@ -122,8 +121,6 @@ void STM32L4_HAL::HAL_init() {
 		for (uint8_t i = 0; i < 4; ++i) {
 			stepsHist[i] = HAL_RTCEx_BKUPRead(&hrtc, stepsHistOffset + i);
 		}
-		AxisMappingVariant = (Watch_Type_t) HAL_RTCEx_BKUPRead(&hrtc,
-				axisVariantOffset);
 	} else {
 		wakeupReason = WAKEUP_POR;
 		//TODO Init RTC Correction Registers
@@ -230,10 +227,10 @@ void STM32L4_HAL::HAL_init() {
 	}
 
 	//Check config
-	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
-	{
-		DBGMCU->CR = 7;	 //Debugging in Standby//XXX
-	}
+//	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
+//	{
+//		DBGMCU->CR = 7;	 //Debugging in Standby//XXX
+//	}
 	HAL_RTCEx_BKUPWrite(&hrtc, alreadyRunningOffset, 1);//set already running
 
 	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
@@ -286,7 +283,15 @@ uint16_t STM32L4_HAL::getHistSteps(uint8_t days) {
 void STM32L4_HAL::setAxisMappingVariant(Watch_Type_t av) {
 	AxisMappingVariant = av;
 }
+void STM32L4_HAL::writeDataToBackupRegisters()
+{
+	HAL_RTCEx_BKUPWrite(&hrtc, alreadyRunningOffset, 1);//set already running
+	HAL_RTCEx_BKUPWrite(&hrtc, stepsOffsetOffset, stepsOffset);
+	for(uint8_t i = 0;i<stepsHistSize; ++i)
+		HAL_RTCEx_BKUPWrite(&hrtc, stepsHistOffset+i, stepsHist[i]);
+}
 uint8_t STM32L4_HAL::HAL_sleep() {
+	writeDataToBackupRegisters();
 	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);	//Clear Wakeup Flag
 	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode if Debuger is present
 	HAL_PWREx_EnterSHUTDOWNMode();

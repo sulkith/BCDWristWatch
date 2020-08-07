@@ -68,7 +68,7 @@ void usermain_init() {
 
 	  MX_RTC_Init();
 	  // Moved to HAL: MX_SPI1_Init();
-	  Watch_Type_t wt = (Watch_Type_t)HAL_RTCEx_BKUPRead(&hrtc, 0);
+	  Watch_Type_t wt = Binary_v1;
 
 	  //hal = &stm_hal;
 	  DWT_Delay_Init();
