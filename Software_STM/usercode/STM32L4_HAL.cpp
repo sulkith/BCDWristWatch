@@ -35,6 +35,66 @@ void STM32L4_HAL::showERROR(uint8_t error, uint8_t data) {
 		dman_loc->showERROR(error, data);
 	}
 }
+
+void HAL_MX_RTC_Init(void) {
+
+	RTC_TimeTypeDef sTime = { 0 };
+	RTC_DateTypeDef sDate = { 0 };
+	RTC_AlarmTypeDef sAlarm = { 0 };
+
+	/** Initialize RTC Only
+	 */
+	hrtc.Instance = RTC;
+	hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+	hrtc.Init.AsynchPrediv = 127;
+	hrtc.Init.SynchPrediv = 255;
+	hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+	hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+	hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+	if (HAL_RTC_Init(&hrtc) != HAL_OK) {
+		Error_Handler();
+	}
+
+	if (HAL_RTCEx_BKUPRead(&hrtc, 0) != 0) {
+		return; // Only initialize RTC
+	}
+
+	/** Initialize RTC and set the Time and Date
+	 */
+	sTime.Hours = 0x23;
+	sTime.Minutes = 0x59;
+	sTime.Seconds = 0x45;
+	sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+	sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+	if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK) {
+		Error_Handler();
+	}
+	sDate.WeekDay = RTC_WEEKDAY_SUNDAY;
+	sDate.Month = RTC_MONTH_AUGUST;
+	sDate.Date = 0x9;
+	sDate.Year = 0x20;
+
+	if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK) {
+		Error_Handler();
+	}
+	/** Enable the Alarm A
+	 */
+	sAlarm.AlarmTime.Hours = 0x0;
+	sAlarm.AlarmTime.Minutes = 0x0;
+	sAlarm.AlarmTime.Seconds = 0x0;
+	sAlarm.AlarmTime.SubSeconds = 0x0;
+	sAlarm.AlarmTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+	sAlarm.AlarmTime.StoreOperation = RTC_STOREOPERATION_RESET;
+	sAlarm.AlarmMask = RTC_ALARMMASK_DATEWEEKDAY;
+	sAlarm.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_ALL;
+	sAlarm.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_DATE;
+	sAlarm.AlarmDateWeekDay = 0x1;
+	sAlarm.Alarm = RTC_ALARM_A;
+	if (HAL_RTC_SetAlarm_IT(&hrtc, &sAlarm, RTC_FORMAT_BCD) != HAL_OK) {
+		Error_Handler();
+	}
+}
 extern void spi_write(uint8_t *data, uint8_t length,
 		void (*callback)(uint8_t*));
 void STM32L4_HAL::setupBMA() {
@@ -76,6 +136,29 @@ void STM32L4_HAL::setupBMA() {
 extern void initComDriver();
 extern void spi_init();
 #define MIN(a,b) (a>b)?b:a;
+void STM32L4_HAL::HAL_driverInit() {
+	HAL_PWR_EnableBkUpAccess();
+	if (__HAL_RCC_GET_RTC_SOURCE() == 0) {
+		__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
+		/** Initializes the RCC Oscillators according to the specified parameters
+		 * in the RCC_OscInitTypeDef structure.
+		 */
+		__HAL_RCC_LSE_CONFIG(RCC_LSE_ON);
+		__HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSE);
+		HAL_MX_RTC_Init();
+		__HAL_RCC_RTC_ENABLE();
+	} else {
+		hrtc.Instance = RTC;
+		hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+		hrtc.Init.AsynchPrediv = 127;
+		hrtc.Init.SynchPrediv = 255;
+		hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+		hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+		hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+		hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+	}
+	HAL_RTC_WaitForSynchro(&hrtc);
+}
 void STM32L4_HAL::HAL_init() {
 
 	/*Configure GPIO pin Output Level */
@@ -126,33 +209,27 @@ void STM32L4_HAL::HAL_init() {
 		//TODO Init RTC Correction Registers
 		uint32_t EEPVAL = readFlash(CALR_Address);
 
-		uint16_t CALM = EEPVAL&0x1FF;
-		uint16_t CALP = EEPVAL&RTC_SMOOTHCALIB_PLUSPULSES_SET;
-		if(CALM != 0 || CALP != 0)
-		{
-			HAL_RTCEx_SetSmoothCalib(&hrtc, RTC_SMOOTHCALIB_PERIOD_32SEC, CALP, CALM);
+		uint16_t CALM = EEPVAL & 0x1FF;
+		uint16_t CALP = EEPVAL & RTC_SMOOTHCALIB_PLUSPULSES_SET;
+		if (CALM != 0 || CALP != 0) {
+			HAL_RTCEx_SetSmoothCalib(&hrtc, RTC_SMOOTHCALIB_PERIOD_32SEC, CALP,
+					CALM);
 		}
 	}
 
 	if ((bma.getInternalState()) != 0x01) //should be 0x01
-	{
+			{
 		//This will only initialize the BMA if it is not already running
 		setupBMA();
-	}
-	else
-	{
-		if(HAL_GPIO_ReadPin(BMA_INT_GPIO_Port, BMA_INT_Pin) == GPIO_PIN_SET)
-		{
+	} else {
+		if (HAL_GPIO_ReadPin(BMA_INT_GPIO_Port, BMA_INT_Pin) == GPIO_PIN_SET) {
 			uint8_t interruptState = bma.readAddress(0x1C);
 			if ((interruptState & 0x08) > 0) {
 				wakeupReason = WAKEUP_BMA_TILT;
-			}
-			else if ((interruptState & 0x20) > 0) {
+			} else if ((interruptState & 0x20) > 0) {
 				wakeupReason = WAKEUP_BMA_TAP;
-			}
-			else
-			{
-				showERROR(4, interruptState);//E4
+			} else {
+				showERROR(4, interruptState); //E4
 			}
 		}
 		updateSteps();
@@ -204,26 +281,22 @@ void STM32L4_HAL::HAL_init() {
 		dman_loc->show();
 	}
 
-	if(wakeupReason == WAKEUP_UNKNOWN)
-	{
+	if (wakeupReason == WAKEUP_UNKNOWN) {
 		//WakeupReason is NOT BMA, is NOT Alarm, and RTC is already Running.
 		//--> Reset Pin Triggered, or running via Debugger, therefore Activate Debugging in Sleep
 		//	showERROR(0xD, 1);
 	}
 
-	if(wakeupReason == WAKEUP_AlarmA)
-	{
-		if(ClockM::getInstance().getHour()==0)
-		{
+	if (wakeupReason == WAKEUP_AlarmA) {
+		if (ClockM::getInstance().getHour() == 0) {
 			//Ghost Hour ;-)
-			pushNewSteps(bma.getSteps()-stepsOffset);
+			pushNewSteps(bma.getSteps() - stepsOffset);
 			stepsOffset = bma.getSteps();
 		}
 	}
-	if(wakeupReason >= 0x10)
-	{
-	  MX_ADC1_Init();
-	  HAL_ADC_Start(&hadc1);
+	if (wakeupReason >= 0x10) {
+		MX_ADC1_Init();
+		HAL_ADC_Start(&hadc1);
 	}
 
 	//Check config
@@ -283,17 +356,17 @@ uint16_t STM32L4_HAL::getHistSteps(uint8_t days) {
 void STM32L4_HAL::setAxisMappingVariant(Watch_Type_t av) {
 	AxisMappingVariant = av;
 }
-void STM32L4_HAL::writeDataToBackupRegisters()
-{
+void STM32L4_HAL::writeDataToBackupRegisters() {
 	HAL_RTCEx_BKUPWrite(&hrtc, alreadyRunningOffset, 1);//set already running
 	HAL_RTCEx_BKUPWrite(&hrtc, stepsOffsetOffset, stepsOffset);
-	for(uint8_t i = 0;i<stepsHistSize; ++i)
-		HAL_RTCEx_BKUPWrite(&hrtc, stepsHistOffset+i, stepsHist[i]);
+	for (uint8_t i = 0; i < stepsHistSize; ++i)
+		HAL_RTCEx_BKUPWrite(&hrtc, stepsHistOffset + i, stepsHist[i]);
 }
 uint8_t STM32L4_HAL::HAL_sleep() {
 	writeDataToBackupRegisters();
 	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);	//Clear Wakeup Flag
-	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode if Debuger is present
+	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
+		HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode if Debuger is present
 	HAL_PWREx_EnterSHUTDOWNMode();
 	return 0;
 }
@@ -305,14 +378,12 @@ void STM32L4_HAL::HAL_releaseInts() {
 }
 void STM32L4_HAL::HAL_cyclic() {
 	//TODO
-	if(UBatt == 0)
-	{
+	if (UBatt == 0) {
 		HAL_ADC_PollForConversion(&hadc1, 0);
-		if((HAL_ADC_GetState(&hadc1) & HAL_ADC_STATE_REG_EOC)>0)
-		{
+		if ((HAL_ADC_GetState(&hadc1) & HAL_ADC_STATE_REG_EOC) > 0) {
 			uint32_t adc_result = HAL_ADC_GetValue(&hadc1);
 			HAL_ADCEx_DisableVoltageRegulator(&hadc1);
-			UBatt = 1125300L / adc_result;  //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
+			UBatt = 1125300L / adc_result; //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
 			HAL_ADC_DeInit(&hadc1);
 		}
 	}

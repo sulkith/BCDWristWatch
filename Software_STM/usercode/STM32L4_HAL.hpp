@@ -28,6 +28,7 @@ class STM32L4_HAL: public GForceHAL
 	void writeDataToBackupRegisters();
 public:
   virtual void HAL_init();
+  virtual void HAL_driverInit();
   virtual uint8_t HAL_sleep();
   virtual void HAL_lockInts();
   virtual void HAL_releaseInts();

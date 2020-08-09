@@ -5,6 +5,7 @@ class HAL
 {
 public:
   virtual void HAL_init()=0;
+  virtual void HAL_driverInit()=0;
   virtual uint8_t HAL_sleep()=0;
   virtual void HAL_lockInts()=0;
   virtual void HAL_releaseInts()=0;
