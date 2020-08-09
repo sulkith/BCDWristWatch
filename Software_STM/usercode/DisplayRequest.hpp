@@ -8,6 +8,7 @@ typedef enum
   Empty,
   FadeIn,
   Time,
+  Time_s,
   Date,
   SetMinute,
   SetHour,

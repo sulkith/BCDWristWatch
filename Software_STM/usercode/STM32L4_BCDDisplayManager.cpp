@@ -164,6 +164,12 @@ void STM32L4_BCDDisplayManager::show() {
 				DisplayBuffer[1]|=DISP_8;
 			}
 		break;
+	case Time_s:
+		DisplayBuffer[3] = numToPort[request[1] / 10];//Minutes and Seconds
+		DisplayBuffer[2] = numToPort[request[1] % 10];
+		DisplayBuffer[1] = numToPort[request[2] / 10];
+		DisplayBuffer[0] = numToPort[request[2] % 10];
+		break;
 	case Date:
 	case SetDay:
 	case SetMonth:

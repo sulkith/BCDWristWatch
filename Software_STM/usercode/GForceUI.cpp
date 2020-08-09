@@ -54,13 +54,12 @@ void GForceUI::stateTransition() {
 		SleepM::requestProlong(ontime_short);
 	}
 
-	uint8_t wakeTime = ontime_long;
 	switch (UIstate) {
 	case FadeIn:
 		UIstate = Time;
-		wakeTime = ontime_short;
 		break;
 	case Debouncing:
+	case Time_s:
 	case Time:
 		//debouncerGForce=1;//TODO Only for testing
 		//UIstate = Debouncing;
@@ -76,8 +75,18 @@ void GForceUI::stateTransition() {
 						UIstate = Date;
 						SleepM::requestProlong(ontime_short);
 						debouncerGForce = 0;
-					} else {
+					} else if (gHAL->getY() < -300) {
 						UIstate = showStepCounter;
+						SleepM::requestProlong(ontime_short);
+					} else {
+						if(UIstate == Time_s)
+						{
+							UIstate = Time;
+						}
+						else
+						{
+							UIstate = Time_s;
+						}
 						SleepM::requestProlong(ontime_short);
 					}
 				}
@@ -106,7 +115,6 @@ void GForceUI::stateTransition() {
 			 }*/
 			//SleepM::requestProlong(ontime_long);
 		}
-		wakeTime = ontime_short;
 		break;
 	case SetHour:
 		if (gHAL->getTap()) {
@@ -284,6 +292,9 @@ void GForceUI::stateTransition() {
 		}
 		break;
 	}
+		break;
+	case showError:
+	case Raw_Output:
 	case Empty:
 		UIstate = Time;
 	}
@@ -311,6 +322,7 @@ void GForceUI::stateDisplayReuest() {
 	switch (UIstate) {
 	case FadeIn:
 	case Time:
+	case Time_s:
 	case SetHour:
 	case SetMinute:
 	case Debouncing:
