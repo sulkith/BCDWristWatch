@@ -38,15 +38,18 @@ void spi_init()
 {
 	//Nothing to do here
 	HAL_StatusTypeDef ret = HAL_SPI_Transmit(&hspi1, buffer, 1, SPI_TIMEOUT);
+	UNUSED(ret);
 }
 void spi_write(uint8_t* data, uint8_t length, void (*callback)(uint8_t *))
 {
 	HAL_StatusTypeDef ret = HAL_SPI_Transmit(&hspi1, data, length, SPI_TIMEOUT);
+	UNUSED(ret);
 	return;
 }
 void spi_read(uint8_t length, void (*callback)(uint8_t *))
 {
 	HAL_StatusTypeDef ret = HAL_SPI_Receive(&hspi1, buffer, length, SPI_TIMEOUT);
+	UNUSED(ret);
 	(*callback)(buffer);
 };
 uint8_t *spi_wait()
