@@ -776,7 +776,6 @@ NoConn ~ 2850 2850
 NoConn ~ 2850 2750
 Text GLabel 2250 4600 0    60   Input ~ 0
 BOOT
-NoConn ~ 2050 5000
 Wire Wire Line
 	2100 3600 3250 3600
 $Comp
@@ -827,4 +826,56 @@ Wire Wire Line
 	2550 4600 2700 4600
 NoConn ~ 3750 6200
 NoConn ~ 3850 2050
+Text GLabel 5650 3700 0    60   Input ~ 0
+SWCLK
+Text GLabel 5650 3850 0    60   Input ~ 0
+SWDIO
+Text GLabel 5650 4000 0    60   Input ~ 0
+RTC_CAL
+Text GLabel 5650 4150 0    60   Input ~ 0
+RESET
+$Comp
+L Connector_Generic:Conn_01x01 J2
+U 1 1 5F31F377
+P 5850 3700
+F 0 "J2" H 5930 3742 50  0000 L CNN
+F 1 "Conn_01x01" H 5930 3651 50  0000 L CNN
+F 2 "ProjectSpecific:TestPoint" H 5850 3700 50  0001 C CNN
+F 3 "~" H 5850 3700 50  0001 C CNN
+	1    5850 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J3
+U 1 1 5F31F746
+P 5850 3850
+F 0 "J3" H 5930 3892 50  0000 L CNN
+F 1 "Conn_01x01" H 5930 3801 50  0000 L CNN
+F 2 "ProjectSpecific:TestPoint" H 5850 3850 50  0001 C CNN
+F 3 "~" H 5850 3850 50  0001 C CNN
+	1    5850 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J4
+U 1 1 5F31FA40
+P 5850 4000
+F 0 "J4" H 5930 4042 50  0000 L CNN
+F 1 "Conn_01x01" H 5930 3951 50  0000 L CNN
+F 2 "ProjectSpecific:TestPoint" H 5850 4000 50  0001 C CNN
+F 3 "~" H 5850 4000 50  0001 C CNN
+	1    5850 4000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J5
+U 1 1 5F31FCF2
+P 5850 4150
+F 0 "J5" H 5930 4192 50  0000 L CNN
+F 1 "Conn_01x01" H 5930 4101 50  0000 L CNN
+F 2 "ProjectSpecific:TestPoint" H 5850 4150 50  0001 C CNN
+F 3 "~" H 5850 4150 50  0001 C CNN
+	1    5850 4150
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
