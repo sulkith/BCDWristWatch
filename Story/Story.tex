@@ -12,6 +12,8 @@
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{listings}
+\usepackage{fancyvrb}
 \title{BCDWristWatch}
 \date{\vspace{-10ex}}
 \begin{document}
@@ -39,6 +41,8 @@ The powerful Sensor also made some other cool features for a wrist watch.
 There is a Wrist Tilt detection to activate the Watchface once the user rises the arm and takes a look on the watch. Now the watch can also be turned on while only using one hand e.g. while carrying stuff.
 
 Another cool new feature is a stepcounter, so the watch is also a (not completely sweat resistant ;-) ) fitness tracker.
+
+The next evolution step is switching to a new more powerful controller. For this the STM32L432K Controller was chosen. This controller also features a calender in the built in RTC.
 \input{BinaryWatch.tex}
 \input{AnalogWatch.tex}
 \input{BinaryGWatch.tex}
