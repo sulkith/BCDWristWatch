@@ -71,6 +71,7 @@ const uint8_t LED_Brightness = 240;
 uint32_t IC_Value1 = 0;
 uint32_t IC_Value2 = 0;
 uint32_t Is_First_Captured = 0;
+//Bufflen has to be a multiple of 10
 #define Bufflen 20
 uint32_t DiffVals[Bufflen] = { 0 };
 uint8_t Bufful = 0;
@@ -301,9 +302,21 @@ int main(void)
 					sum += ((int32_t) DiffVals[i]) - Timerrun_offset;
 				}
 				float f = sum / ((float) Bufflen) * 4;
-				sum = sum * 4; //Deviation per 2^20 Ticks
+				f=f*1000000/262144;
+
+				//sum = summed Average Deviation per 262144 Ticks
+
+				//sum = sum * 1000000; //sum = summed Average Deviation per 262144000000 Ticks
+				//sum = sum /262144/Bufflen;
+				//MAX int32 = 2147483647 --> Max Deviation 2147483647 / 262144 / BUFFLEN(20) = 409
+				//--> So we have to calculate it in a different way
+
+				sum = sum * (1000000/10); //sum = summed Average Deviation per 26214400000 Ticks
 				sum = sum + (Bufflen / 2); //Round the Value
-				sum = sum / Bufflen; //Average Deviation per 2^20 Ticks
+				sum = sum /262144/(Bufflen/10);
+				//MAX int32 = 2147483647 --> Max Deviation 2147483647 / 262144 / (BUFFLEN(20)/10) = 4096
+				//--> since the maximum Deviation we can correct is 512 this is sufficient
+
 				sum = -sum; //Deviation to Correction.
 				if(sum < 512 && sum > -511)
 				{
