@@ -174,50 +174,50 @@ void STM32L4_BCDDisplayManager::show() {
 	case SetDay:
 	case SetMonth:
 	case DebouncingDate:
-		DisplayBuffer[3] = numToPort[request[0] / 10];
-		DisplayBuffer[2] = numToPort[request[0] % 10];
-		DisplayBuffer[1] = numToPort[request[1] / 10]|DISP_8;
-		DisplayBuffer[0] = numToPort[request[1] % 10];
-			if(BlinkOn == 0 &&request.getType() == SetDay)DisplayBuffer[3]|=DISP_8;
-			if(BlinkOn == 0 &&request.getType() == SetMonth)DisplayBuffer[1]|=DISP_8;
-			if(BlinkOn == 0 &&request.getType() == DebouncingDate)
-			{
-				DisplayBuffer[3]|=DISP_8;
-				DisplayBuffer[1]|=DISP_4;
-			}
+		DisplayBuffer[3] = DISP_3;
+		DisplayBuffer[2] = numToPort[request[0] / 10];
+		DisplayBuffer[1] = numToPort[request[0] % 10];
+		DisplayBuffer[0] = numToPort[request[1] % 16];
+		if(BlinkOn == 0 &&request.getType() == SetDay)DisplayBuffer[2]|=DISP_8;
+		if(BlinkOn == 0 &&request.getType() == SetMonth)DisplayBuffer[1]|=DISP_8;
+		if(BlinkOn == 0 &&request.getType() == DebouncingDate)
+		{
+			DisplayBuffer[2]|=DISP_8;
+			DisplayBuffer[1]|=DISP_8;
+		}
 		break;
 	case SetYear:
-		DisplayBuffer[3] = numToPort[request[0] / 10]|DISP_8;
-				DisplayBuffer[2] = DISP_0;
-				DisplayBuffer[1] = numToPort[request[2] / 10];
-				DisplayBuffer[0] = numToPort[request[2] % 10];
-				if(BlinkOn == 0)DisplayBuffer[2]=DISP_4|DISP_8;
-				break;
+		DisplayBuffer[3] = DISP_3;
+		DisplayBuffer[2] = DISP_6;
+		DisplayBuffer[1] = numToPort[request[2] / 10];
+		DisplayBuffer[0] = numToPort[request[2] % 10];
+		if(BlinkOn == 0)DisplayBuffer[2]=DISP_8|DISP_1;
+		break;
 		break;
 	case showStepCounter: {
 		uint16_t steps = request[2] / 100;
+		DisplayBuffer[3] = DISP_7;
 		DisplayBuffer[2] = numToPort[(steps / 100) % 16];
 		DisplayBuffer[1] = numToPort[((steps) / 10) % 10];
 		DisplayBuffer[0] = numToPort[((steps) % 10)];
-		DisplayBuffer[3] = DISP_8;
 		break;
 	}
 	case ShowStepsHistory: {
 		uint16_t steps = request[(request[0] % 4) + 1] / 100;
 
+		DisplayBuffer[3] = DISP_8 | numToPort[request[0] % 4];
 		DisplayBuffer[2] = numToPort[(steps / 100) % 16];
 		DisplayBuffer[1] = numToPort[((steps) / 10) % 10];
 		DisplayBuffer[0] = numToPort[((steps) % 10)];
-		DisplayBuffer[3] = DISP_8 | numToPort[request[0] % 4];
 		break;
 	}
 	case ShowUBatt: {
 		uint16_t Ubatt_10mv = request[0] / 10;
 
+		DisplayBuffer[3] = DISP_4;
 		DisplayBuffer[2] = numToPort[(Ubatt_10mv / 100) % 16];
 		DisplayBuffer[1] = numToPort[((Ubatt_10mv) / 10) % 10];
 		DisplayBuffer[0] = numToPort[((Ubatt_10mv) % 10)];
-		DisplayBuffer[3] = DISP_4;
 		break;
 	}
 	case showError: {
