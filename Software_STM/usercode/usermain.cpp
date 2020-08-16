@@ -6,7 +6,6 @@
  */
 #include "usermain.hpp"
 #include "ClockM.hpp"
-#include "EEPM.hpp"
 #include "DisplayManager.hpp"
 #include "DisplayRequest.hpp"
 

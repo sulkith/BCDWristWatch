@@ -1,7 +1,7 @@
 #include "GForceUI.hpp"
 #include "ClockM.hpp"
-#include "EEPM.hpp"
 #include "SleepM.hpp"
+#include "settings.hpp"
 
 const uint16_t ontime_short = 4;
 const uint16_t ontime_long = 30;
@@ -79,15 +79,21 @@ void GForceUI::stateTransition() {
 						UIstate = showStepCounter;
 						SleepM::requestProlong(ontime_short);
 					} else {
+#ifdef TIME_S
 						if(UIstate == Time_s)
 						{
 							UIstate = Time;
+							SleepM::requestProlong(ontime_short);
 						}
 						else
 						{
 							UIstate = Time_s;
+							SleepM::requestProlong(ontime_long);
 						}
+#else
+						UIstate = showStepCounter;
 						SleepM::requestProlong(ontime_short);
+#endif
 					}
 				}
 			} else if (debouncerGForce == 1) {
