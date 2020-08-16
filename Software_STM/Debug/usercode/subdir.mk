@@ -5,7 +5,6 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../usercode/ClockM.cpp \
-../usercode/EEPM.cpp \
 ../usercode/GForceUI.cpp \
 ../usercode/STM32L4_BCDDisplayManager.cpp \
 ../usercode/STM32L4_HAL.cpp \
@@ -15,7 +14,6 @@ CPP_SRCS += \
 
 OBJS += \
 ./usercode/ClockM.o \
-./usercode/EEPM.o \
 ./usercode/GForceUI.o \
 ./usercode/STM32L4_BCDDisplayManager.o \
 ./usercode/STM32L4_HAL.o \
@@ -25,7 +23,6 @@ OBJS += \
 
 CPP_DEPS += \
 ./usercode/ClockM.d \
-./usercode/EEPM.d \
 ./usercode/GForceUI.d \
 ./usercode/STM32L4_BCDDisplayManager.d \
 ./usercode/STM32L4_HAL.d \
@@ -37,8 +34,6 @@ CPP_DEPS += \
 # Each subdirectory must supply rules for building sources it contributes
 usercode/ClockM.o: ../usercode/ClockM.cpp
 	arm-none-eabi-g++ "$<" -mcpu=cortex-m4 -std=gnu++14 -g3 -DUSE_HAL_DRIVER -DDEBUG -DSTM32L432xx -c -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I"/home/sulkith/git/BCDWristWatch/Software_STM/usercode" -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"usercode/ClockM.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
-usercode/EEPM.o: ../usercode/EEPM.cpp
-	arm-none-eabi-g++ "$<" -mcpu=cortex-m4 -std=gnu++14 -g3 -DUSE_HAL_DRIVER -DDEBUG -DSTM32L432xx -c -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I"/home/sulkith/git/BCDWristWatch/Software_STM/usercode" -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"usercode/EEPM.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 usercode/GForceUI.o: ../usercode/GForceUI.cpp
 	arm-none-eabi-g++ "$<" -mcpu=cortex-m4 -std=gnu++14 -g3 -DUSE_HAL_DRIVER -DDEBUG -DSTM32L432xx -c -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I"/home/sulkith/git/BCDWristWatch/Software_STM/usercode" -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"usercode/GForceUI.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 usercode/STM32L4_BCDDisplayManager.o: ../usercode/STM32L4_BCDDisplayManager.cpp

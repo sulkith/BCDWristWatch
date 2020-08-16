@@ -10,6 +10,7 @@
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -144,7 +145,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
-						<entry excluding="libs/Bosch_BMA456/i2c_adap.cpp|BinaryGWatch.cpp|main.cpp|libs/Bosch_BMA456/spi|libs/Bosch_BMA456/i2c|libs/Bosch_BMA456/HostSW|libs/Bosch_BMA456/TestCode" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="usercode"/>
+						<entry excluding="EEPM.cpp|libs/Bosch_BMA456/i2c_adap.cpp|BinaryGWatch.cpp|main.cpp|libs/Bosch_BMA456/spi|libs/Bosch_BMA456/i2c|libs/Bosch_BMA456/HostSW|libs/Bosch_BMA456/TestCode" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="usercode"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -159,6 +160,7 @@
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -293,7 +295,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
-						<entry excluding="libs/Bosch_BMA456/i2c_adap.cpp|BinaryGWatch.cpp|main.cpp|libs/Bosch_BMA456/spi|libs/Bosch_BMA456/i2c|libs/Bosch_BMA456/HostSW|libs/Bosch_BMA456/TestCode" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="usercode"/>
+						<entry excluding="EEPM.cpp|libs/Bosch_BMA456/i2c_adap.cpp|BinaryGWatch.cpp|main.cpp|libs/Bosch_BMA456/spi|libs/Bosch_BMA456/i2c|libs/Bosch_BMA456/HostSW|libs/Bosch_BMA456/TestCode" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="usercode"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
