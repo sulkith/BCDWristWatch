@@ -201,12 +201,11 @@ void STM32L4_HAL::HAL_init() {
 
 	if (HAL_RTCEx_BKUPRead(&hrtc, alreadyRunningOffset) == 1) {
 		stepsOffset = HAL_RTCEx_BKUPRead(&hrtc, stepsOffsetOffset);
-		for (uint8_t i = 0; i < 4; ++i) {
+		for (uint8_t i = 0; i < stepsHistSize; ++i) {
 			stepsHist[i] = HAL_RTCEx_BKUPRead(&hrtc, stepsHistOffset + i);
 		}
 	} else {
 		wakeupReason = WAKEUP_POR;
-		//TODO Init RTC Correction Registers
 		uint32_t EEPVAL = readFlash(CALR_Address);
 
 		uint16_t CALM = EEPVAL & 0x1FF;
@@ -234,7 +233,6 @@ void STM32L4_HAL::HAL_init() {
 		}
 		updateSteps();
 	}
-	//TODO setupUBattMeasure(); // start initial Measuring of UBatt
 
 	while (0) { //Testing of Axis Mapping
 		uint16_t test[4];
@@ -299,11 +297,6 @@ void STM32L4_HAL::HAL_init() {
 		HAL_ADC_Start(&hadc1);
 	}
 
-	//Check config
-//	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
-//	{
-//		DBGMCU->CR = 7;	 //Debugging in Standby//XXX
-//	}
 	HAL_RTCEx_BKUPWrite(&hrtc, alreadyRunningOffset, 1);//set already running
 
 	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
@@ -345,9 +338,10 @@ void STM32L4_HAL::resetSteps() {
 	stepsOffset = bma.getSteps();
 }
 void STM32L4_HAL::pushNewSteps(uint16_t steps) {
-	stepsHist[3] = stepsHist[2];
-	stepsHist[2] = stepsHist[1];
-	stepsHist[1] = stepsHist[0];
+	for(uint8_t i = (stepsHistSize-1); i > 0;--i)
+	{
+		stepsHist[i] = stepsHist[i-1];
+	}
 	stepsHist[0] = steps;
 }
 uint16_t STM32L4_HAL::getHistSteps(uint8_t days) {
@@ -377,7 +371,6 @@ void STM32L4_HAL::HAL_releaseInts() {
 	//TODO
 }
 void STM32L4_HAL::HAL_cyclic() {
-	//TODO
 	if (UBatt == 0) {
 		HAL_ADC_PollForConversion(&hadc1, 0);
 		if ((HAL_ADC_GetState(&hadc1) & HAL_ADC_STATE_REG_EOC) > 0) {
