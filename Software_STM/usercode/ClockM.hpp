@@ -23,27 +23,21 @@ class ClockM {
 	void commitLocalVars();
 public:
 	uint8_t getSecond() {
-		updateLocalVars();
 		return time_cs.Seconds;
 	}
 	uint8_t getMinute() {
-		updateLocalVars();
 		return time_cs.Minutes;
 	}
 	uint8_t getHour() {
-		updateLocalVars();
 		return time_cs.Hours;
 	}
 	uint8_t getDay() {
-		updateLocalVars();
 		return date_cs.Date;
 	}
 	uint8_t getMonth() {
-		updateLocalVars();
 		return date_cs.Month;
 	}
 	uint8_t getYear() {
-			updateLocalVars();
 			return date_cs.Year;
 		}
 	bool isHourChanged() {
@@ -66,6 +60,8 @@ public:
 	uint8_t advanceYear();
 	uint8_t decreaseYear();
 	void clearSeconds();
+	void saveTime();
+	void updateTime();
 
 	static ClockM& getInstance() {
 		return instance;
