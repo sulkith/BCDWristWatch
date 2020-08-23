@@ -204,7 +204,7 @@ void GForceUI::stateTransition() {
 	case SetDay:
 		if (gHAL->getTap()) {
 			UIstate = SetMonth;
-			SleepM::requestProlong(ontime_short);
+			SleepM::requestProlong(ontime_very_long);
 		}
 		if (debouncerGForce == 0xFF) {
 			int16_t axis_val = gHAL->getY();
@@ -228,7 +228,7 @@ void GForceUI::stateTransition() {
 	case SetMonth:
 		if (gHAL->getTap()) {
 			UIstate = SetYear;
-			SleepM::requestProlong(ontime_short);
+			SleepM::requestProlong(ontime_very_long);
 		}
 		if (debouncerGForce == 0xFF) {
 			int16_t axis_val = gHAL->getY();
@@ -398,7 +398,7 @@ void GForceUI::init(DisplayManager *dm, GForceHAL *gh, HAL *h) {
 	DisplMan = dm;
 	gHAL = gh;
 	mHal = h;
-	SleepM::getInstance()->subscribe(this);
+	//SleepM::getInstance()->subscribe(this);//Not needed since we will do a reset
 }
 
 void GForceUI::executeSleepSubscription() {

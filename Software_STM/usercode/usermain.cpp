@@ -73,7 +73,7 @@ void SystemClock_Config_without_LSE(void)
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
   RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -84,7 +84,7 @@ void SystemClock_Config_without_LSE(void)
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
@@ -147,20 +147,20 @@ void usermain_init() {
 void usermain_loop() {
 	if(0)
 	{
-	uint16_t data[] = {12,48,0,0,0};
-	data[0] = ClockM::getInstance().getHour();
-	data[1] = ClockM::getInstance().getMinute();
-	if(HAL_GPIO_ReadPin(BMA_INT_GPIO_Port, BMA_INT_Pin) == GPIO_PIN_SET)
-	{
-		data[0] = 21;
-	}
-	if(stm_hal.getTap()>0)
-	{
-		data[1] = 84;
-	}
-	DisplayRequest dr(Time, data);
-	dman->requestDisplay(dr);
-	dman->show();
+		uint16_t data[] = {12,48,0,0,0};
+		data[0] = ClockM::getInstance().getHour();
+		data[1] = ClockM::getInstance().getMinute();
+		if(HAL_GPIO_ReadPin(BMA_INT_GPIO_Port, BMA_INT_Pin) == GPIO_PIN_SET)
+		{
+			data[0] = 21;
+		}
+		if(stm_hal.getTap()>0)
+		{
+			data[1] = 84;
+		}
+		DisplayRequest dr(Time, data);
+		dman->requestDisplay(dr);
+		dman->show();
 	}
 	gfui.cyclic();
 	dman->show();

@@ -123,8 +123,9 @@ void STM32L4_HAL::setupBMA() {
 	bma.writeAddress(0x56, 0x28); //Enable All Interrupts
 	bma.writeAddress(0x53, 0x0A); //Interrupt Output, LevelBased (High_Active) interrupt and PushPull
 	bma.writeAddress(0x55, 0x01); //latched output
+	bma.writeAddress(BMA4_ACCEL_CONFIG_ADDR, 0x09); //Disable ACC performance Mode --> only draws ~14µA
 	bma.writeAddress(BMA4_POWER_CONF_ADDR, 0x01); //Enable advanced Powersave
-	bma.writeAddress(BMA4_ACCEL_CONFIG_ADDR, 0x09); //Disable ACC per Mode --> only draws ~14µA
+	bma.writeAddress(BMA4_ACCEL_CONFIG_ADDR, 0x09); //Disable ACC performance Mode --> only draws ~14µA
 	while ((bma.getInternalState() & 0x01) != 0x01) //Bit 0 should be set
 	{
 		showERROR(2, bma.getInternalState()); //E2
@@ -159,6 +160,7 @@ void STM32L4_HAL::HAL_driverInit() {
 		hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
 		hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
 	}
+	HAL_PWREx_EnableLowPowerRunMode();
 	HAL_RTC_WaitForSynchro(&hrtc);
 }
 void STM32L4_HAL::HAL_init() {
@@ -369,10 +371,20 @@ void STM32L4_HAL::writeDataToBackupRegisters() {
 		HAL_RTCEx_BKUPWrite(&hrtc, stepsHistOffset + i, stepsHist[i]);
 }
 uint8_t STM32L4_HAL::HAL_sleep() {
+
+
+	  __disable_irq();
+
+	  __disable_fault_irq();
+//	  __HAL_RCC_PWR_CLK_ENABLE(); //Is already enabled
+//	  HAL_PWREx_EnableGPIOPullUp(PWR_GPIO_B, BMA_CS_Pin); //takes a lot of power extra
+//	  HAL_PWREx_EnablePullUpPullDownConfig();
+
 	writeDataToBackupRegisters();
 	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);	//Clear Wakeup Flag
-	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
-		HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode if Debuger is present
+//	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
+//		HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode if Debuger is present
+	HAL_SuspendTick();
 	HAL_PWREx_EnterSHUTDOWNMode();
 	return 0;
 }
@@ -390,10 +402,18 @@ void STM32L4_HAL::HAL_cyclic() {
 			ADC_Disable(&hadc1);
 			HAL_ADCEx_DisableVoltageRegulator(&hadc1);
 			LL_ADC_EnableDeepPowerDown(hadc1.Instance);
+			  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+			  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+			  PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_NONE;
+			  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+			  {
+			    Error_Handler();
+			  }
 			//UBatt = 1125300L / adc_result; //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
 			UBatt = 1239876L / adc_result; //Versorgungsspannung in mV berechnen (1212mV * 1023 = 1239876)
 		}
 	}
+	dman_loc->setBrightness(LED_Brightness_Daytime[ClockM::getInstance().getHour()%24]);
 }
 uint16_t STM32L4_HAL::getUBatt() {
 	return UBatt;

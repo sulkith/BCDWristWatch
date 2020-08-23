@@ -6,6 +6,7 @@
  */
 
 #include "STM32L4_BCDDisplayManager.hpp"
+#include "SleepM.hpp"
 #include "main.h"
 #include "pins.hpp"
 
@@ -55,7 +56,60 @@ mask_for_pins | (LSH01_Pin << 16) | (LSH10_Pin) | (LSM10_Pin) | (LSM01_Pin), // 
 mask_for_pins | (LSM10_Pin << 16) | (LSH10_Pin) | (LSH01_Pin) | (LSM01_Pin), // M10 Column
 mask_for_pins | (LSM01_Pin << 16) | (LSH10_Pin) | (LSH01_Pin) | (LSM10_Pin) // M01 Column
 };
+void STM32L4_BCDDisplayManager::executeSleepSubscription() {
+	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 
+	/* GPIO Ports Clock Enable */
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	__HAL_RCC_GPIOH_CLK_ENABLE();
+
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(GPIOA,
+			LSH01_Pin | LSH10_Pin | HS1_Pin | HS2_Pin | HS8_Pin | HS4_Pin
+					| LSM01_Pin | LSM10_Pin, GPIO_PIN_RESET);
+
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(BMA_CS_GPIO_Port, BMA_CS_Pin, GPIO_PIN_SET);
+
+	/*Configure GPIO pins : PA1 PA7 PA8 PA15 */
+	GPIO_InitStruct.Pin = GPIO_PIN_1 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_15;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	/*Configure GPIO pins : LSH01_Pin LSH10_Pin HS1_Pin HS2_Pin
+	 HS8_Pin HS4_Pin LSM01_Pin LSM10_Pin */
+	GPIO_InitStruct.Pin = LSH01_Pin | LSH10_Pin | HS1_Pin | HS2_Pin | HS8_Pin
+			| HS4_Pin | LSM01_Pin | LSM10_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	/*Configure GPIO pins : PB0 PB1 PB7 */
+	GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_7;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : BMA_CS_Pin */
+	GPIO_InitStruct.Pin = BMA_CS_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(BMA_CS_GPIO_Port, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : PH3 */
+	GPIO_InitStruct.Pin = GPIO_PIN_3;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
+
+	while (LED_Brightness >= 250)
+		showERROR(0xC, 1); //EC01
+}
 void STM32L4_BCDDisplayManager::init() {
 	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 
@@ -109,6 +163,8 @@ void STM32L4_BCDDisplayManager::init() {
 
 	while (LED_Brightness >= 250)
 		showERROR(0xC, 1); //EC01
+
+	//SleepM::getInstance()->subscribe(this);
 }
 /**
  * https://deepbluembedded.com/stm32-delay-microsecond-millisecond-utility-dwt-delay-timer-delay/
