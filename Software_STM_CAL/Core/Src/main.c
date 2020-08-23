@@ -312,7 +312,7 @@ int main(void)
 				//--> So we have to calculate it in a different way
 
 				sum = sum * (1000000/10); //sum = summed Average Deviation per 26214400000 Ticks
-				sum = sum + (Bufflen / 2); //Round the Value
+				//sum = sum + (Bufflen / 2); //Round the Value
 				sum = sum /262144/(Bufflen/10);
 				//MAX int32 = 2147483647 --> Max Deviation 2147483647 / 262144 / (BUFFLEN(20)/10) = 4096
 				//--> since the maximum Deviation we can correct is 512 this is sufficient
