@@ -11,6 +11,7 @@ public:
   virtual int16_t getZ()=0;
   virtual uint32_t getSteps()=0;
   virtual uint16_t getHistSteps(uint8_t days)=0;
+  virtual uint8_t getHistStepsSize()=0;
   virtual uint16_t getUBatt()=0;
 };
 #endif //__GFORCE_HEADER_INCLUDE__

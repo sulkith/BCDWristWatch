@@ -6,6 +6,7 @@
  */
 #include "STM32L4_HAL.hpp"
 #include "usermain.hpp"
+#include "settings.hpp"
 #include "main.h"
 #include "ClockM.hpp"
 #include "libs/Bosch_BMA456/Bosch_BMA.h"
@@ -19,6 +20,7 @@ Bosch_BMA bma;
 const uint8_t alreadyRunningOffset = 0;
 const uint8_t stepsOffsetOffset = 1;
 const uint8_t stepsHistOffset = 2;
+const uint8_t CommandOffset = 30;
 const uint8_t DBG_Offset = 31;
 const uint32_t CALR_Address = FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE;
 uint64_t readFlash(uint32_t Address) {
@@ -284,6 +286,8 @@ void STM32L4_HAL::HAL_init() {
 		//--> Reset Pin Triggered, or running via Debugger, therefore Activate Debugging in Sleep
 		//	showERROR(0xD, 1);
 	}
+	ClockM::getInstance().updateTime();
+	dman_loc->setBrightness(LED_Brightness_Daytime[ClockM::getInstance().getHour()%24]);
 
 	if (wakeupReason == WAKEUP_AlarmA) {
 		if (ClockM::getInstance().getHour() == 0) {
@@ -298,7 +302,15 @@ void STM32L4_HAL::HAL_init() {
 	}
 
 	HAL_RTCEx_BKUPWrite(&hrtc, alreadyRunningOffset, 1);//set already running
-
+	switch(HAL_RTCEx_BKUPRead(&hrtc, CommandOffset))
+	{
+	case 1:
+		pushNewSteps(HAL_RTCEx_BKUPRead(&hrtc, CommandOffset-1));
+		HAL_RTCEx_BKUPWrite(&hrtc, CommandOffset, 0);
+		break;
+	default:
+		break;
+	}
 	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
 }
 void STM32L4_HAL::setDisplayManager(DisplayManager *dman_arg) {
@@ -375,13 +387,19 @@ void STM32L4_HAL::HAL_cyclic() {
 		HAL_ADC_PollForConversion(&hadc1, 0);
 		if ((HAL_ADC_GetState(&hadc1) & HAL_ADC_STATE_REG_EOC) > 0) {
 			uint32_t adc_result = HAL_ADC_GetValue(&hadc1);
+			ADC_Disable(&hadc1);
 			HAL_ADCEx_DisableVoltageRegulator(&hadc1);
-			UBatt = 1125300L / adc_result; //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
-			HAL_ADC_DeInit(&hadc1);
+			LL_ADC_EnableDeepPowerDown(hadc1.Instance);
+			//UBatt = 1125300L / adc_result; //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
+			UBatt = 1239876L / adc_result; //Versorgungsspannung in mV berechnen (1212mV * 1023 = 1239876)
 		}
 	}
 }
 uint16_t STM32L4_HAL::getUBatt() {
 	return UBatt;
+}
+uint8_t STM32L4_HAL::getHistStepsSize()
+{
+	return stepsHistSize;
 }
 

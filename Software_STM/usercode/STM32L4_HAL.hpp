@@ -9,7 +9,7 @@ const uint8_t WAKEUP_BMA_TAP = 0x12;
 const uint8_t WAKEUP_BMA_TILT = 0x13;
 const uint8_t WAKEUP_UNKNOWN = 0xEE;
 const uint8_t WAKEUP_POR = 0xFF;
-const uint8_t stepsHistSize = 4;
+const uint8_t stepsHistSize = 8;
 
 class STM32L4_HAL: public GForceHAL
 {
@@ -22,6 +22,7 @@ class STM32L4_HAL: public GForceHAL
 	  uint32_t stepsMeasured = 0;
 	  uint16_t stepsHist[stepsHistSize] = {0};
 	  uint16_t UBatt;
+	  uint8_t debounce_Ctr=0;
 
 	void showERROR(uint8_t error, uint8_t data);
 	void setupBMA();
@@ -41,6 +42,7 @@ public:
   virtual uint32_t getSteps();
   virtual void resetSteps();
   virtual uint16_t getHistSteps(uint8_t days);
+  virtual uint8_t getHistStepsSize();
   virtual uint16_t getUBatt();
   void setDisplayManager(DisplayManager *dman_arg);
   void setAxisMappingVariant(Watch_Type_t var);
