@@ -26,6 +26,8 @@ const uint16_t DISP_D = (HS8_Pin | HS4_Pin | HS1_Pin);
 const uint16_t DISP_E = (HS8_Pin | HS4_Pin | HS2_Pin);
 const uint16_t DISP_F = (HS8_Pin | HS4_Pin | HS2_Pin | HS1_Pin);
 const uint8_t LED_Brightness = 240;
+
+
 const uint16_t numToPort[] = { DISP_0, // 0
 		DISP_1, // 1
 		DISP_2, // 2
@@ -124,15 +126,14 @@ __STATIC_INLINE void DWT_Delay_us(volatile uint32_t microseconds) {
 		;
 }
 
-void showLEDs(uint16_t DisplayBuffer[], uint16_t duration) {
-	const uint8_t perc = LED_Brightness;
+void showLEDs(uint16_t DisplayBuffer[], uint16_t duration, uint8_t perc) {
 	for (uint16_t j = 0; j < duration; ++j)
 		for (uint8_t i = 0; i < 4; ++i) {
 			//PORTD=DisplayBuffer[i]|((0b00111100)&(~(1<<(2+i))));
 			GPIOA->BSRR = DisplayBuffer[3 - i] | Column[i];
 			DWT_Delay_us(perc);
 			GPIOA->BSRR = mask_clear;
-			DWT_Delay_us(250 - perc);
+			DWT_Delay_us(255 - perc);
 		}
 }
 void STM32L4_BCDDisplayManager::show() {
@@ -243,9 +244,9 @@ void STM32L4_BCDDisplayManager::show() {
 		DisplayBuffer[3] = DISP_F;
 		break;
 	}
-	showLEDs(DisplayBuffer, 1);
+	showLEDs(DisplayBuffer, 1, Brightness);
 	while (request.getType() == showError)
-		showLEDs(DisplayBuffer, 1);
+		showLEDs(DisplayBuffer, 1, Brightness);
 
 	DisplayRequest empty_dr;
 	request = empty_dr;

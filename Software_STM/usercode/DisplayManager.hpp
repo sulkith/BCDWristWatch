@@ -6,6 +6,7 @@ class DisplayManager
 {
 protected:
   DisplayRequest request;
+  uint8_t Brightness = 255;
 public:
   DisplayManager(){}
   virtual void requestDisplay(DisplayRequest DispReq)
@@ -29,5 +30,9 @@ public:
   	show();
   }
   virtual void init() = 0;
+  virtual void setBrightness(uint8_t brightness)
+  {
+	  Brightness = brightness;
+  }
 };
 #endif //__DISPLAYMANAGER_HEADER_INCLUDE__
