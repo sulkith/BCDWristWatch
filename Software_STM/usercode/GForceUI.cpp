@@ -150,6 +150,7 @@ void GForceUI::stateTransition() {
 		if (gHAL->getTap()) {
 			UIstate = Time;
 			ClockM::getInstance().clearSeconds();
+			ClockM::getInstance().saveTime();
 			SleepM::requestProlong(ontime_short);
 		}
 		if (debouncerGForce == 0xFF) {
@@ -251,6 +252,7 @@ void GForceUI::stateTransition() {
 	case SetYear:
 		if (gHAL->getTap()) {
 			UIstate = Date;
+			ClockM::getInstance().saveTime();
 			SleepM::requestProlong(ontime_short);
 		}
 		if (debouncerGForce == 0xFF) {
@@ -285,7 +287,7 @@ void GForceUI::stateTransition() {
 		}
 		break;
 	case ShowStepsHistory: {
-		if (caseForAdjusting<uint8_t>(&HistCtr, gHAL, 3, 150)) {
+		if (caseForAdjusting<uint8_t>(&HistCtr, gHAL, gHAL->getHistStepsSize()-1,0,150)) {
 			UIstate = ShowUBatt;
 			SleepM::requestProlong(ontime_short);
 		}
@@ -377,6 +379,17 @@ void GForceUI::stateDisplayReuest() {
 void GForceUI::cyclic() {
 	if (mHal->HAL_getWakeupReason() > 0) {
 		stateDisplayReuest();
+		switch (UIstate) {
+		case SetDay:
+		case SetHour:
+		case SetMinute:
+		case SetMonth:
+		case SetYear:
+			break;
+		default:
+			ClockM::getInstance().updateTime();
+			break;
+		}
 		stateTransition();
 	}
 }
