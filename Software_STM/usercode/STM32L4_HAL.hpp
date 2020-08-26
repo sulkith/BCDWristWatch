@@ -23,6 +23,12 @@ class STM32L4_HAL: public GForceHAL
 	  uint16_t stepsHist[stepsHistSize] = {0};
 	  uint16_t UBatt;
 	  uint8_t debounce_Ctr=0;
+	  enum {
+		  uninitialized,
+		  initialized,
+		  running,
+		  finished
+	  }ADC_State = uninitialized;
 
 	void showERROR(uint8_t error, uint8_t data);
 	void setupBMA();

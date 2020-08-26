@@ -20,7 +20,9 @@ Bosch_BMA bma;
 const uint8_t alreadyRunningOffset = 0;
 const uint8_t stepsOffsetOffset = 1;
 const uint8_t DateOffset = 2;
-const uint8_t stepsHistOffset = 3;
+const uint8_t ADC_Cal_Offset = 3;
+const uint8_t stepsHistOffset = 4;
+
 const uint8_t CommandOffset = 30;
 const uint8_t DBG_Offset = 31;
 const uint32_t CALR_Address = FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE;
@@ -293,9 +295,25 @@ void STM32L4_HAL::HAL_init() {
 	ClockM::getInstance().updateTime();
 	dman_loc->setBrightness(LED_Brightness_Daytime[ClockM::getInstance().getHour()%24]);
 
+	if(HAL_RTCEx_BKUPRead(&hrtc, ADC_Cal_Offset) == 0)
+	{
+		MX_ADC1_Init();
+		HAL_Delay(100);//give the ADC 100ms to settle
+		HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+		HAL_Delay(10);//Calibration should not take longer than 10ms
+		//Value between Min_Data=0x00 and Max_Data=0x7F
+		uint32_t CalibrationValue = HAL_ADCEx_Calibration_GetValue(&hadc1, ADC_SINGLE_ENDED);
+		CalibrationValue |= 0x10000000; // Set at least one Bit so it is not 0 next Time
+		HAL_RTCEx_BKUPWrite(&hrtc, ADC_Cal_Offset,CalibrationValue);
+	}
 	if (wakeupReason >= 0x10) {
 		MX_ADC1_Init();
-		HAL_ADC_Start(&hadc1);
+		HAL_ADC_Start(&hadc1);//ADC needs to be anabled to set the Calibration Value
+		HAL_ADCEx_Calibration_SetValue(&hadc1, ADC_SINGLE_ENDED, (HAL_RTCEx_BKUPRead(&hrtc, ADC_Cal_Offset)&0x7F));
+		HAL_ADC_Stop(&hadc1);
+		ADC_State = initialized;
+	//	HAL_Delay(1);
+		//HAL_ADC_Start(&hadc1);
 	}
 
 	HAL_RTCEx_BKUPWrite(&hrtc, alreadyRunningOffset, 1);//set already running
@@ -389,27 +407,41 @@ void STM32L4_HAL::HAL_releaseInts() {
 	//TODO
 }
 void STM32L4_HAL::HAL_cyclic() {
-	if (UBatt == 0) {
-		HAL_ADC_PollForConversion(&hadc1, 0);
-		if ((HAL_ADC_GetState(&hadc1) & HAL_ADC_STATE_REG_EOC) > 0) {
-			uint32_t adc_result = HAL_ADC_GetValue(&hadc1);
-			ADC_Disable(&hadc1);
-			HAL_ADCEx_DisableVoltageRegulator(&hadc1);
-			LL_ADC_EnableDeepPowerDown(hadc1.Instance);
-			RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-			PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
-			PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_NONE;
-			if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+	switch(ADC_State)
+	{
+		case initialized:
+			if(HAL_GetTick()>100)//give VREG 100ms to settle on the reference Voltage
 			{
-			Error_Handler();
+				HAL_ADC_Start(&hadc1);
+				ADC_State = running;
 			}
-			uint16_t *uRefPtr = (uint16_t *)(0x1FFF75AA);
-			uint16_t uRefCtr = *uRefPtr;
-			uint16_t uRef = ((uint32_t)3000)*uRefCtr/4096;
-			uint32_t refVal = uRef*1023;
-			UBatt = 1125300L / adc_result; //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
-			UBatt = refVal / adc_result; //Versorgungsspannung in mV berechnen (1212mV * 1023 = 1239876)
-		}
+			break;
+		case running:
+			HAL_ADC_PollForConversion(&hadc1, 0);
+			if ((HAL_ADC_GetState(&hadc1) & HAL_ADC_STATE_REG_EOC) > 0) {
+				uint32_t adc_result = HAL_ADC_GetValue(&hadc1);
+				ADC_Disable(&hadc1);
+				HAL_ADCEx_DisableVoltageRegulator(&hadc1);
+				LL_ADC_EnableDeepPowerDown(hadc1.Instance);
+				RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+				PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+				PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_NONE;
+				if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+				{
+				Error_Handler();
+				}
+				uint16_t *uRefPtr = (uint16_t *)(0x1FFF75AA);//Datasheet describes to position of the Reference measurement from ST
+				uint16_t uRefCtr = *uRefPtr;
+				uint16_t uRef = ((uint32_t)3000)*uRefCtr/4095;
+				uint32_t refVal = uRef*1023;//Versorgungsspannung in mV berechnen (1212mV * 1023 = 1239876)
+				UBatt = refVal / adc_result;
+				ADC_State = finished;
+			}
+			break;
+		case finished:
+		case uninitialized:
+			break;
+
 	}
 	dman_loc->setBrightness(LED_Brightness_Daytime[ClockM::getInstance().getHour()%24]);
 	if(HAL_RTCEx_BKUPRead(&hrtc, DateOffset)!=ClockM::getInstance().getDateCode())
