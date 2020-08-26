@@ -444,7 +444,7 @@ void STM32L4_HAL::HAL_cyclic() {
 
 	}
 	dman_loc->setBrightness(LED_Brightness_Daytime[ClockM::getInstance().getHour()%24]);
-	if(HAL_RTCEx_BKUPRead(&hrtc, DateOffset)!=ClockM::getInstance().getDateCode())
+	if(HAL_RTCEx_BKUPRead(&hrtc, DateOffset)!=ClockM::getInstance().getDateCode() && HAL_GetTick()<100) //Only in the first 100ms --> So it wont block Date Setting
 	{
 		if(HAL_RTCEx_BKUPRead(&hrtc, DateOffset)<ClockM::getInstance().getDateCode())
 		{
