@@ -40,11 +40,9 @@ public:
 	uint8_t getYear() {
 			return date_cs.Year;
 		}
-	bool isHourChanged() {
-		return hour_changed;
-	}
-	void setHourChanged(bool changed) {
-		hour_changed = changed;
+	uint32_t getDateCode()
+	{
+		return date_cs.Year*10000+date_cs.Month*100+date_cs.Date;
 	}
 	uint32_t getCtr() {
 		return HAL_GetTick() / 1000;

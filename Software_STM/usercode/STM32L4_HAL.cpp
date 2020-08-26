@@ -19,7 +19,8 @@ extern ADC_HandleTypeDef hadc1;
 Bosch_BMA bma;
 const uint8_t alreadyRunningOffset = 0;
 const uint8_t stepsOffsetOffset = 1;
-const uint8_t stepsHistOffset = 2;
+const uint8_t DateOffset = 2;
+const uint8_t stepsHistOffset = 3;
 const uint8_t CommandOffset = 30;
 const uint8_t DBG_Offset = 31;
 const uint32_t CALR_Address = FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE;
@@ -58,9 +59,9 @@ void HAL_MX_RTC_Init(void) {
 		Error_Handler();
 	}
 
-	if (HAL_RTCEx_BKUPRead(&hrtc, 0) != 0) {
-		return; // Only initialize RTC
-	}
+//	if (HAL_RTCEx_BKUPRead(&hrtc, 0) != 0) {
+//		return; // Only initialize RTC
+//	}
 
 	/** Initialize RTC and set the Time and Date
 	 */
@@ -141,7 +142,17 @@ extern void spi_init();
 #define MIN(a,b) (a>b)?b:a;
 void STM32L4_HAL::HAL_driverInit() {
 	HAL_PWR_EnableBkUpAccess();
-	if (__HAL_RCC_GET_RTC_SOURCE() == 0) {
+	hrtc.Instance = RTC;
+	hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+	hrtc.Init.AsynchPrediv = 127;
+	hrtc.Init.SynchPrediv = 255;
+	hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+	hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+	hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+
+	uint32_t command = HAL_RTCEx_BKUPRead(&hrtc, CommandOffset);
+	if ((__HAL_RCC_GET_RTC_SOURCE() == 0)||((command&0x0002)>0)) {
 		__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 		/** Initializes the RCC Oscillators according to the specified parameters
 		 * in the RCC_OscInitTypeDef structure.
@@ -150,15 +161,6 @@ void STM32L4_HAL::HAL_driverInit() {
 		__HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSE);
 		HAL_MX_RTC_Init();
 		__HAL_RCC_RTC_ENABLE();
-	} else {
-		hrtc.Instance = RTC;
-		hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
-		hrtc.Init.AsynchPrediv = 127;
-		hrtc.Init.SynchPrediv = 255;
-		hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
-		hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
-		hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
-		hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
 	}
 	HAL_PWREx_EnableLowPowerRunMode();
 	HAL_RTC_WaitForSynchro(&hrtc);
@@ -291,28 +293,19 @@ void STM32L4_HAL::HAL_init() {
 	ClockM::getInstance().updateTime();
 	dman_loc->setBrightness(LED_Brightness_Daytime[ClockM::getInstance().getHour()%24]);
 
-	if (wakeupReason == WAKEUP_AlarmA) {
-		if (ClockM::getInstance().getHour() == 0) {
-			//Ghost Hour ;-)
-			pushNewSteps(bma.getSteps() - stepsOffset);
-			stepsOffset = bma.getSteps();
-		}
-	}
 	if (wakeupReason >= 0x10) {
 		MX_ADC1_Init();
 		HAL_ADC_Start(&hadc1);
 	}
 
 	HAL_RTCEx_BKUPWrite(&hrtc, alreadyRunningOffset, 1);//set already running
-	switch(HAL_RTCEx_BKUPRead(&hrtc, CommandOffset))
+	if((HAL_RTCEx_BKUPRead(&hrtc, CommandOffset)&0x0001)>0)
 	{
-	case 1:
 		pushNewSteps(HAL_RTCEx_BKUPRead(&hrtc, CommandOffset-1));
-		HAL_RTCEx_BKUPWrite(&hrtc, CommandOffset, 0);
-		break;
-	default:
-		break;
+		uint32_t temp = HAL_RTCEx_BKUPRead(&hrtc, CommandOffset)&(~0x0001);
+		HAL_RTCEx_BKUPWrite(&hrtc, CommandOffset, temp);
 	}
+
 	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
 }
 void STM32L4_HAL::setDisplayManager(DisplayManager *dman_arg) {
@@ -381,10 +374,11 @@ uint8_t STM32L4_HAL::HAL_sleep() {
 //	  HAL_PWREx_EnablePullUpPullDownConfig();
 
 	writeDataToBackupRegisters();
+	getTap();//Clear a possibly latched Interrupt
 	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);	//Clear Wakeup Flag
 //	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
 //		HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode if Debuger is present
-	HAL_SuspendTick();
+//	HAL_SuspendTick();
 	HAL_PWREx_EnterSHUTDOWNMode();
 	return 0;
 }
@@ -402,18 +396,35 @@ void STM32L4_HAL::HAL_cyclic() {
 			ADC_Disable(&hadc1);
 			HAL_ADCEx_DisableVoltageRegulator(&hadc1);
 			LL_ADC_EnableDeepPowerDown(hadc1.Instance);
-			  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-			  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
-			  PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_NONE;
-			  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-			  {
-			    Error_Handler();
-			  }
-			//UBatt = 1125300L / adc_result; //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
-			UBatt = 1239876L / adc_result; //Versorgungsspannung in mV berechnen (1212mV * 1023 = 1239876)
+			RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+			PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+			PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_NONE;
+			if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+			{
+			Error_Handler();
+			}
+			uint16_t *uRefPtr = (uint16_t *)(0x1FFF75AA);
+			uint16_t uRefCtr = *uRefPtr;
+			uint16_t uRef = ((uint32_t)3000)*uRefCtr/4096;
+			uint32_t refVal = uRef*1023;
+			UBatt = 1125300L / adc_result; //Versorgungsspannung in mV berechnen (1100mV * 1023 = 1125300)
+			UBatt = refVal / adc_result; //Versorgungsspannung in mV berechnen (1212mV * 1023 = 1239876)
 		}
 	}
 	dman_loc->setBrightness(LED_Brightness_Daytime[ClockM::getInstance().getHour()%24]);
+	if(HAL_RTCEx_BKUPRead(&hrtc, DateOffset)!=ClockM::getInstance().getDateCode())
+	{
+		if(HAL_RTCEx_BKUPRead(&hrtc, DateOffset)<ClockM::getInstance().getDateCode())
+		{
+			pushNewSteps(bma.getSteps() - stepsOffset);
+			stepsOffset = bma.getSteps();
+			HAL_RTCEx_BKUPWrite(&hrtc, DateOffset, ClockM::getInstance().getDateCode());//write new Date
+		}
+		else if (HAL_RTCEx_BKUPRead(&hrtc, DateOffset)>ClockM::getInstance().getDateCode())
+		{
+			showERROR(8, HAL_RTCEx_BKUPRead(&hrtc, DateOffset)); //E8
+		}
+	}
 }
 uint16_t STM32L4_HAL::getUBatt() {
 	return UBatt;
