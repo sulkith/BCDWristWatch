@@ -63,19 +63,20 @@ static void MX_SPI1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 enum {
-	Init, TestLEDs, WaitForTimer, TestSPI, Finished, Error
+	Init, TestLEDs, WaitForTimer, Finished, Error
 } State = Init;
 uint8_t Errortype = 0;
 uint8_t ErrorVar = 0;
 const uint8_t LED_Brightness = 240;
-uint32_t IC_Value1 = 0;
-uint32_t IC_Value2 = 0;
-uint32_t Is_First_Captured = 0;
-//Bufflen has to be a multiple of 10
-#define Bufflen 20
-uint32_t DiffVals[Bufflen] = { 0 };
-uint8_t Bufful = 0;
-uint8_t Buffpos = 0;
+
+//Maximum of 130000
+#define secondsToMeasure 300
+int16_t SecondsElapsed = -1;
+uint32_t startMeasure = 0;
+uint32_t endMeasure = 0;
+int64_t diffperppm = 0;
+
+
 const uint32_t Timerrun_offset = 0x8000 * 8; //Prediv 8
 uint32_t DWT_Delay_Init(void) {
 	/* Disable TRC */
@@ -124,32 +125,29 @@ void showLEDs(uint16_t DisplayBuffer[], uint16_t duration) {
 			DWT_Delay_us(250 - perc);
 		}
 }
-void pushDiffVal(uint32_t diff) {
-	DiffVals[Buffpos] = diff;
-	Buffpos++;
-	if (Buffpos >= Bufflen) {
-		Bufful = 1;
-		Buffpos = 0;
-	}
-}
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	/* Prevent unused argument(s) compilation warning */
-	UNUSED(htim);
-	if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) {
-		if (Is_First_Captured == 0) {
-			IC_Value1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
-			Is_First_Captured = 1;
-		}
 
-		else if (Is_First_Captured) {
-			IC_Value2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
-			uint32_t diff = IC_Value2 - IC_Value1; //-100 only for testing of to slow Crystal
-
-			pushDiffVal(diff);
-			Is_First_Captured = 0;
-		}
+	if(SecondsElapsed == -1)
+	{
+		startMeasure = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+		SecondsElapsed=1;
 	}
+	else if(SecondsElapsed == secondsToMeasure)
+	{
+		endMeasure = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+		SecondsElapsed++;
+	}
+	else if(SecondsElapsed > secondsToMeasure)
+	{
+
+	}
+	else
+	{
+		SecondsElapsed++;
+	}
+
 }
 
 void writeFlash(uint32_t Address, uint64_t data) {
@@ -167,6 +165,7 @@ void writeFlash(uint32_t Address, uint64_t data) {
 		status = HAL_FLASHEx_Erase(&erase, &Error);
 		status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, Address, data);
 		status = HAL_FLASH_Lock();
+		UNUSED(status);
 	}
 }
 uint64_t readFlash(uint32_t Address) {
@@ -240,6 +239,11 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+  if(0)//just to get rid of warnings
+  {
+	  MX_GPIO_Init();
+	  MX_SPI1_Init();
+  }
 
   /* USER CODE BEGIN Init */
 
@@ -284,6 +288,7 @@ int main(void)
 			Buffer[1] = DISP_2;
 			Buffer[0] = DISP_4;
 			break;
+		case Init:
 		case TestLEDs:
 			Buffer[3] = DISP_F;
 			Buffer[2] = DISP_F;
@@ -293,54 +298,43 @@ int main(void)
 				State = WaitForTimer;
 			break;
 		case WaitForTimer:
-			if (Bufful != 0) {
-				if (HAL_TIM_IC_Stop_IT(&htim2, TIM_CHANNEL_1) != HAL_OK) {
-					Error_Handler();
-				}
-				int32_t sum = 0;
-				for (uint8_t i = 0; i < Bufflen; ++i) {
-					sum += ((int32_t) DiffVals[i]) - Timerrun_offset;
-				}
-				float f = sum / ((float) Bufflen) * 4;
-				f=f*1000000/262144;
+			if(endMeasure!=0)
+			{
+				const uint32_t measuredClks = endMeasure -startMeasure;
+				const uint32_t calculatedClks = 0x8000*secondsToMeasure;
 
-				//sum = summed Average Deviation per 262144 Ticks
-
-				//sum = sum * 1000000; //sum = summed Average Deviation per 262144000000 Ticks
-				//sum = sum /262144/Bufflen;
-				//MAX int32 = 2147483647 --> Max Deviation 2147483647 / 262144 / BUFFLEN(20) = 409
-				//--> So we have to calculate it in a different way
-
-				sum = sum * (1000000/10); //sum = summed Average Deviation per 26214400000 Ticks
-				//sum = sum + (Bufflen / 2); //Round the Value
-				sum = sum /262144/(Bufflen/10);
-				//MAX int32 = 2147483647 --> Max Deviation 2147483647 / 262144 / (BUFFLEN(20)/10) = 4096
-				//--> since the maximum Deviation we can correct is 512 this is sufficient
-
-				sum = -sum; //Deviation to Correction.
-				if(sum < 512 && sum > -511)
-				{
-					uint16_t CALM = 0;
-					uint16_t CALP = RTC_SMOOTHCALIB_PLUSPULSES_RESET;
-					if (sum > 0) {
-						CALP = RTC_SMOOTHCALIB_PLUSPULSES_SET;
-						CALM = 512 - sum;
-					} else {
-						CALM = -sum;
-					}
-					uint32_t EEPVAL = CALP | CALM;
-					writeFlash(FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE, EEPVAL); //Write CalibrationValue to beginning of last Page
-					HAL_RTCEx_SetSmoothCalib(&hrtc, RTC_SMOOTHCALIB_PERIOD_32SEC, CALP, CALM);//Correct RTC Immediately, to make sure the values are used even without POR
-					//Note CALP, CALM, DEVID and REVID for the STM32L4_HAL.cpp File
-					//__asm__("BKPT");
-					State=Finished;
-				}
+				const int64_t difference = ((int64_t)calculatedClks-measuredClks);
+				int64_t diffperppm1 = (difference*1000000);
+				if(diffperppm1<0)//round the Value
+					diffperppm1 -= (measuredClks/2);
 				else
-				{
-					State = Error;
-				}
-			} else {
-				uint16_t TimeToGo = (Bufflen-Buffpos)*16;
+					diffperppm1 += (measuredClks/2);
+				diffperppm = (int64_t)diffperppm1/(int64_t)measuredClks;
+				if(diffperppm < 512 && diffperppm > -511)
+								{
+									uint16_t CALM = 0;
+									uint16_t CALP = RTC_SMOOTHCALIB_PLUSPULSES_RESET;
+									if (diffperppm > 0) {
+										CALP = RTC_SMOOTHCALIB_PLUSPULSES_SET;
+										CALM = 512 - diffperppm;
+									} else {
+										CALM = -diffperppm;
+									}
+									uint32_t EEPVAL = CALP | CALM;
+									writeFlash(FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE, EEPVAL); //Write CalibrationValue to beginning of last Page
+									HAL_RTCEx_SetSmoothCalib(&hrtc, RTC_SMOOTHCALIB_PERIOD_32SEC, CALP, CALM);//Correct RTC Immediately, to make sure the values are used even without POR
+									//Note CALP, CALM, DEVID and REVID for the STM32L4_HAL.cpp File
+									//__asm__("BKPT");
+									State=Finished;
+								}
+								else
+								{
+									State = Error;
+								}
+
+			}
+		else {
+				uint16_t TimeToGo = secondsToMeasure-SecondsElapsed;
 				Buffer[3] = DISP_C;
 				Buffer[2] = numToPort[((TimeToGo) / 100) % 10];;
 				Buffer[1] = numToPort[((TimeToGo) / 10) % 10];
@@ -544,7 +538,7 @@ static void MX_TIM2_Init(void)
   }
   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
-  sConfigIC.ICPrescaler = TIM_ICPSC_DIV8;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
   {
