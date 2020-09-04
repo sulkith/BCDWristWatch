@@ -722,6 +722,264 @@ class="ec-lmtt-12">RCC_BDCR</span></span></span> register, which resides in the 
 not cleared by a reset. So the initialization will be only done once when the Battery is
 inserted.
 </p>
+   <h3 class="sectionHead"><span class="titlemark">5   </span> <a 
+ id="x1-480005"></a>STM Version Manual</h3>
+<!--l. 2--><p class="noindent" >
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">5.1   </span> <a 
+ id="x1-490005.1"></a>Read the time</h4>
+<div class="center" 
+>
+<!--l. 3--><p class="noindent" >
+</p><!--l. 4--><p class="noindent" ><img 
+src="../Graphics/Time3_15.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 6--><p class="noindent" >To read the Watch it is necessary to activate the Display this can be either done via double tapping the
+Housing or raising the arm to take a look on the watch(tilt it by a minimum of 12 degrees with the
+Watchface facing up and holding it steady for about one second)
+</p>
+<!--l. 8--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-500005.1"></a><span 
+class="ec-lmbx-12">Analog</span></span>
+   The analog Version an be read equally to a normal Watch. In the inner Ring the Hours from 1 to
+12 are displayed. In the outer Ring the minutes are displayed from 0 to 59, since there are only 30
+LEDs in the outer ring for uneven minutes the nearest two LEDs are lit up. For example for 3:15 the
+LEDs signalling 14 and 16 are lit up.
+</p>
+<!--l. 15--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-510005.1"></a><span 
+class="ec-lmbx-12">Binary</span></span>
+   in the Binary Version the LEDs are read columnwise as BCD code starting with 1 at the bottom.
+So the right two columns are showing the Minutes. If an LED is litone have to add its Value to the
+Minutes if not then nothing is added. So for the full hour no led in the right two columns will be lit.
+In the example above in the first column no LED is lit. In the second column the LED for 1 and 2 are
+lit. In the third column the LED for 1 is lit and in the last column the LED for 1 and 4 are lit. So it is
+                                                                                            
+                                                                                            
+3:15.
+</p>
+   <h5 class="subsubsectionHead"><span class="titlemark">5.1.1   </span> <a 
+ id="x1-520005.1.1"></a>setting the Time</h5>
+<!--l. 20--><p class="noindent" >To enter the Time setting mode you have to turn the Watch in show time mode upside down,
+Watchface facing the ground an double Tap it. The Watch enters debouncing mode. In debouncing
+mode the Hours 80 and Minutes 80 are blinking for the binary version for the Analog
+Version Hours 12 and 6 are blinking. (Blinking leds are displayed brighter in the graphic.
+</p>
+<div class="center" 
+>
+<!--l. 22--><p class="noindent" >
+</p><!--l. 23--><p class="noindent" ><img 
+src="../Graphics/Time3_15_debouncing.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 25--><p class="noindent" >While in debouncing mode turn the watch around again (Watchface facing up) and double Tap it again
+to enter Set Hour mode. </p>
+<div class="center" 
+>
+<!--l. 26--><p class="noindent" >
+</p><!--l. 27--><p class="noindent" ><img 
+src="../Graphics/Time3_15_SetHour.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 29--><p class="noindent" >In the set hour mode the hour can be increased by leaning the Watch away from you and decreased by
+leaning the watch towards you. Once the hour is set correctly double Tap the Watch again to enter
+Set Minute Mode. </p>
+<div class="center" 
+>
+<!--l. 31--><p class="noindent" >
+</p><!--l. 32--><p class="noindent" ><img 
+src="../Graphics/Time3_15_SetMinute.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 34--><p class="noindent" >The Set hour mode works exactly like to set hour mode. Increasing and decreasing is done via leaning the
+Watch fowrward an backward. Once finished a double Tap sets the Seconds to 0 and starts the Watch
+again.
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">5.2   </span> <a 
+ id="x1-530005.2"></a>Read the Date</h4>
+<div class="center" 
+>
+<!--l. 36--><p class="noindent" >
+</p><!--l. 37--><p class="noindent" ><img 
+src="../Graphics/Date25_Dez.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 39--><p class="noindent" >To enter the Date display mode tilt the Watch in Time Mode to the Front(Facing away from you) at
+least 10 degrees and double Tap it.
+</p>
+<!--l. 40--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-540005.2"></a><span 
+class="ec-lmbx-12">Analog</span></span>
+   On the analog Version The Minutes 40 and 50 are lit up to signal Date Display. On the Hours
+Ring the Month is displayed as Hour and the Day is Displayed as Minutes.
+                                                                                            
+                                                                                            
+</p>
+<!--l. 44--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-550005.2"></a><span 
+class="ec-lmbx-12">Binary</span></span>
+   On the binary Version the first column is showing 3 to signal Date Display. In the second and
+third column the Day is displayed as BCD Code and the Month is displayed in binary code(it does
+not stop on 9)<br 
+class="newline" /><br 
+class="newline" />A double Tap with the watch facing up switches back to show time mode.
+</p><!--l. 50--><p class="noindent" >
+</p>
+   <h5 class="subsubsectionHead"><span class="titlemark">5.2.1   </span> <a 
+ id="x1-560005.2.1"></a>setting the Date</h5>
+<!--l. 51--><p class="noindent" >To enter the Date setting mode you have to turn the Watch in show date mode upside down,
+Watchface facing the ground an double Tap it. The Watch enters debouncing mode. In
+debouncing mode the Hours 8 and Minutes 80 are blinking for the binary version for the Analog
+Version Minutes 40 and 50 are blinking. (Blinking leds are displayed brighter in the graphic.
+</p>
+<div class="center" 
+>
+<!--l. 53--><p class="noindent" >
+</p><!--l. 54--><p class="noindent" ><img 
+src="../Graphics/Date25_Dez_debouncing.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 56--><p class="noindent" >While in debouncing mode turn the watch around again (Watchface facing up) and double Tap it again
+to enter set day mode. </p>
+<div class="center" 
+>
+<!--l. 57--><p class="noindent" >
+</p><!--l. 58--><p class="noindent" ><img 
+src="../Graphics/Date25_Dez_SetDay.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 60--><p class="noindent" >Setting the Day works exactly like setting the hour. Increasing and decreasing is done via leaning the
+Watch fowrward an backward. Once finished a double Tap switches to set month mode.
+</p>
+<div class="center" 
+>
+<!--l. 61--><p class="noindent" >
+</p><!--l. 62--><p class="noindent" ><img 
+src="../Graphics/Date25_Dez_SetMonth.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 64--><p class="noindent" >Setting the Month works exactly like setting the hour. Increasing and decreasing is done via leaning the
+Watch fowrward an backward. Once finished a double Tap switches to set year mode.
+</p>
+<div class="center" 
+>
+<!--l. 65--><p class="noindent" >
+</p><!--l. 66--><p class="noindent" ><img 
+src="../Graphics/Date25_Dez_SetYear21.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 68--><p class="noindent" >The year is only used for the leap year calculation and can be only set between 0 and 99.
+                                                                                            
+                                                                                            
+</p>
+<!--l. 69--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-570005.2.1"></a><span 
+class="ec-lmbx-12">Analog</span></span>
+   In the Analog Version the Set year mode is signalized by blinking both minute LEDs 30 and 50.
+The Year tens are shown in the inner ring with one LED per Counter and the ones are shown in the
+outer ring with one LED per counter. In this example XX21.
+</p>
+<!--l. 71--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-580005.2.1"></a><span 
+class="ec-lmbx-12">Binary</span></span>
+   Setting Year mode is displayed by showing 3 in the first column and blinking all LEDs in the
+second column. The year is displayed in columns 3 and 4. In this example XX21.<br 
+class="newline" /><br 
+class="newline" />Setting the Month works exactly like setting the hour. Increasing and decreasing is done via leaning
+the Watch fowrward an backward. Once finished a double Tap sets the Seconds to 0 and starts the
+Watch again.
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">5.3   </span> <a 
+ id="x1-590005.3"></a>Todays Steps</h4>
+<div class="center" 
+>
+<!--l. 76--><p class="noindent" >
+</p><!--l. 77--><p class="noindent" ><img 
+src="../Graphics/ShowSteps32768.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 79--><p class="noindent" >To enter Step display mode tilt the Watch in Time Mode to the Back(Facing you) at least 10 degrees and
+double Tap it.
+</p>
+<!--l. 80--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-600005.3"></a><span 
+class="ec-lmbx-12">Analog</span></span>
+   On the Analog Watch the hour LED 11 is lit up with the overflow counter (from 0(12 o&#8217;clock) to
+3. The overflow counter counts the number of whole rounds on the Stepcounter. An overflow occurs
+on 15000. The current Stepcounter without overflow is displayed in the outer Ring. Each LED
+signalizes 500 Steps. The value is rounded to 500. In the Example the overflow counter shows 2 and
+the counter itself shows 6. <span 
+class="rm-lmr-12">2 </span><span 
+class="lmsy-10x-x-120">* </span><span 
+class="rm-lmr-12">15000 + 6 </span><span 
+class="lmsy-10x-x-120">* </span><span 
+class="rm-lmr-12">500 = 33000</span>
+</p>
+<!--l. 84--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-610005.3"></a><span 
+class="ec-lmbx-12">Binary</span></span>
+   On the binary Watch the Step Counter is signalized by the forst column showing 7. Column 2 to 4
+shows the steps in 100 counts rounded to 100 counts. So 32768 in the exmample will be shown as
+(7)328<br 
+class="newline" /><br 
+class="newline" />A double Tap with the watch facing up switches back to show time mode.
+</p><!--l. 89--><p class="noindent" >
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">5.4   </span> <a 
+ id="x1-620005.4"></a>Show steps history</h4>
+<!--l. 90--><p class="noindent" >To enter the steps history mode you have to turn the Watch in show steps mode upside down,
+Watchface facing the ground an double Tap it. </p>
+                                                                                            
+                                                                                            
+<div class="center" 
+>
+<!--l. 91--><p class="noindent" >
+</p><!--l. 92--><p class="noindent" ><img 
+src="../Graphics/ShowStepsHist_2Days_ago_7500.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 94--><p class="noindent" >The history counter can be increased and decreased by leaning the watch back and forth.
+</p>
+<!--l. 95--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-630005.4"></a><span 
+class="ec-lmbx-12">Analog</span></span>
+   The steps history mode looks like the Show steps mode, but there is an additional LEDas Hitory
+Counter lit up. The History counter starts at Hour 4 and increases depending on how
+far ago the Date is. In the Example Hour 5 is shown, so the history is from 2 days ago.
+The steps are show as in the Show Steps mode, so there were 7500 Steps done two days
+ago.
+</p>
+<!--l. 97--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-640005.4"></a><span 
+class="ec-lmbx-12">Binary</span></span>
+   The steps hitory mode is signalized by the H80 LED. The LEDs below show how long ago the
+Steps were counted, the counter starts yesterday with 0. so the example shows the Data from 2 Days
+ago. The steps are displayed as in the show steps mode. so the example shows 7500 Steps 2 days
+ago.<br 
+class="newline" /><br 
+class="newline" />to leave this mode double tap changes to the show Battery Voltage.
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">5.5   </span> <a 
+ id="x1-650005.5"></a>show battery voltage</h4>
+<!--l. 102--><p class="noindent" >To enter the steps history mode you have to double tap the Watch in show steps history mode.
+</p>
+<div class="center" 
+>
+<!--l. 103--><p class="noindent" >
+</p><!--l. 104--><p class="noindent" ><img 
+src="../Graphics/ShowUBatt_2950mV.svg" alt="PIC"  
+width="290" height="290"  /></p></div>
+<!--l. 106--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-660005.5"></a><span 
+class="ec-lmbx-12">Analog</span></span>
+   The show battery voltage is signalized by the Hour 11 and 12 lighting up together. The voltage is
+shown on the minutes ring, scaled from 3.5V to 1,5V, so each quarter is 0,5V. The Watch in the
+example is showing 2,95V.
+</p>
+<!--l. 109--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-670005.5"></a><span 
+class="ec-lmbx-12">Binary</span></span>
+   The show battery voltage is signalized by the Hour 40 LED. Column 2 to 4 are showing the
+Battery voltage in 10mV granularity. So the Example shows <span 
+class="rm-lmr-12">2950</span><span 
+class="lmmi-12">mV </span><span 
+class="rm-lmr-12">= 2</span><span 
+class="lmmi-12">, </span><span 
+class="rm-lmr-12">95</span><span 
+class="lmmi-12">V </span><br 
+class="newline" /><br 
+class="newline" />A double Tap with the watch facing up switches back to show steps mode.
+</p>
     
 </body></html> 
 
