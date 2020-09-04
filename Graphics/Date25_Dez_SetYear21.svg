@@ -4,7 +4,7 @@
 <circle cx="155" cy="155" r="155" stroke="green" stroke-width="0" fill="green" />
 <circle cx="465" cy="155" r="155" stroke="green" stroke-width="0" fill="green" />
 </g>
-<g id="LEDs">\n<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(155,23) rotate(0)"/>
+<g id="LEDs">\n<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(155,23) rotate(0)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(182.444343187944,25.8845167031377) rotate(12)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(208.689236886006,34.4119995911767) rotate(24)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(232.587653302606,48.209756742507) rotate(36)"/>
@@ -19,17 +19,23 @@
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(232.587653302606,261.790243257493) rotate(-216)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(208.689236886006,275.588000408823) rotate(-204)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(182.444343187944,284.115483296862) rotate(-192)"/>
-<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(155,287) rotate(-180)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(155,287) rotate(-180)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,80%,80%);fill-opacity:1;stroke:none;" transform="translate(155,287) rotate(-180)">
+			<animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite" /></rect>
+			
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(127.555656812056,284.115483296862) rotate(-168)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(101.310763113994,275.588000408823) rotate(-156)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(77.4123466973935,261.790243257493) rotate(-144)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(56.904883036984,243.325240039369) rotate(-132)"/>
-<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(40.6846467004541,221) rotate(-120)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(40.6846467004541,221) rotate(-120)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(29.4605398490397,195.790243257493) rotate(-108)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(23.7231098113879,168.79775715133) rotate(-96)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(23.7231098113879,141.20224284867) rotate(-84)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(29.4605398490397,114.209756742507) rotate(-72)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(40.6846467004541,89) rotate(-60)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,80%,80%);fill-opacity:1;stroke:none;" transform="translate(40.6846467004541,89) rotate(-60)">
+			<animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite" /></rect>
+			
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(56.9048830369839,66.6747599606308) rotate(-48)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(77.4123466973936,48.209756742507) rotate(-36)"/>
 <rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(101.310763113994,34.4119995911767) rotate(-24)"/>
