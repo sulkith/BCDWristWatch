@@ -5,9 +5,10 @@ close COORFILE;
 $numcoor = @coordinates;
 
 print '<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="310" height="310" viewBox="0 0 310 310">
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="310" viewBox="0 0 620 310">
 <g id="PCB">
 <circle cx="155" cy="155" r="155" stroke="green" stroke-width="0" fill="green" />
+<circle cx="465" cy="155" r="155" stroke="green" stroke-width="0" fill="green" />
 </g>
 <g id="LEDs">\n';
 
@@ -46,7 +47,8 @@ for($i =0; $i<$numcoor;$i++)
 print '
 <rect x="-25" y="-25" width="50" height="50" style="fill:rgb(0%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(155,155)rotate(45)"/>
 <rect x="-10" y="-10" width="20" height="20" style="fill:rgb(0%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(115,195)rotate(0)"/>
-
+<rect x="-25" y="-25" width="50" height="50" style="fill:rgb(0%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(465,225)rotate(0)"/>
+<rect x="-10" y="-10" width="20" height="20" style="fill:rgb(0%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(525,205)rotate(0)"/>
 </g>
 </svg>';
 

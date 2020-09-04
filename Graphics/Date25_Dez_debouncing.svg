@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="310" viewBox="0 0 620 310">
+<g id="PCB">
+<circle cx="155" cy="155" r="155" stroke="green" stroke-width="0" fill="green" />
+<circle cx="465" cy="155" r="155" stroke="green" stroke-width="0" fill="green" />
+</g>
+<g id="LEDs">\n<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(155,23) rotate(0)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(182.444343187944,25.8845167031377) rotate(12)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(208.689236886006,34.4119995911767) rotate(24)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(232.587653302606,48.209756742507) rotate(36)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(253.095116963016,66.6747599606307) rotate(48)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(269.315353299546,89) rotate(60)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(280.53946015096,114.209756742507) rotate(72)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(286.276890188612,141.20224284867) rotate(84)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(286.276890188612,168.79775715133) rotate(-264)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(280.53946015096,195.790243257493) rotate(-252)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(269.315353299546,221) rotate(-240)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(253.095116963016,243.325240039369) rotate(-228)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(232.587653302606,261.790243257493) rotate(-216)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(208.689236886006,275.588000408823) rotate(-204)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(182.444343187944,284.115483296862) rotate(-192)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(155,287) rotate(-180)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(127.555656812056,284.115483296862) rotate(-168)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(101.310763113994,275.588000408823) rotate(-156)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(77.4123466973935,261.790243257493) rotate(-144)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(56.904883036984,243.325240039369) rotate(-132)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(40.6846467004541,221) rotate(-120)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,80%,80%);fill-opacity:1;stroke:none;" transform="translate(40.6846467004541,221) rotate(-120)">
+			<animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite" /></rect>
+			
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(29.4605398490397,195.790243257493) rotate(-108)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(23.7231098113879,168.79775715133) rotate(-96)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(23.7231098113879,141.20224284867) rotate(-84)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(29.4605398490397,114.209756742507) rotate(-72)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(40.6846467004541,89) rotate(-60)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,80%,80%);fill-opacity:1;stroke:none;" transform="translate(40.6846467004541,89) rotate(-60)">
+			<animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite" /></rect>
+			
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(56.9048830369839,66.6747599606308) rotate(-48)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(77.4123466973936,48.209756742507) rotate(-36)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(101.310763113994,34.4119995911767) rotate(-24)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(127.555656812056,25.8845167031377) rotate(-12)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(155,60) rotate(0)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(202.5,72.7275866404783) rotate(30)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(237.272413359522,107.5) rotate(60)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(250,155) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(237.272413359522,202.5) rotate(-240)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(202.5,237.272413359522) rotate(-210)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(155,250) rotate(-180)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(107.5,237.272413359522) rotate(-150)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(72.7275866404783,202.5) rotate(-120)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(60,155) rotate(-90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(72.7275866404783,107.5) rotate(-60)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(107.5,72.7275866404783) rotate(-30)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(390,59.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(390,89.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(390,119.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(390,149.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(440,59.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,80%,80%);fill-opacity:1;stroke:none;" transform="translate(440,59.5) rotate(90)">
+			<animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite" /></rect>
+			
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(440,89.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(440,119.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(440,149.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(490,59.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,80%,80%);fill-opacity:1;stroke:none;" transform="translate(490,59.5) rotate(90)">
+			<animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite" /></rect>
+			
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(490,89.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(490,119.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(490,149.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(540,59.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(100%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(540,89.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(540,119.5) rotate(90)"/>
+<rect x="-5" y="-10" width="10" height="20" style="fill:rgb(30%,30%,30%);fill-opacity:1;stroke:none;" transform="translate(540,149.5) rotate(90)"/>
+
+<rect x="-25" y="-25" width="50" height="50" style="fill:rgb(0%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(155,155)rotate(45)"/>
+<rect x="-10" y="-10" width="20" height="20" style="fill:rgb(0%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(115,195)rotate(0)"/>
+<rect x="-25" y="-25" width="50" height="50" style="fill:rgb(0%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(465,225)rotate(0)"/>
+<rect x="-10" y="-10" width="20" height="20" style="fill:rgb(0%,0%,0%);fill-opacity:1;stroke:none;" transform="translate(525,205)rotate(0)"/>
+</g>
+</svg>
