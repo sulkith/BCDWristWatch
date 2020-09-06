@@ -19,6 +19,13 @@
 
 extern RTC_HandleTypeDef hrtc;
 
+#define WatchVersCodeAddress (FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE + 0x10)
+
+#define Undefined 0xFFFFUL
+#define Binary_STM_V1 0x0100UL
+#define Analog_STM_V1 0x0200UL
+const uint32_t WatchVariant = Binary_STM_V1;
+
 
 DisplayManager *dman;
 STM32L4_HAL stm_hal;
@@ -111,6 +118,15 @@ void usermain_init() {
 	  // Moved to HAL: MX_RTC_Init();
 	  // Moved to HAL: MX_SPI1_Init();
 	  Watch_Type_t wt = Binary_v1;
+	  uint64_t WatchVersCode = *((uint64_t*) WatchVersCodeAddress);
+		if((WatchVersCode&0xFFFF) == Binary_STM_V1)
+		{
+		  wt = Binary_v1;
+		}
+		if((WatchVersCode&0xFFFF) == Analog_STM_V1)
+		{
+		  wt = Analog_v1;
+		}
 
 	  //hal = &stm_hal;
 	  DWT_Delay_Init();
@@ -125,8 +141,8 @@ void usermain_init() {
 		  //TODO Init Analog Dman
 		  dman = &BCDdm;
 	  }
-	  stm_hal.HAL_driverInit();
 	  stm_hal.setAxisMappingVariant(wt);
+	  stm_hal.HAL_driverInit();
 	  stm_hal.setDisplayManager(dman);
 	  dman->init();
 	  stm_hal.HAL_init();

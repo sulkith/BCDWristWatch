@@ -225,6 +225,13 @@ void init_IOs() {
 }
 /* USER CODE END 0 */
 
+#define WatchVersCodeAddress (FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE + 0x10)
+
+#define Undefined 0xFFFFUL
+#define Binary_STM_V1 0x0100UL
+#define Analog_STM_V1 0x0200UL
+const uint32_t WatchVariant = Binary_STM_V1;
+
 /**
   * @brief  The application entry point.
   * @retval int
@@ -244,8 +251,12 @@ int main(void)
 	  MX_GPIO_Init();
 	  MX_SPI1_Init();
   }
-
   /* USER CODE BEGIN Init */
+  uint64_t WatchVersCode = *((uint64_t*) WatchVersCodeAddress);
+  if((WatchVersCode&0xFFFF) == Undefined)
+  {
+	  writeFlash(FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE + 0x10, WatchVariant);
+  }
 
   /* USER CODE END Init */
 
