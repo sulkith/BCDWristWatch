@@ -381,6 +381,31 @@ void STM32L4_HAL::writeDataToBackupRegisters() {
 	for (uint8_t i = 0; i < stepsHistSize; ++i)
 		HAL_RTCEx_BKUPWrite(&hrtc, stepsHistOffset + i, stepsHist[i]);
 }
+
+void GPIO_AnalogState_Config(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct;
+
+  /* Set all GPIO in analog state to reduce power consumption, */
+
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOH_CLK_ENABLE();
+
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pin = GPIO_PIN_All;
+
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
+
+    __HAL_RCC_GPIOA_CLK_DISABLE();
+    __HAL_RCC_GPIOB_CLK_DISABLE();
+    __HAL_RCC_GPIOH_CLK_DISABLE();
+
+}
 uint8_t STM32L4_HAL::HAL_sleep() {
 
 
@@ -388,11 +413,50 @@ uint8_t STM32L4_HAL::HAL_sleep() {
 
 	  __disable_fault_irq();
 //	  __HAL_RCC_PWR_CLK_ENABLE(); //Is already enabled
-//	  HAL_PWREx_EnableGPIOPullUp(PWR_GPIO_B, BMA_CS_Pin); //takes a lot of power extra
-//	  HAL_PWREx_EnablePullUpPullDownConfig();
+	  HAL_PWREx_EnableGPIOPullUp(PWR_GPIO_B, BMA_CS_Pin); //keep CS High
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_B, GPIO_PIN_3); //SCK
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_B, GPIO_PIN_4); //MISO
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_B, GPIO_PIN_5); //MOSI
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, BMA_INT_Pin); //BMA_INT
+
+	  //Keep all the LED Pins low
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, LSH10_Pin);
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, LSH01_Pin);
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, LSM10_Pin);
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, LSM01_Pin);
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, HS1_Pin);
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, HS2_Pin);
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, HS4_Pin);
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, HS8_Pin);
+
+	  //Keep SWDIO LOW
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, GPIO_PIN_13);//SWDIO
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_A, GPIO_PIN_14);//SWCLK
+
+
+	  //Keep Boot Pin Low
+	  HAL_PWREx_EnableGPIOPullDown(PWR_GPIO_H, GPIO_PIN_3);//BOOT0
+
+	  HAL_PWREx_EnablePullUpPullDownConfig();
+	  //up To here 54,6 µA
+
+	  //HAL_PWREx_DisableBatteryCharging();//Doesn't change anything
+
+
+    HAL_DBGMCU_DisableDBGStopMode();
+    HAL_DBGMCU_DisableDBGStandbyMode();
+    HAL_DBGMCU_DisableDBGSleepMode();
+
+    //bma.writeAddress(0x7D, 0x00);//Put BMA into powerdown mode should draw only 3.5µA for the BMA, but Wakeup isn't working anymore...
 
 	writeDataToBackupRegisters();
 	getTap();//Clear a possibly latched Interrupt
+	/* Set all GPIO in analog state to reduce power consumption */
+    GPIO_AnalogState_Config();
+
+	  /* Enable Power Clock */
+
+	  /* Enter the SHUTDOWN mode */
 	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);	//Clear Wakeup Flag
 //	if (HAL_RTCEx_BKUPRead(&hrtc, DBG_Offset) == 1)
 //		HAL_PWR_EnterSTANDBYMode();	//Enter Standby Mode if Debuger is present
