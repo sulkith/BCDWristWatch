@@ -164,6 +164,9 @@ void STM32L4_HAL::HAL_driverInit() {
 	}
 	HAL_PWREx_EnableLowPowerRunMode();
 
+}
+void STM32L4_HAL::HAL_init() {
+
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(BMA_CS_GPIO_Port, BMA_CS_Pin, GPIO_PIN_SET);
 
@@ -198,9 +201,6 @@ void STM32L4_HAL::HAL_driverInit() {
 	MX_SPI1_Init();
 
 	HAL_RTC_WaitForSynchro(&hrtc);
-}
-void STM32L4_HAL::HAL_init() {
-
 	spi_init();
 
 	initComDriver();

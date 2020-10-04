@@ -402,8 +402,8 @@ void GForceUI::init(DisplayManager *dm, GForceHAL *gh, HAL *h) {
 }
 
 void GForceUI::executeSleepSubscription() {
-	UIstate = FadeIn;
-	inputEnabled = false;
-	debouncerGForce = 0;
+//	UIstate = FadeIn;
+//	inputEnabled = false;
+//	debouncerGForce = 0;
 }
 

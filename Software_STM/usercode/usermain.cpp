@@ -114,6 +114,18 @@ void SystemClock_Config_without_LSE(void)
     Error_Handler();
   }
 }
+inline void requestScreen(DisplayManager *dm, DisplayRequestType type,
+		uint16_t d0, uint16_t d1 = 0, uint16_t d2 = 0, uint16_t d3 = 0,
+		uint16_t d4 = 0) {
+	uint16_t data[DisplayRequest::dataLength] = { 0 };
+	data[0] = d0;
+	data[1] = d1;
+	data[2] = d2;
+	data[3] = d3;
+	data[4] = d4;
+	DisplayRequest dr(type, data);
+	dm->requestDisplay(dr);
+}
 void usermain_init() {
 	  SystemClock_Config_without_LSE();
 
@@ -148,10 +160,17 @@ void usermain_init() {
 	  stm_hal.setDisplayManager(dman);
 	  dman->init();
 	  stm_hal.HAL_init();
+	  dman->lockPorts();
 
 
 	  gfui.init(dman, &stm_hal, &stm_hal);
 	  SleepM::getInstance()->setHal(&stm_hal);
+
+//	  while(1)
+//	  {
+//		  requestScreen(dman, Debouncing, 2, 3, 4);
+//		  dman->show();
+//	  }
 
 	  if(stm_hal.HAL_getWakeupReason() < 0x10)//No Wakeup for Hourly Display
 	  {

@@ -30,6 +30,7 @@ public:
   	show();
   }
   virtual void init() = 0;
+  virtual void lockPorts() = 0;
   virtual void setBrightness(uint8_t brightness)
   {
 	  Brightness = brightness;

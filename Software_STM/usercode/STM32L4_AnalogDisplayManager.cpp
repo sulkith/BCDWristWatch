@@ -46,36 +46,37 @@ void clearLED_Analog();
 void showLED_Analog_Dual(uint8_t LED1, uint8_t LED2) {
 	if (LED1 == 255) {
 		clearLED_Analog();
+		return;
 	}
 	uint32_t MODERA =
 			(LED1 >= 100) ?
-					GPIOA_MODER_Hours[LED1 - 100] : GPIOA_MODER_Minutes[LED1];
+					GPIOA_MODER_Hours[(LED1 - 100)%12] : GPIOA_MODER_Minutes[LED1%30];
 	if (LED2 != 255)
 		MODERA &=
 				(LED2 >= 100) ?
-						GPIOA_MODER_Hours[LED2 - 100] :
-						GPIOA_MODER_Minutes[LED2];
+						GPIOA_MODER_Hours[(LED2 - 100)%12] :
+						GPIOA_MODER_Minutes[LED2%30];
 	uint32_t MODERB =
 			(LED1 >= 100) ?
-					GPIOB_MODER_Hours[LED1 - 100] : GPIOB_MODER_Minutes[LED1];
+					GPIOB_MODER_Hours[(LED1 - 100)%12] : GPIOB_MODER_Minutes[LED1%30];
 	if (LED2 != 255)
 		MODERB &=
 				(LED2 >= 100) ?
-						GPIOB_MODER_Hours[LED2 - 100] :
-						GPIOB_MODER_Minutes[LED2];
+						GPIOB_MODER_Hours[(LED2 - 100)%12] :
+						GPIOB_MODER_Minutes[LED2%30];
 
 	uint32_t ODRA =
 			(LED1 >= 100) ?
-					GPIOA_ODR_Hours[LED1 - 100] : GPIOA_ODR_Minutes[LED1];
+					GPIOA_ODR_Hours[(LED1 - 100)%12] : GPIOA_ODR_Minutes[LED1%30];
 	if (LED2 != 255)
-		ODRA &= (LED2 >= 100) ?
-				GPIOA_ODR_Hours[LED2 - 100] : GPIOA_ODR_Minutes[LED2];
+		ODRA |= (LED2 >= 100) ?
+				GPIOA_ODR_Hours[(LED2 - 100)%12] : GPIOA_ODR_Minutes[LED2%30];
 	uint32_t ODRB =
 			(LED1 >= 100) ?
-					GPIOB_ODR_Hours[LED1 - 100] : GPIOB_ODR_Minutes[LED1];
+					GPIOB_ODR_Hours[(LED1 - 100)%12] : GPIOB_ODR_Minutes[LED1%30];
 	if (LED2 != 255)
-		ODRB &= (LED2 >= 100) ?
-				GPIOB_ODR_Hours[LED2 - 100] : GPIOB_ODR_Minutes[LED2];
+		ODRB |= (LED2 >= 100) ?
+				GPIOB_ODR_Hours[(LED2 - 100)%12] : GPIOB_ODR_Minutes[LED2%30];
 
 	GPIOA->MODER = MODERA;
 	GPIOB->MODER = MODERB;
@@ -135,9 +136,8 @@ void showLEDs_Analog(uint8_t DisplayBuffer[], uint16_t duration, uint8_t perc) {
 void STM32L4_AnalogDisplayManager::executeSleepSubscription() {
 
 }
-void STM32L4_AnalogDisplayManager::init() {
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-	__HAL_RCC_GPIOB_CLK_ENABLE();
+void STM32L4_AnalogDisplayManager::lockPorts()
+{
 	const uint32_t GPIOA_Lock = (1 << 13) + (1 << 14);
 	const uint32_t GPIOB_Lock = (1 << 3) + (1 << 4) + (1 << 5) + (1 << 6);
 	volatile uint32_t LockReadBack = 0;
@@ -151,21 +151,22 @@ void STM32L4_AnalogDisplayManager::init() {
 	GPIOB->LCKR = 0x10000 + GPIOB_Lock;
 	LockReadBack = GPIOB->LCKR;
 	clearLED_Analog();
-	uint8_t DisplayBuffer[4] = { 255 };
-	for (uint8_t j = 0; j < 5; ++j) {
-		for (uint8_t i = 0; i < 30; ++i) {
-			DisplayBuffer[0] = i;
-			DisplayBuffer[1] = ((i * 2 + 3) / 5) + 100;
-			DisplayBuffer[2] = i;
-			DisplayBuffer[3] = ((i * 2 + 3) / 5) + 100;
-			showLEDs_Analog(DisplayBuffer, 20, 255);
-		}
-	}
+//	uint8_t DisplayBuffer[4] = { 255 };
+//	for (uint8_t j = 0; j < 5; ++j) {
+//		for (uint8_t i = 0; i < 30; ++i) {
+//			DisplayBuffer[0] = i;
+//			DisplayBuffer[1] = ((i * 2 + 3) / 5) + 100;
+//			DisplayBuffer[2] = i;
+//			DisplayBuffer[3] = ((i * 2 + 3) / 5) + 100;
+//			showLEDs_Analog(DisplayBuffer, 20, 255);
+//		}
+//	}
+}
+void STM32L4_AnalogDisplayManager::init() {
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
 
-//	while (LED_Brightness >= 250)
-//		showERROR(0xC, 1); //EC01
-
-//SleepM::getInstance()->subscribe(this);
+SleepM::getInstance()->subscribe(this);
 }
 #define MIN(a,b) (a<b?a:b)
 void STM32L4_AnalogDisplayManager::show() {
@@ -175,20 +176,24 @@ void STM32L4_AnalogDisplayManager::show() {
 	case Empty:
 		return; // no need to stay awake for long
 	case FadeIn:
-		for (uint8_t j = 0; j < 5; ++j) {
-			for (uint8_t i = 0; i < 30; ++i) {
-				DisplayBuffer[0] = MIN(i, (request[1] / 2));
+		for (uint8_t i = 0; i < 60; ++i) {
+			uint8_t minutes = MIN(i, request[1]);
+			DisplayBuffer[0] = minutes/2;
+			if (minutes % 2 == 1)
+				DisplayBuffer[1] = minutes / 2 + 1;
+			else
 				DisplayBuffer[1] = 255;
-				DisplayBuffer[2] = MIN(((i * 2 + 3) / 5) + 100,
-						(request[0] + 100));
-				DisplayBuffer[3] = 255;
-				showLEDs_Analog(DisplayBuffer, 15, 255);
-			}
+			DisplayBuffer[2] = MIN(((i + 3) / 5) + 100,
+					(request[0] + 100));
+			DisplayBuffer[3] = 255;
+			showLEDs_Analog(DisplayBuffer, 10, 255);
+			DWT_Delay_us(200);//TODO: Trim
 		}
+		return;
 		break;
 	case SetHour:
 		DisplayBuffer[2] = request[0] + 100;
-		if (BlinkOn == 0 && request.getType() == Debouncing) {
+		if (BlinkOn == 0) {
 			DisplayBuffer[3] = 0;
 			DisplayBuffer[4] = 15;
 		}
@@ -255,7 +260,7 @@ void STM32L4_AnalogDisplayManager::show() {
 	{
 		uint32_t steps = request[1];
 		DisplayBuffer[0] = (steps % 15000) / 500;
-		DisplayBuffer[1] = steps / 15000;
+		DisplayBuffer[1] = (steps / 15000)+100;
 		DisplayBuffer[2] = 111;
 		if (request.getType() == ShowStepsHistory) {
 			DisplayBuffer[3] = request[0] + 100 + 4;

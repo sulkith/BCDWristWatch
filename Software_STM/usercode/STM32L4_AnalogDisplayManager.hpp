@@ -15,6 +15,7 @@ class STM32L4_AnalogDisplayManager: public DisplayManager, public SleepSubscribe
 	public:
 		virtual void show();
 		virtual void init();
+		virtual void lockPorts();
 		virtual void executeSleepSubscription();
 };
 

@@ -56,6 +56,21 @@ mask_for_pins | (LSH01_Pin << 16) | (LSH10_Pin) | (LSM10_Pin) | (LSM01_Pin), // 
 mask_for_pins | (LSM10_Pin << 16) | (LSH10_Pin) | (LSH01_Pin) | (LSM01_Pin), // M10 Column
 mask_for_pins | (LSM01_Pin << 16) | (LSH10_Pin) | (LSH01_Pin) | (LSM10_Pin) // M01 Column
 };
+void STM32L4_BCDDisplayManager::lockPorts()
+{
+	const uint32_t GPIOA_Lock = (1 << 13) + (1 << 14);
+	const uint32_t GPIOB_Lock = (1 << 3) + (1 << 4) + (1 << 5) + (1 << 6);
+	volatile uint32_t LockReadBack = 0;
+	GPIOA->LCKR = 0x10000 + GPIOA_Lock;
+	GPIOA->LCKR = 0x00000 + GPIOA_Lock;
+	GPIOA->LCKR = 0x10000 + GPIOA_Lock;
+	LockReadBack = GPIOA->LCKR;
+
+	GPIOB->LCKR = 0x10000 + GPIOB_Lock;
+	GPIOB->LCKR = 0x00000 + GPIOB_Lock;
+	GPIOB->LCKR = 0x10000 + GPIOB_Lock;
+	LockReadBack = GPIOB->LCKR;
+}
 void STM32L4_BCDDisplayManager::executeSleepSubscription() {
 	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 
