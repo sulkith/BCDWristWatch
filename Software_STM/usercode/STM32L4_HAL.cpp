@@ -111,12 +111,10 @@ void STM32L4_HAL::setupBMA() {
 	bma.setTapDetection(0, 5, 1);
 	//bma.setMotionDetection(10,5,7,1);
 	bma.setConfigID(1);
-	if (AxisMappingVariant == Binary_v1) {
-		//map_x_axis = 0 map_x_axis_sign = 0 map_y_axis = 1 map_y_axis_sign = 1 map_z_axis = 2 map_z_axis_sign = 1
+	if (AxisMappingVariant == Binary_v1 || AxisMappingVariant == Analog_v1) { //Axis mapping is the same for both Versions
 		bma.setAxisMapping(0, 0, 1, 0, 2, 0);
-	} else if (AxisMappingVariant == Analog_v1) {
-		//map_x_axis = 0 map_x_axis_sign = 0 map_y_axis = 1 map_y_axis_sign = 1 map_z_axis = 2 map_z_axis_sign = 1
-		bma.setAxisMapping(0, 0, 1, 1, 2, 1); //TODO
+	} else {
+		bma.setAxisMapping(0, 0, 1, 0, 2, 0);
 	}
 	bma.setWristTiltFunction(1);
 	bma.setStepCounter(1);
@@ -165,9 +163,6 @@ void STM32L4_HAL::HAL_driverInit() {
 		__HAL_RCC_RTC_ENABLE();
 	}
 	HAL_PWREx_EnableLowPowerRunMode();
-	HAL_RTC_WaitForSynchro(&hrtc);
-}
-void STM32L4_HAL::HAL_init() {
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(BMA_CS_GPIO_Port, BMA_CS_Pin, GPIO_PIN_SET);
@@ -199,9 +194,12 @@ void STM32L4_HAL::HAL_init() {
 		//			HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1); // gets enabled by end of this Function
 	}
 	set_SPI_activate_CS(&setCS);
-	//initComDriver();
 
 	MX_SPI1_Init();
+
+	HAL_RTC_WaitForSynchro(&hrtc);
+}
+void STM32L4_HAL::HAL_init() {
 
 	spi_init();
 
