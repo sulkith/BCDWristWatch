@@ -14,6 +14,7 @@
 #include "SleepM.hpp"
 
 #include "STM32L4_BCDDisplayManager.hpp"
+#include "STM32L4_AnalogDisplayManager.hpp"
 #include "STM32L4_HAL.hpp"
 #include "GForceUI.hpp"
 
@@ -24,12 +25,13 @@ extern RTC_HandleTypeDef hrtc;
 #define Undefined 0xFFFFUL
 #define Binary_STM_V1 0x0100UL
 #define Analog_STM_V1 0x0200UL
-const uint32_t WatchVariant = Binary_STM_V1;
+//const uint32_t WatchVariant = Binary_STM_V1;
 
 
 DisplayManager *dman;
 STM32L4_HAL stm_hal;
 STM32L4_BCDDisplayManager BCDdm;
+STM32L4_AnalogDisplayManager Adm;
 GForceUI gfui;
 
 void RTC_Event_Callback()
@@ -139,7 +141,7 @@ void usermain_init() {
 	  else
 	  {
 		  //TODO Init Analog Dman
-		  dman = &BCDdm;
+		  dman = &Adm;
 	  }
 	  stm_hal.setAxisMappingVariant(wt);
 	  stm_hal.HAL_driverInit();
