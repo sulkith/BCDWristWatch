@@ -275,7 +275,7 @@ void STM32L4_BCDDisplayManager::show() {
 		break;
 	}
 	case ShowStepsHistory: {
-		uint16_t steps = request[1] / 100;
+		uint16_t steps = request[2] / 100;
 
 		DisplayBuffer[3] = DISP_8 | numToPort[request[0] % 8];
 		DisplayBuffer[2] = numToPort[(steps / 100) % 16];

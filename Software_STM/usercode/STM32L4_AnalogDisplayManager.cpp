@@ -262,7 +262,7 @@ void STM32L4_AnalogDisplayManager::show() {
 	case showStepCounter:
 	case ShowStepsHistory:
 	{
-		uint32_t steps = request[1];
+		uint32_t steps = request[2];
 		DisplayBuffer[0] = (steps % 15000) / 500;
 		DisplayBuffer[1] = (steps / 15000)+100;
 		DisplayBuffer[2] = 111;

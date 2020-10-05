@@ -359,7 +359,7 @@ void GForceUI::stateDisplayReuest() {
 		break;
 	}
 	case ShowStepsHistory: {
-		requestScreen(DisplMan, UIstate, HistCtr, gHAL->getHistSteps(HistCtr));
+		requestScreen(DisplMan, UIstate, HistCtr,0, gHAL->getHistSteps(HistCtr));
 //				gHAL->getHistSteps(1), gHAL->getHistSteps(2),
 //				gHAL->getHistSteps(3));
 		break;
