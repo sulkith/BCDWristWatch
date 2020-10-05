@@ -43,11 +43,13 @@ const uint16_t GPIOB_ODR_Hours[] __attribute__ ((aligned (16))) = { 0x0, 0x0,
 
 void clearLED_Analog();
 
+//This function is intended to show two LEDs which are in different Charlieplex matrices.
 void showLED_Analog_Dual(uint8_t LED1, uint8_t LED2) {
 	if (LED1 == 255) {
-		clearLED_Analog();
+		clearLED_Analog(); //if LED1 is 255 nothing should be shown
 		return;
 	}
+	//AND Mode Register for GPIOA and GPIOB
 	uint32_t MODERA =
 			(LED1 >= 100) ?
 					GPIOA_MODER_Hours[(LED1 - 100)%12] : GPIOA_MODER_Minutes[LED1%30];
@@ -65,6 +67,7 @@ void showLED_Analog_Dual(uint8_t LED1, uint8_t LED2) {
 						GPIOB_MODER_Hours[(LED2 - 100)%12] :
 						GPIOB_MODER_Minutes[LED2%30];
 
+	//OR Output Data Register for GPIOA and GPIOB
 	uint32_t ODRA =
 			(LED1 >= 100) ?
 					GPIOA_ODR_Hours[(LED1 - 100)%12] : GPIOA_ODR_Minutes[LED1%30];
@@ -78,6 +81,7 @@ void showLED_Analog_Dual(uint8_t LED1, uint8_t LED2) {
 		ODRB |= (LED2 >= 100) ?
 				GPIOB_ODR_Hours[(LED2 - 100)%12] : GPIOB_ODR_Minutes[LED2%30];
 
+	//Show the LEDs
 	GPIOA->MODER = MODERA;
 	GPIOB->MODER = MODERB;
 	GPIOA->ODR = ODRA;
@@ -102,6 +106,7 @@ void showLED_Analog(uint8_t LED) {
 	}
 }
 void clearLED_Analog() {
+	//Clear All LEDs
 	GPIOA->MODER = 0xFFFFFFFF;
 	GPIOB->MODER = 0xFFFFFFFF;
 	GPIOA->ODR = 0x0000;
@@ -123,6 +128,7 @@ __STATIC_INLINE void DWT_Delay_us(volatile uint32_t microseconds) {
 		;
 }
 void showLEDs_Analog(uint8_t DisplayBuffer[], uint16_t duration, uint8_t perc) {
+	//Show LED 0-2 sequentially and LED 3 and 4 together, the user needs to make sure that LED3 and LED4 are compatible to each other
 	for (uint16_t j = 0; j < duration; ++j) {
 		for (uint8_t i = 0; i < 3; ++i) {
 			showLED_Analog(DisplayBuffer[i]);
@@ -138,35 +144,33 @@ void STM32L4_AnalogDisplayManager::executeSleepSubscription() {
 }
 void STM32L4_AnalogDisplayManager::lockPorts()
 {
+	//Lock PA13 and PA14 (SWD-Ports)
 	const uint32_t GPIOA_Lock = (1 << 13) + (1 << 14);
+	//Lock PB3, PB4, PB5, PB6 SPI Port for the BMA
 	const uint32_t GPIOB_Lock = (1 << 3) + (1 << 4) + (1 << 5) + (1 << 6);
 	volatile uint32_t LockReadBack = 0;
+
+	//Lock Sequence for Port A
 	GPIOA->LCKR = 0x10000 + GPIOA_Lock;
 	GPIOA->LCKR = 0x00000 + GPIOA_Lock;
 	GPIOA->LCKR = 0x10000 + GPIOA_Lock;
 	LockReadBack = GPIOA->LCKR;
 
+	//Lock Sequence for Port A
 	GPIOB->LCKR = 0x10000 + GPIOB_Lock;
 	GPIOB->LCKR = 0x00000 + GPIOB_Lock;
 	GPIOB->LCKR = 0x10000 + GPIOB_Lock;
 	LockReadBack = GPIOB->LCKR;
+
+	//Initialize Ports so all LEDs are off
 	clearLED_Analog();
-//	uint8_t DisplayBuffer[4] = { 255 };
-//	for (uint8_t j = 0; j < 5; ++j) {
-//		for (uint8_t i = 0; i < 30; ++i) {
-//			DisplayBuffer[0] = i;
-//			DisplayBuffer[1] = ((i * 2 + 3) / 5) + 100;
-//			DisplayBuffer[2] = i;
-//			DisplayBuffer[3] = ((i * 2 + 3) / 5) + 100;
-//			showLEDs_Analog(DisplayBuffer, 20, 255);
-//		}
-//	}
 }
 void STM32L4_AnalogDisplayManager::init() {
+	//Start GPIO Clocks
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
-SleepM::getInstance()->subscribe(this);
+	SleepM::getInstance()->subscribe(this);
 }
 #define MIN(a,b) (a<b?a:b)
 void STM32L4_AnalogDisplayManager::show() {
