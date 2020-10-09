@@ -182,22 +182,26 @@ void STM32L4_AnalogDisplayManager::show() {
 	case FadeIn:
 		for (uint8_t i = 0; i < 60; ++i) {
 			uint8_t minutes = MIN(i, request[1]);
+			uint8_t hour = MIN(((i + 3) / 5),request[0]%12) + 100;
 			DisplayBuffer[0] = minutes/2;
 			if (minutes % 2 == 1)
 				DisplayBuffer[1] = minutes / 2 + 1;
 			else
 				DisplayBuffer[1] = 255;
-			DisplayBuffer[2] = MIN(((i + 3) / 5) + 100,
-					(request[0] + 100));
+			DisplayBuffer[2] = hour;
 			DisplayBuffer[3] = 255;
 			showLEDs_Analog(DisplayBuffer, 10, 255);
-			DWT_Delay_us(200);//TODO: Trim
+			DWT_Delay_us(220);//TODO: Trim
 		}
 		return;
 		break;
 	case SetHour:
 		DisplayBuffer[2] = request[0] + 100;
 		if (BlinkOn == 0) {
+			if(request[0] > 11)
+			{
+				DisplayBuffer[0] = 5;
+			}
 			DisplayBuffer[3] = 0;
 			DisplayBuffer[4] = 15;
 		}
@@ -304,9 +308,9 @@ void STM32L4_AnalogDisplayManager::show() {
 		DisplayBuffer[3] = 109;
 		break;
 	}
-	showLEDs_Analog(DisplayBuffer, 1, Brightness);
+	showLEDs_Analog(DisplayBuffer, 10, Brightness);
 	while (request.getType() == showError)
-		showLEDs_Analog(DisplayBuffer, 1, Brightness);
+		showLEDs_Analog(DisplayBuffer, 10, Brightness);
 
 	DisplayRequest empty_dr;
 	request = empty_dr;
