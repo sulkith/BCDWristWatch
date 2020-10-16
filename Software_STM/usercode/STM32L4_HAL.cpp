@@ -222,6 +222,8 @@ void STM32L4_HAL::HAL_init() {
 		}
 	}
 
+	bma.getInternalState(); //do one extra read to make sure the SPI Communication is working when checking for the Status.
+
 	if ((bma.getInternalState()) != 0x01) //should be 0x01
 			{
 		//This will only initialize the BMA if it is not already running
@@ -440,10 +442,9 @@ uint8_t STM32L4_HAL::HAL_sleep() {
 
 	  //HAL_PWREx_DisableBatteryCharging();//Doesn't change anything
 
-
-    HAL_DBGMCU_DisableDBGStopMode();
-    HAL_DBGMCU_DisableDBGStandbyMode();
-    HAL_DBGMCU_DisableDBGSleepMode();
+	HAL_DBGMCU_DisableDBGStopMode();
+	HAL_DBGMCU_DisableDBGStandbyMode();
+	HAL_DBGMCU_DisableDBGSleepMode();
 
     //bma.writeAddress(0x7D, 0x00);//Put BMA into powerdown mode should draw only 3.5µA for the BMA, but Wakeup isn't working anymore...
 

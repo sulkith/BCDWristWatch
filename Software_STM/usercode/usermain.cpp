@@ -126,11 +126,15 @@ inline void requestScreen(DisplayManager *dm, DisplayRequestType type,
 	DisplayRequest dr(type, data);
 	dm->requestDisplay(dr);
 }
+#define PROFILING(x) x
+#define PROFILING(x)
 void usermain_init() {
 	  SystemClock_Config_without_LSE();
+	  PROFILING(uint32_t time[20];)
 
 	  // Moved to HAL: MX_RTC_Init();
 	  // Moved to HAL: MX_SPI1_Init();
+	  PROFILING(time[0] = HAL_GetTick();)
 	  Watch_Type_t wt = Binary_v1;
 	  uint64_t WatchVersCode = *((uint64_t*) WatchVersCodeAddress);
 		if((WatchVersCode&0xFFFF) == Binary_STM_V1)
@@ -141,7 +145,7 @@ void usermain_init() {
 		{
 		  wt = Analog_v1;
 		}
-
+	  PROFILING(time[1] = HAL_GetTick();)
 	  //hal = &stm_hal;
 	  DWT_Delay_Init();
 
@@ -155,16 +159,26 @@ void usermain_init() {
 		  //TODO Init Analog Dman
 		  dman = &Adm;
 	  }
+	  PROFILING(time[2] = HAL_GetTick();)
 	  stm_hal.setAxisMappingVariant(wt);
+	  PROFILING(time[3] = HAL_GetTick();)
 	  stm_hal.HAL_driverInit();
+	  PROFILING(time[4] = HAL_GetTick();)
 	  stm_hal.setDisplayManager(dman);
+	  PROFILING(time[5] = HAL_GetTick();)
 	  dman->init();
+	  PROFILING(time[6] = HAL_GetTick();)
 	  stm_hal.HAL_init();
+	  PROFILING(time[7] = HAL_GetTick();)
 	  dman->lockPorts();
+	  PROFILING(time[8] = HAL_GetTick();)
+	  stm_hal.HAL_cyclic();
 
 
 	  gfui.init(dman, &stm_hal, &stm_hal);
+	  PROFILING(time[9] = HAL_GetTick();)
 	  SleepM::getInstance()->setHal(&stm_hal);
+	  PROFILING(time[10] = HAL_GetTick();)
 
 //	  while(1)
 //	  {
@@ -176,7 +190,6 @@ void usermain_init() {
 	  {
 		  stm_hal.HAL_sleep();
 	  }
-
 
 
 }
@@ -200,7 +213,7 @@ void usermain_loop() {
 		dman->show();
 	}
 	gfui.cyclic();
-	dman->show();
 	SleepM::getInstance()->cyclic();
 	stm_hal.HAL_cyclic();
+	dman->show();
 }
