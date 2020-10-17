@@ -20,6 +20,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+#define Undefined 0xFFFFUL
+#define Binary_STM_V1 0x0100UL
+#define Analog_STM_V1 0x0200UL
+extern const uint32_t WatchVariant;// = Binary_STM_V1;
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -70,7 +74,7 @@ uint8_t ErrorVar = 0;
 const uint8_t LED_Brightness = 240;
 
 //Maximum of 130000
-#define secondsToMeasure 300
+
 int16_t SecondsElapsed = -1;
 uint32_t startMeasure = 0;
 uint32_t endMeasure = 0;
@@ -78,53 +82,6 @@ int64_t diffperppm = 0;
 
 
 const uint32_t Timerrun_offset = 0x8000 * 8; //Prediv 8
-uint32_t DWT_Delay_Init(void) {
-	/* Disable TRC */
-	CoreDebug->DEMCR &= ~CoreDebug_DEMCR_TRCENA_Msk; // ~0x01000000;
-	/* Enable TRC */
-	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; // 0x01000000;
-	/* Disable clock cycle counter */
-	DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk; //~0x00000001;
-	/* Enable  clock cycle counter */
-	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk; //0x00000001;
-	/* Reset the clock cycle counter value */
-	DWT->CYCCNT = 0;
-	/* 3 NO OPERATION instructions */
-	__ASM volatile ("NOP");
-	__ASM volatile ("NOP");
-	__ASM volatile ("NOP");
-	volatile uint8_t a;
-	a++;
-	a++;
-	a++;
-	/* Check if clock cycle counter has started */
-	if (DWT->CYCCNT) {
-		return 0; /*clock cycle counter started*/
-	} else {
-		return 1; /*clock cycle counter not started*/
-	}
-}
-__STATIC_INLINE void DWT_Delay_us(volatile uint32_t microseconds) {
-	uint32_t clk_cycle_start = DWT->CYCCNT;
-
-	/* Go to number of cycles for system */
-	microseconds *= (HAL_RCC_GetHCLKFreq() / 1000000);
-
-	/* Delay till end */
-	while ((DWT->CYCCNT - clk_cycle_start) < microseconds)
-		;
-}
-void showLEDs(uint16_t DisplayBuffer[], uint16_t duration) {
-	const uint8_t perc = LED_Brightness;
-	for (uint16_t j = 0; j < duration; ++j)
-		for (uint8_t i = 0; i < 4; ++i) {
-			//PORTD=DisplayBuffer[i]|((0b00111100)&(~(1<<(2+i))));
-			GPIOA->BSRR = DisplayBuffer[3 - i] | Column[i];
-			DWT_Delay_us(perc);
-			GPIOA->BSRR = mask_clear;
-			DWT_Delay_us(250 - perc);
-		}
-}
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	/* Prevent unused argument(s) compilation warning */
@@ -150,88 +107,6 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 
 }
 
-void writeFlash(uint32_t Address, uint64_t data) {
-//	uint32_t Address = FLASH_BASE+FLASH_SIZE-FLASH_PAGE_SIZE;
-	HAL_StatusTypeDef status = 0;
-	uint64_t currdata = *((uint64_t*) Address);
-	if (data != currdata) {
-		status = HAL_FLASH_Unlock();
-		FLASH_EraseInitTypeDef erase = { 0 };
-		erase.TypeErase = FLASH_TYPEERASE_PAGES;
-		erase.Banks = FLASH_BANK_1;
-		erase.Page = (Address - FLASH_BASE) / PAGESIZE;
-		erase.NbPages = 1;
-		uint32_t Error = 0;
-		status = HAL_FLASHEx_Erase(&erase, &Error);
-		status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, Address, data);
-		status = HAL_FLASH_Lock();
-		UNUSED(status);
-	}
-}
-uint64_t readFlash(uint32_t Address) {
-	return *((uint64_t*) Address);
-}
-
-void init_IOs() {
-	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
-	/* GPIO Ports Clock Enable */
-	__HAL_RCC_GPIOC_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-	__HAL_RCC_GPIOH_CLK_ENABLE();
-
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOA,
-			LSH01_Pin | LSH10_Pin | HS1_Pin | HS2_Pin | HS8_Pin | HS4_Pin
-					| LSM01_Pin | LSM10_Pin, GPIO_PIN_RESET);
-
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(BMA_CS_GPIO_Port, BMA_CS_Pin, GPIO_PIN_SET);
-
-	/*Configure GPIO pins : PA1 PA7 PA8 PA15 */
-	GPIO_InitStruct.Pin = GPIO_PIN_1 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_15;
-	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-	/*Configure GPIO pins : LSH01_Pin LSH10_Pin HS1_Pin HS2_Pin
-	 HS8_Pin HS4_Pin LSM01_Pin LSM10_Pin */
-	GPIO_InitStruct.Pin = LSH01_Pin | LSH10_Pin | HS1_Pin | HS2_Pin | HS8_Pin
-			| HS4_Pin | LSM01_Pin | LSM10_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-	/*Configure GPIO pins : PB0 PB1 PB7 */
-	GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_7;
-	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-	/*Configure GPIO pin : BMA_CS_Pin */
-	GPIO_InitStruct.Pin = BMA_CS_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(BMA_CS_GPIO_Port, &GPIO_InitStruct);
-
-	/*Configure GPIO pin : PH3 */
-	GPIO_InitStruct.Pin = GPIO_PIN_3;
-	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
-}
-/* USER CODE END 0 */
-
-#define WatchVersCodeAddress (FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE + 0x10)
-
-#define Undefined 0xFFFFUL
-#define Binary_STM_V1 0x0100UL
-#define Analog_STM_V1 0x0200UL
-const uint32_t WatchVariant = Binary_STM_V1;
-
 /**
   * @brief  The application entry point.
   * @retval int
@@ -246,12 +121,12 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+  /* USER CODE BEGIN Init */
   if(0)//just to get rid of warnings
   {
 	  MX_GPIO_Init();
 	  MX_SPI1_Init();
   }
-  /* USER CODE BEGIN Init */
   uint64_t WatchVersCode = *((uint64_t*) WatchVersCodeAddress);
   if((WatchVersCode&0xFFFF) == Undefined)
   {
@@ -288,23 +163,14 @@ int main(void)
 		switch (State) {
 		case Error:
 			init_IOs();
-			Buffer[3] = DISP_9;
-			Buffer[2] = DISP_6;
-			Buffer[1] = DISP_6;
-			Buffer[0] = DISP_9;
+			showError();
 			break;
 		case Finished:
-			Buffer[3] = DISP_2;
-			Buffer[2] = DISP_1;
-			Buffer[1] = DISP_2;
-			Buffer[0] = DISP_4;
+			showFinish();
 			break;
 		case Init:
 		case TestLEDs:
-			Buffer[3] = DISP_F;
-			Buffer[2] = DISP_F;
-			Buffer[1] = DISP_F;
-			Buffer[0] = DISP_F;
+			testLEDs();
 			if (HAL_GetTick() > 10000)
 				State = WaitForTimer;
 			break;
@@ -346,15 +212,11 @@ int main(void)
 			}
 		else {
 				uint16_t TimeToGo = secondsToMeasure-SecondsElapsed;
-				Buffer[3] = DISP_C;
-				Buffer[2] = numToPort[((TimeToGo) / 100) % 10];;
-				Buffer[1] = numToPort[((TimeToGo) / 10) % 10];
-				Buffer[0] = numToPort[(TimeToGo) % 10];
+				showRemainingTime(TimeToGo);
 			}
 			break;
 
 		}
-		showLEDs(Buffer, 500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -83,7 +83,7 @@ extern const uint32_t Column[];
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+#include "user.h"
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
