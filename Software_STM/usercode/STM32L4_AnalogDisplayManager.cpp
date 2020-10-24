@@ -4,7 +4,6 @@
  *  Created on: Oct 04, 2020
  *      Author: sulkith
  */
-
 #include "STM32L4_AnalogDisplayManager.hpp"
 #include "SleepM.hpp"
 #include "main.h"
@@ -131,6 +130,7 @@ void STM32L4_AnalogDisplayManager::lockPorts()
 	GPIOB->LCKR = 0x10000 + GPIOB_Lock;
 	LockReadBack = GPIOB->LCKR;
 
+	UNUSED(LockReadBack);
 	//Initialize Ports so all LEDs are off
 	clearLED_Analog();
 }

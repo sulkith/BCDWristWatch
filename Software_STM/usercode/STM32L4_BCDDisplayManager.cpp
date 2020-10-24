@@ -70,6 +70,7 @@ void STM32L4_BCDDisplayManager::lockPorts()
 	GPIOB->LCKR = 0x00000 + GPIOB_Lock;
 	GPIOB->LCKR = 0x10000 + GPIOB_Lock;
 	LockReadBack = GPIOB->LCKR;
+	UNUSED(LockReadBack);
 }
 void STM32L4_BCDDisplayManager::executeSleepSubscription() {
 	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
