@@ -13,25 +13,27 @@
 #include "HAL.hpp"
 #include "SleepM.hpp"
 
-#include "STM32L4_BCDDisplayManager.hpp"
-#include "STM32L4_AnalogDisplayManager.hpp"
 #include "STM32L4_HAL.hpp"
 #include "GForceUI.hpp"
 
 extern RTC_HandleTypeDef hrtc;
 
-#define WatchVersCodeAddress (FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE + 0x10)
-
-#define Undefined 0xFFFFUL
-#define Binary_STM_V1 0x0100UL
-#define Analog_STM_V1 0x0200UL
-//const uint32_t WatchVariant = Binary_STM_V1;
+#ifdef COMPILE_BINARY_V1
+#include "STM32L4_BCDDisplayManager.hpp"
+#endif
+#ifdef COMPILE_ANALOG_V1
+#include "STM32L4_AnalogDisplayManager.hpp"
+#endif
 
 
 DisplayManager *dman;
 STM32L4_HAL stm_hal;
+#ifdef COMPILE_BINARY_V1
 STM32L4_BCDDisplayManager BCDdm;
+#endif
+#ifdef COMPILE_ANALOG_V1
 STM32L4_AnalogDisplayManager Adm;
+#endif
 GForceUI gfui;
 
 void RTC_Event_Callback()
@@ -126,8 +128,10 @@ inline void requestScreen(DisplayManager *dm, DisplayRequestType type,
 	DisplayRequest dr(type, data);
 	dm->requestDisplay(dr);
 }
-#define PROFILING(x) x
-#define PROFILING(x)
+//#define PROFILING(x) x
+#ifndef PROFILING
+	#define PROFILING(x)
+#endif
 void usermain_init() {
 	  SystemClock_Config_without_LSE();
 	  PROFILING(uint32_t time[20];)
@@ -149,15 +153,20 @@ void usermain_init() {
 	  //hal = &stm_hal;
 	  DWT_Delay_Init();
 
-	  //TODO Code to distinguish between analog and Binary watch Version.
-	  if(wt == Binary_v1)
+	  switch(wt)
 	  {
+#ifdef COMPILE_BINARY_V1
+	  case Binary_v1:
 		  dman = &BCDdm;
-	  }
-	  else
-	  {
-		  //TODO Init Analog Dman
+		  break;
+#endif
+#ifdef COMPILE_ANALOG_V1
+	  case Analog_v1:
 		  dman = &Adm;
+#endif
+	  	  break;
+	  default:
+		  Error_Handler();
 	  }
 	  PROFILING(time[2] = HAL_GetTick();)
 	  stm_hal.setAxisMappingVariant(wt);

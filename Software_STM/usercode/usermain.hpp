@@ -28,4 +28,14 @@
  }
 #endif
 
+#define WatchVersCodeAddress (FLASH_BASE + FLASH_SIZE - FLASH_PAGE_SIZE + 0x10)
+
+#define Undefined 0xFFFFUL
+#define Binary_STM_V1 0x0100UL
+#define Analog_STM_V1 0x0200UL
+//const uint32_t WatchVariant = Binary_STM_V1;
+
+#define COMPILE_ANALOG_V1
+#define COMPILE_BINARY_V1
+
 #endif /* USERMAIN_HPP_ */
