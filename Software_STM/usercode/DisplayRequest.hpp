@@ -2,7 +2,7 @@
 #define __DISPLAYREQUEST_HEADER_INCLUDE__
 
 #include "main.h"
-
+#include "string.h" //memcpy is needed
 typedef enum
 {
   Empty,
@@ -33,10 +33,13 @@ private:
   uint16_t data[DisplayRequest::dataLength] __attribute__ ((aligned (16))) = {0} ;
 public:
   DisplayRequest(){};
-  DisplayRequest(DisplayRequestType drt, uint16_t dp[]):type(drt)
+  DisplayRequest(DisplayRequestType drt, uint16_t dp[DisplayRequest::dataLength]):type(drt)
   {
     for(uint8_t i =0;i<DisplayRequest::dataLength;++i)
-      data[i]=dp[i];
+    {
+//      data[i]=dp[i];
+      memcpy(data,dp,dataLength*sizeof(uint16_t));
+    }
   }
   uint16_t *getData(){return (uint16_t*)data;}
   DisplayRequestType getType(){return type;}
