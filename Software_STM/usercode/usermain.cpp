@@ -15,6 +15,7 @@
 
 #include "STM32L4_HAL.hpp"
 #include "GForceUI.hpp"
+#include "settings.hpp"
 
 extern RTC_HandleTypeDef hrtc;
 
@@ -144,10 +145,12 @@ void usermain_init() {
 		if((WatchVersCode&0xFFFF) == Binary_STM_V1)
 		{
 		  wt = Binary_v1;
+		  gfui.setSettingsPtr(&SettingsBinaryV1);
 		}
 		if((WatchVersCode&0xFFFF) == Analog_STM_V1)
 		{
 		  wt = Analog_v1;
+		  gfui.setSettingsPtr(&SettingsAnalogV1);
 		}
 	  PROFILING(time[1] = HAL_GetTick();)
 	  //hal = &stm_hal;

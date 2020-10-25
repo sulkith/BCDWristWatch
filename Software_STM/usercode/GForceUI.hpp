@@ -3,6 +3,7 @@
 #include "UserInterface.hpp"
 #include "GForceHAL.hpp"
 #include "HAL.hpp"
+#include "settings.hpp"
 #include "DisplayManager.hpp"
 #include "DisplayRequest.hpp"
 #include "SleepSubscriber.hpp"
@@ -12,6 +13,7 @@ class GForceUI: public UserInterface, public SleepSubscriber
   HAL *mHal;
   DisplayManager *DisplMan;
   GForceHAL *gHAL;
+  WatchSettings_t *WatchSettingsPtr = &SettingsDefault;
   DisplayRequestType UIstate = FadeIn;
   bool inputEnabled = false;
   uint8_t debouncerGForce = 0;
@@ -23,6 +25,7 @@ class GForceUI: public UserInterface, public SleepSubscriber
 public:
   virtual void init(DisplayManager *dm, GForceHAL *gh, HAL *h);
   virtual void cyclic();
+  virtual void setSettingsPtr(WatchSettings_t *ptr){WatchSettingsPtr=ptr;}
   GForceUI(): mHal(NULL), DisplMan(NULL),gHAL(NULL){};
   virtual void executeSleepSubscription();
 };

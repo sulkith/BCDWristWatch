@@ -71,7 +71,7 @@ void GForceUI::stateTransition() {
 					UIstate = Debouncing;
 					SleepM::requestProlong(ontime_short);
 				} else {
-					if (gHAL->getY() > 300) {
+					if (gHAL->getY() > 300 && WatchSettingsPtr->enableDate) {
 						UIstate = Date;
 						SleepM::requestProlong(ontime_short);
 						debouncerGForce = 0;
@@ -80,25 +80,30 @@ void GForceUI::stateTransition() {
 						SleepM::requestProlong(ontime_short);
 					} else {
 #ifdef TIME_S
-						if(UIstate == Time_s)
+						if(WatchSettingsPtr->enableSeconds)
 						{
-							UIstate = Time;
-							SleepM::requestProlong(ontime_short);
+							if(UIstate == Time_s)
+							{
+								UIstate = Time;
+								SleepM::requestProlong(ontime_short);
+							}
+							else
+							{
+								UIstate = Time_s;
+								SleepM::requestProlong(ontime_long);
+							}
 						}
 						else
-						{
-							UIstate = Time_s;
-							SleepM::requestProlong(ontime_long);
-						}
-#else
-						UIstate = showStepCounter;
-						SleepM::requestProlong(ontime_short);
 #endif
+						{
+							UIstate = showStepCounter;
+							SleepM::requestProlong(ontime_short);
+						}
 					}
 				}
 			} else if (debouncerGForce == 1) {
 				if (gHAL->getZ() < -7000)	//Check if it is in normal Position
-						{
+				{
 					UIstate = SetHour;
 					SleepM::requestProlong(ontime_very_long);
 					debouncerGForce = 0xFF;
@@ -136,11 +141,11 @@ void GForceUI::stateTransition() {
 			} else {
 				debounce = 0;
 			}
-			if (debounce > 50) {
+			if (debounce > WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().advanceHour();
 				debounce = 0;
 			}
-			if (debounce < -50) {
+			if (debounce < -WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().decreaseHour();
 				debounce = 0;
 			}
@@ -162,11 +167,11 @@ void GForceUI::stateTransition() {
 			} else {
 				debounce = 0;
 			}
-			if (debounce > 50) {
+			if (debounce > WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().advanceMinute();
 				debounce = 0;
 			}
-			if (debounce < -50) {
+			if (debounce < -WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().decreaseMinute();
 				debounce = 0;
 			}
@@ -215,11 +220,11 @@ void GForceUI::stateTransition() {
 			} else {
 				debounce = 0;
 			}
-			if (debounce > 50) {
+			if (debounce > WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().advanceDay();
 				debounce = 0;
 			}
-			if (debounce < -50) {
+			if (debounce < -WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().decreaseDay();
 				debounce = 0;
 			}
@@ -239,11 +244,11 @@ void GForceUI::stateTransition() {
 			} else {
 				debounce = 0;
 			}
-			if (debounce > 50) {
+			if (debounce > WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().advanceMonth();
 				debounce = 0;
 			}
-			if (debounce < -50) {
+			if (debounce < -WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().decreaseMonth();
 				debounce = 0;
 			}
@@ -264,11 +269,11 @@ void GForceUI::stateTransition() {
 			} else {
 				debounce = 0;
 			}
-			if (debounce > 50) {
+			if (debounce > WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().advanceYear();
 				debounce = 0;
 			}
-			if (debounce < -50) {
+			if (debounce < -WatchSettingsPtr->debounceSetTime) {
 				ClockM::getInstance().decreaseYear();
 				debounce = 0;
 			}
@@ -276,8 +281,8 @@ void GForceUI::stateTransition() {
 		break;
 	case showStepCounter:
 		if (gHAL->getTap()) {
-			if (gHAL->getZ() > 7000)			//Check if it is upside Down
-					{
+			if (gHAL->getZ() > 7000 && WatchSettingsPtr->enableStepHistory)//Check if it is upside Down
+			{
 				UIstate = ShowStepsHistory;
 				SleepM::requestProlong(ontime_very_long);
 			} else {
@@ -287,7 +292,7 @@ void GForceUI::stateTransition() {
 		}
 		break;
 	case ShowStepsHistory: {
-		if (caseForAdjusting<uint8_t>(&HistCtr, gHAL, gHAL->getHistStepsSize()-1,0,150)) {
+		if (caseForAdjusting<uint8_t>(&HistCtr, gHAL, gHAL->getHistStepsSize()-1,0,WatchSettingsPtr->debounceStepsHistory)) {
 			UIstate = ShowUBatt;
 			SleepM::requestProlong(ontime_short);
 		}

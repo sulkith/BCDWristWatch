@@ -6,4 +6,17 @@
 //                                           0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20  21  22  23
 const uint8_t LED_Brightness_Daytime[24] = {120,120,120,120,120,120,120,120,140,170,200,230,240,240,240,240,230,220,200,170,120,120,120,120};
 
+struct WatchSettings_t
+{
+	bool enableSeconds;
+	bool enableDate;
+	bool enableStepHistory;
+	int16_t debounceSetTime;
+	int16_t debounceStepsHistory;
+};
+
+extern WatchSettings_t SettingsAnalogV1;
+extern WatchSettings_t SettingsBinaryV1;
+extern WatchSettings_t SettingsDefault;
+
 #endif
