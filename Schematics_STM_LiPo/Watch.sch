@@ -980,4 +980,47 @@ Wire Wire Line
 	9450 5700 9600 5700
 Text GLabel 2850 2750 0    60   Input ~ 0
 CHG_State
+Text GLabel 6900 3800 0    60   Input ~ 0
+BAT_CHG
+$Comp
+L Connector:Conn_01x01_Male J6
+U 1 1 608D185D
+P 7250 5100
+F 0 "J6" H 7358 5281 50  0000 C CNN
+F 1 "Conn_01x01_Male" H 7358 5190 50  0000 C CNN
+F 2 "ProjectSpecific:SolderPad" H 7250 5100 50  0001 C CNN
+F 3 "~" H 7250 5100 50  0001 C CNN
+	1    7250 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x01_Male J7
+U 1 1 608D1FB2
+P 7250 5300
+F 0 "J7" H 7358 5481 50  0000 C CNN
+F 1 "Conn_01x01_Male" H 7358 5390 50  0000 C CNN
+F 2 "ProjectSpecific:SolderPad" H 7250 5300 50  0001 C CNN
+F 3 "~" H 7250 5300 50  0001 C CNN
+	1    7250 5300
+	1    0    0    -1  
+$EndComp
+Text GLabel 7450 5100 2    60   Input ~ 0
+CHG+
+Text GLabel 10000 6200 2    60   Input ~ 0
+GND
+Text GLabel 7450 5300 2    60   Input ~ 0
+GND
+$Comp
+L Connector:Conn_01x01_Male J8
+U 1 1 608DBFFA
+P 7250 5500
+F 0 "J8" H 7358 5681 50  0000 C CNN
+F 1 "Conn_01x01_Male" H 7358 5590 50  0000 C CNN
+F 2 "ProjectSpecific:SolderPad" H 7250 5500 50  0001 C CNN
+F 3 "~" H 7250 5500 50  0001 C CNN
+	1    7250 5500
+	1    0    0    -1  
+$EndComp
+Text GLabel 7450 5500 2    60   Input ~ 0
+VCC
 $EndSCHEMATC
