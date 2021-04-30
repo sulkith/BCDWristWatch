@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name ProjectSpecific)(type KiCad)(uri ${KIPRJMOD}/ProjectSpecific.pretty)(options "")(descr ""))
+  (lib (name BatteryHolder)(type KiCad)(uri ${KIPRJMOD}/BatteryHolder.pretty)(options "")(descr ""))
+)
