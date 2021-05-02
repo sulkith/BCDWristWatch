@@ -7,3 +7,6 @@
 [submodule "Software_STM/usercode/libs/Bosch_BMA456"]
 	path = Software/Software_STM/usercode/libs/Bosch_BMA456
 	url = git@github.com:sulkith/Bosch_BMA456.git
+[submodule "Schematics/devboards/LiPo_Circuit/SulkithKicadFootprints"]
+	path = Schematics/devboards/LiPo_Circuit/SulkithKicadFootprints
+	url = git@github.com:sulkith/SulkithKicadFootprints.git

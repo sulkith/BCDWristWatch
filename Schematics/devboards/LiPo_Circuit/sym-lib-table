@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name SulkithKicadLibs)(type Legacy)(uri ${KIPRJMOD}/SulkithKicadFootprints)(options "")(descr "")(disabled))
+)
