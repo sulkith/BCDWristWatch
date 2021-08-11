@@ -10,3 +10,6 @@
 [submodule "Schematics/devboards/LiPo_Circuit/SulkithKicadFootprints"]
 	path = Schematics/devboards/LiPo_Circuit/SulkithKicadFootprints
 	url = git@github.com:sulkith/SulkithKicadFootprints.git
+[submodule "Schematics/devboards/LiPo_Wireless/SulkithKicadFootprints"]
+	path = Schematics/devboards/LiPo_Wireless/SulkithKicadFootprints
+	url = https://github.com/sulkith/SulkithKicadFootprints.git
