@@ -12,4 +12,4 @@
 	url = git@github.com:sulkith/SulkithKicadFootprints.git
 [submodule "Schematics/devboards/LiPo_Wireless/SulkithKicadFootprints"]
 	path = Schematics/devboards/LiPo_Wireless/SulkithKicadFootprints
-	url = https://github.com/sulkith/SulkithKicadFootprints.git
+	url = git@github.com:sulkith/SulkithKicadFootprints.git
