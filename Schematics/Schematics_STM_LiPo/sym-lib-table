@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name Watch-rescue)(type Legacy)(uri ${KIPRJMOD}/Watch-rescue.lib)(options "")(descr ""))
+  (lib (name SulkithKicadFootprints)(type Legacy)(uri ${KIPRJMOD}/SulkithKicadFootprints/BMA456.lib)(options "")(descr ""))
 )
