@@ -823,17 +823,6 @@ F 3 "~" H 1350 5500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Battery_Management:LTC4054XES5-4.2 U3
-U 1 1 608CA852
-P 4100 5950
-F 0 "U3" H 4544 5946 50  0000 L CNN
-F 1 "LTC4054XES5-4.2" H 4544 5855 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:TSOT-23-5" H 4100 5450 50  0001 C CNN
-F 3 "https://www.analog.com/media/en/technical-documentation/data-sheets/405442xf.pdf" H 4100 5850 50  0001 C CNN
-	1    4100 5950
-	1    0    0    -1  
-$EndComp
-$Comp
 L Regulator_Switching:TPS62203DBV U2
 U 1 1 608CF00E
 P 4200 3700
@@ -855,43 +844,6 @@ F 3 "~" H 4650 3500 50  0001 C CNN
 	1    4650 3500
 	0    -1   -1   0   
 $EndComp
-$Comp
-L Device:R R6
-U 1 1 608D14FD
-P 3550 6300
-F 0 "R6" H 3620 6346 50  0000 L CNN
-F 1 "10k" H 3620 6255 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 3480 6300 50  0001 C CNN
-F 3 "~" H 3550 6300 50  0001 C CNN
-	1    3550 6300
-	1    0    0    -1  
-$EndComp
-Text GLabel 4500 5950 2    60   Input ~ 0
-BAT_CHG
-$Comp
-L power:GND #PWR0101
-U 1 1 608D4ADD
-P 4100 6500
-F 0 "#PWR0101" H 4100 6250 50  0001 C CNN
-F 1 "GND" H 4105 6327 50  0000 C CNN
-F 2 "" H 4100 6500 50  0001 C CNN
-F 3 "" H 4100 6500 50  0001 C CNN
-	1    4100 6500
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3550 6450 4100 6450
-Wire Wire Line
-	4100 6350 4100 6450
-Connection ~ 4100 6450
-Wire Wire Line
-	4100 6450 4100 6500
-Wire Wire Line
-	3550 6150 3550 6050
-Wire Wire Line
-	3550 6050 3700 6050
-Text GLabel 4100 5650 1    60   Input ~ 0
-CHG+
 Wire Wire Line
 	4500 3700 4900 3700
 Wire Wire Line
@@ -967,12 +919,6 @@ Connection ~ 1500 2850
 Wire Wire Line
 	1500 850  1400 850 
 Connection ~ 1500 850 
-Text GLabel 3550 5950 0    60   Input ~ 0
-CHG_State
-Wire Wire Line
-	3550 5950 3700 5950
-Text GLabel 1100 2000 0    60   Input ~ 0
-CHG_State
 $Comp
 L Connector:Conn_01x01_Male J7
 U 1 1 608D1FB2
@@ -984,8 +930,6 @@ F 3 "~" H 1000 6100 50  0001 C CNN
 	1    1000 6100
 	1    0    0    -1  
 $EndComp
-Text GLabel 4100 6450 2    60   Input ~ 0
-GND
 Text GLabel 1200 6100 2    60   Input ~ 0
 GND
 $Comp
@@ -1156,4 +1100,5 @@ Wire Wire Line
 	6600 5150 7500 5150
 Connection ~ 6600 4400
 Connection ~ 7500 5150
+NoConn ~ 1100 2000
 $EndSCHEMATC

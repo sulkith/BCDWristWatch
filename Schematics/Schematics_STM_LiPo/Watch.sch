@@ -274,17 +274,6 @@ F 3 "" H 5050 3500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:C-Watch-rescue C3
-U 1 1 5B5F5B1C
-P 5250 3750
-F 0 "C3" H 5275 3850 50  0000 L CNN
-F 1 "C" H 5275 3650 50  0000 L CNN
-F 2 "Capacitors_SMD:C_0603_HandSoldering" H 5288 3600 50  0001 C CNN
-F 3 "" H 5250 3750 50  0001 C CNN
-	1    5250 3750
-	1    0    0    -1  
-$EndComp
-$Comp
 L Watch-rescue:C-Watch-rescue C2
 U 1 1 5B5F5B93
 P 5050 3750
@@ -897,20 +886,6 @@ Connection ~ 5050 3500
 Wire Wire Line
 	5050 3900 5050 4050
 Connection ~ 5050 4050
-Wire Wire Line
-	5050 3500 5250 3500
-Wire Wire Line
-	5250 3600 5250 3500
-Connection ~ 5250 3500
-Wire Wire Line
-	5250 3500 5350 3500
-Wire Wire Line
-	5250 3900 5250 4050
-Wire Wire Line
-	5050 4050 5250 4050
-Wire Wire Line
-	5250 4050 5350 4050
-Connection ~ 5250 4050
 Connection ~ 1700 850 
 Connection ~ 1700 2850
 Wire Wire Line
@@ -919,8 +894,6 @@ Connection ~ 1500 2850
 Wire Wire Line
 	1500 850  1400 850 
 Connection ~ 1500 850 
-Text GLabel 1100 2000 0    60   Input ~ 0
-CHG_State
 $Comp
 L Connector:Conn_01x01_Male J7
 U 1 1 608D1FB2
@@ -1102,4 +1075,9 @@ Wire Wire Line
 	6600 5150 7500 5150
 Connection ~ 6600 4400
 Connection ~ 7500 5150
+NoConn ~ 1100 2000
+Wire Wire Line
+	5050 3500 5350 3500
+Wire Wire Line
+	5050 4050 5350 4050
 $EndSCHEMATC
