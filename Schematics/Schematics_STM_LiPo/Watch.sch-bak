@@ -274,17 +274,6 @@ F 3 "" H 5050 3500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Watch-rescue:C-Watch-rescue C3
-U 1 1 5B5F5B1C
-P 5250 3750
-F 0 "C3" H 5275 3850 50  0000 L CNN
-F 1 "C" H 5275 3650 50  0000 L CNN
-F 2 "Capacitors_SMD:C_0603_HandSoldering" H 5288 3600 50  0001 C CNN
-F 3 "" H 5250 3750 50  0001 C CNN
-	1    5250 3750
-	1    0    0    -1  
-$EndComp
-$Comp
 L Watch-rescue:C-Watch-rescue C2
 U 1 1 5B5F5B93
 P 5050 3750
@@ -897,20 +886,6 @@ Connection ~ 5050 3500
 Wire Wire Line
 	5050 3900 5050 4050
 Connection ~ 5050 4050
-Wire Wire Line
-	5050 3500 5250 3500
-Wire Wire Line
-	5250 3600 5250 3500
-Connection ~ 5250 3500
-Wire Wire Line
-	5250 3500 5350 3500
-Wire Wire Line
-	5250 3900 5250 4050
-Wire Wire Line
-	5050 4050 5250 4050
-Wire Wire Line
-	5250 4050 5350 4050
-Connection ~ 5250 4050
 Connection ~ 1700 850 
 Connection ~ 1700 2850
 Wire Wire Line
@@ -969,7 +944,7 @@ Text GLabel 9300 4300 2    60   Input ~ 0
 V_Bat_Out
 Text GLabel 3250 3500 0    60   Input ~ 0
 V_Bat_Out
-Text GLabel 7300 4350 0    60   Input ~ 0
+Text GLabel 7300 4550 0    60   Input ~ 0
 V_Bat_Out
 Wire Wire Line
 	7600 4050 7500 4050
@@ -984,26 +959,18 @@ Wire Wire Line
 	7600 4250 7500 4250
 Connection ~ 7500 4250
 Wire Wire Line
-	7500 4250 7500 4450
+	7500 4250 7500 4350
 Wire Wire Line
 	7600 4450 7500 4450
 Connection ~ 7500 4450
 Wire Wire Line
 	7500 4450 7500 5150
 Wire Wire Line
-	7300 4350 7400 4350
-Wire Wire Line
 	7600 4550 7400 4550
-Connection ~ 7400 4350
-Wire Wire Line
-	7400 4350 7600 4350
-Wire Wire Line
-	7400 4350 7400 4550
 Wire Wire Line
 	7400 4550 7400 4650
 Wire Wire Line
 	7400 4650 7600 4650
-Connection ~ 7400 4550
 Wire Wire Line
 	8100 5300 8100 5150
 Text GLabel 1200 6300 2    60   Input ~ 0
@@ -1101,4 +1068,16 @@ Wire Wire Line
 Connection ~ 6600 4400
 Connection ~ 7500 5150
 NoConn ~ 1100 2000
+Wire Wire Line
+	5050 3500 5350 3500
+Wire Wire Line
+	5050 4050 5350 4050
+Wire Wire Line
+	7600 4350 7500 4350
+Connection ~ 7500 4350
+Wire Wire Line
+	7500 4350 7500 4450
+Wire Wire Line
+	7300 4550 7400 4550
+Connection ~ 7400 4550
 $EndSCHEMATC

@@ -944,7 +944,7 @@ Text GLabel 9300 4300 2    60   Input ~ 0
 V_Bat_Out
 Text GLabel 3250 3500 0    60   Input ~ 0
 V_Bat_Out
-Text GLabel 7300 4350 0    60   Input ~ 0
+Text GLabel 7300 4550 0    60   Input ~ 0
 V_Bat_Out
 Wire Wire Line
 	7600 4050 7500 4050
@@ -959,26 +959,18 @@ Wire Wire Line
 	7600 4250 7500 4250
 Connection ~ 7500 4250
 Wire Wire Line
-	7500 4250 7500 4450
+	7500 4250 7500 4350
 Wire Wire Line
 	7600 4450 7500 4450
 Connection ~ 7500 4450
 Wire Wire Line
 	7500 4450 7500 5150
 Wire Wire Line
-	7300 4350 7400 4350
-Wire Wire Line
 	7600 4550 7400 4550
-Connection ~ 7400 4350
-Wire Wire Line
-	7400 4350 7600 4350
-Wire Wire Line
-	7400 4350 7400 4550
 Wire Wire Line
 	7400 4550 7400 4650
 Wire Wire Line
 	7400 4650 7600 4650
-Connection ~ 7400 4550
 Wire Wire Line
 	8100 5300 8100 5150
 Text GLabel 1200 6300 2    60   Input ~ 0
@@ -1080,4 +1072,25 @@ Wire Wire Line
 	5050 3500 5350 3500
 Wire Wire Line
 	5050 4050 5350 4050
+Wire Wire Line
+	7600 4350 7500 4350
+Connection ~ 7500 4350
+Wire Wire Line
+	7500 4350 7500 4450
+Wire Wire Line
+	7300 4550 7400 4550
+Connection ~ 7400 4550
+$Comp
+L Connector_Generic:Conn_01x01 J6
+U 1 1 61B57854
+P 1350 5650
+F 0 "J6" H 1430 5692 50  0000 L CNN
+F 1 "Conn_01x01" H 1430 5601 50  0000 L CNN
+F 2 "ProjectSpecific:TestPoint" H 1350 5650 50  0001 C CNN
+F 3 "~" H 1350 5650 50  0001 C CNN
+	1    1350 5650
+	1    0    0    -1  
+$EndComp
+Text GLabel 1150 5650 0    60   Input ~ 0
+VCC
 $EndSCHEMATC
