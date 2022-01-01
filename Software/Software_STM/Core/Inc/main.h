@@ -78,6 +78,10 @@ void Error_Handler(void);
 #define LSM10_GPIO_Port GPIOA
 #define BMA_CS_Pin GPIO_PIN_6
 #define BMA_CS_GPIO_Port GPIOB
+void   MX_GPIO_Init(void);
+void   MX_RTC_Init(void);
+void   MX_SPI1_Init(void);
+void   MX_ADC1_Init(void);
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
@@ -87,5 +91,3 @@ void Error_Handler(void);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

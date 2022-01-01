@@ -1,0 +1,1 @@
+Bosch_BMA456_config_file.cpp:785:15:const uint8_t get_bma456_config_file(uint16_t)	0	static

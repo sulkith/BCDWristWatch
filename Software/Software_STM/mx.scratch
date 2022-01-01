@@ -3,10 +3,10 @@
   <FileVersion>3.0</FileVersion>
   <Workspace>
     <WorkspaceType>Single-project</WorkspaceType>
-    <WorkspacePath>/home/sulkith/git/BCDWristWatch/Software_STM/</WorkspacePath>
+    <WorkspacePath>/home/sulkith/git/BCDWristWatch/Software/Software_STM/</WorkspacePath>
     <underRoot>true</underRoot>
     <TrustZone>0</TrustZone>
-    <HAL_Driver>/home/sulkith/STM32Cube/Repository//STM32Cube_FW_L4_V1.16.0</HAL_Driver>
+    <HAL_Driver>/home/sulkith/STM32Cube/Repository//STM32Cube_FW_L4_V1.17.1</HAL_Driver>
     <CMSIS>Drivers/CMSIS</CMSIS>
     <Toolchain>STM32CubeIDE</Toolchain>
     <IocFile>WristWatch.ioc</IocFile>
@@ -28,9 +28,10 @@
           <fpu>SP</fpu>
           <memories>
             <memory access="xrw" name="RAM" size="64" start="0x20000000"/>
+            <memory access="xrw" name="RAM2" size="16" start="0x10000000"/>
             <memory access="rx" name="FLASH" size="128" start="0x8000000"/>
           </memories>
-          <startup>/home/sulkith/STM32Cube/Repository/STM32Cube_FW_L4_V1.16.0/Drivers/CMSIS/Device\ST\STM32L4xx\Source\Templates\gcc\startup_stm32l432xx.s</startup>
+          <startup>/home/sulkith/STM32Cube/Repository/STM32Cube_FW_L4_V1.17.1/Drivers/CMSIS/Device\ST\STM32L4xx\Source\Templates\gcc\startup_stm32l432xx.s</startup>
           <LinkSettings>
             <LinkAdditionalLibs/>
           </LinkSettings>

@@ -1,0 +1,25 @@
+Bosch_BMA.cpp:20:9:uint8_t writeConfigFile()	168	static
+Bosch_BMA.cpp:97:6:void Bosch_BMA::writeAddress(uint8_t, uint8_t)	0	static
+Bosch_BMA.cpp:101:9:uint8_t Bosch_BMA::readAddress(uint8_t)	0	static
+Bosch_BMA.cpp:106:9:uint8_t Bosch_BMA::getChipID()	0	static
+Bosch_BMA.cpp:60:6:void Bosch_BMA::init()	8	static
+Bosch_BMA.cpp:110:9:uint8_t Bosch_BMA::getInternalState()	0	static
+Bosch_BMA.cpp:123:6:void Bosch_BMA::writeInternalConfig(uint8_t*)	0	static
+Bosch_BMA.cpp:130:9:int16_t Bosch_BMA::get_X_Accel()	16	static
+Bosch_BMA.cpp:136:9:int16_t Bosch_BMA::get_Y_Accel()	16	static
+Bosch_BMA.cpp:142:9:int16_t Bosch_BMA::get_Z_Accel()	16	static
+Bosch_BMA.cpp:148:9:int16_t Bosch_BMA::get_Accel_corr(uint8_t)	16	static
+Bosch_BMA.cpp:157:9:int16_t Bosch_BMA::get_X_Accel_corr()	0	static
+Bosch_BMA.cpp:161:9:int16_t Bosch_BMA::get_Y_Accel_corr()	0	static
+Bosch_BMA.cpp:165:9:int16_t Bosch_BMA::get_Z_Accel_corr()	0	static
+Bosch_BMA.cpp:169:10:uint32_t Bosch_BMA::getSteps()	16	static
+Bosch_BMA.cpp:175:6:void Bosch_BMA::startInterruptConfig()	0	static
+Bosch_BMA.cpp:115:6:void Bosch_BMA::getInternalConfig(uint8_t*)	16	static
+Bosch_BMA.cpp:181:6:void Bosch_BMA::writeInterruptConfig()	0	static
+Bosch_BMA.cpp:187:6:void Bosch_BMA::resetSteps()	8	static
+Bosch_BMA.cpp:196:6:void Bosch_BMA::setMotionDetection(uint16_t, uint8_t, uint8_t, uint8_t)	8	static
+Bosch_BMA.cpp:209:6:void Bosch_BMA::setTapDetection(uint8_t, uint8_t, uint8_t)	0	static
+Bosch_BMA.cpp:215:6:void Bosch_BMA::setWristTiltFunction(uint8_t)	0	static
+Bosch_BMA.cpp:219:6:void Bosch_BMA::setStepCounter(uint8_t)	0	static
+Bosch_BMA.cpp:226:6:void Bosch_BMA::setConfigID(uint8_t)	0	static
+Bosch_BMA.cpp:230:6:void Bosch_BMA::setAxisMapping(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t)	20	static

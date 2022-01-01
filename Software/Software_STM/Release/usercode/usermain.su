@@ -1,0 +1,9 @@
+DisplayManager.hpp:12:16:virtual void DisplayManager::requestDisplay(DisplayRequest)	12	static
+DisplayManager.hpp:34:16:virtual void DisplayManager::setBrightness(uint8_t)	0	static
+DisplayManager.hpp:24:16:virtual void DisplayManager::showERROR(uint8_t, uint8_t)	96	static
+usermain.cpp:40:6:void RTC_Event_Callback()	8	static
+usermain.cpp:46:10:uint32_t DWT_Delay_Init()	8	static,ignoring_inline_asm
+usermain.cpp:76:6:void SystemClock_Config_without_LSE()	184	static
+usermain.cpp:136:6:void usermain_init()	16	static
+usermain.cpp:209:6:void usermain_loop()	8	static
+usermain.cpp:231:1:cpp)	16	static

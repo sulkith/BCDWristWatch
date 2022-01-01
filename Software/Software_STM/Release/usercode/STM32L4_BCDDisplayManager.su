@@ -1,0 +1,9 @@
+DisplayManager.hpp:12:16:virtual void DisplayManager::requestDisplay(DisplayRequest)	12	static
+DisplayManager.hpp:34:16:virtual void DisplayManager::setBrightness(uint8_t)	0	static
+STM32L4_BCDDisplayManager.cpp:59:6:virtual void STM32L4_BCDDisplayManager::lockPorts()	8	static
+STM32L4_BCDDisplayManager.cpp:75:6:virtual void STM32L4_BCDDisplayManager::executeSleepSubscription()	56	static
+STM32L4_BCDDisplayManager.cpp:129:6:virtual void STM32L4_BCDDisplayManager::init()	56	static
+STM32L4_BCDDisplayManager.cpp:190:22:void DWT_Delay_us(uint32_t)	24	static
+DisplayManager.hpp:24:16:virtual void DisplayManager::showERROR(uint8_t, uint8_t)	96	static
+STM32L4_BCDDisplayManager.cpp:201:6:void showLEDs(uint16_t*, uint16_t, uint8_t)	40	static
+STM32L4_BCDDisplayManager.cpp:211:6:virtual void STM32L4_BCDDisplayManager::show()	80	static

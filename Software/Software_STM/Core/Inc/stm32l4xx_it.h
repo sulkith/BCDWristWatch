@@ -66,5 +66,3 @@ void RTC_Alarm_IRQHandler(void);
 #endif
 
 #endif /* __STM32L4xx_IT_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

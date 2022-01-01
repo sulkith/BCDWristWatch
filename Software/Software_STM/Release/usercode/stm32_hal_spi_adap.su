@@ -1,0 +1,5 @@
+stm32_hal_spi_adap.cpp:37:6:void spi_init()	0	static
+stm32_hal_spi_adap.cpp:43:6:void spi_write(uint8_t*, uint8_t, void (*)(uint8_t*))	0	static
+stm32_hal_spi_adap.cpp:49:6:void spi_read(uint8_t, void (*)(uint8_t*))	16	static
+stm32_hal_spi_adap.cpp:55:10:uint8_t* spi_wait()	0	static
+stm32_hal_spi_adap.cpp:60:6:void _delay_us(uint32_t)	16	static

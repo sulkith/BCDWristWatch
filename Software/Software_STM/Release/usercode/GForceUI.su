@@ -1,0 +1,9 @@
+GForceUI.hpp:28:16:virtual void GForceUI::setSettingsPtr(WatchSettings_t*)	0	static
+GForceUI.cpp:330:6:virtual void GForceUI::init()	0	static
+GForceUI.cpp:402:6:virtual void GForceUI::init(DisplayManager*, GForceHAL*, HAL*)	0	static
+GForceUI.hpp:30:16:virtual void GForceUI::_ZThn4_N8GForceUI24executeSleepSubscriptionEv()	0	static
+SleepM.hpp:33:15:static void SleepM::requestProlong(uint8_t)	0	static
+GForceUI.cpp:51:6:void GForceUI::stateTransition()	32	static
+GForceUI.cpp:317:13:void requestScreen(DisplayManager*, DisplayRequestType, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	120	static
+GForceUI.cpp:333:6:void GForceUI::stateDisplayReuest()	32	static
+GForceUI.cpp:384:6:virtual void GForceUI::cyclic()	8	static
