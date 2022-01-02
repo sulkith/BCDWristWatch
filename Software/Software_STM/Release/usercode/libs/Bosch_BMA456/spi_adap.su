@@ -1,8 +1,0 @@
-spi_adap.cpp:56:6:void saveReadData(uint8_t*)	12	static
-spi_adap.cpp:20:6:void set_SPI_activate_CS(void (*)(uint8_t))	0	static
-spi_adap.cpp:26:6:void writeReg(uint8_t, uint8_t)	8	static
-spi_adap.cpp:40:6:void writeReg(uint8_t, uint8_t*, uint8_t)	24	static
-spi_adap.cpp:65:9:uint8_t readReg(uint8_t, uint8_t)	16	static
-spi_adap.cpp:83:9:uint8_t readRegs(uint8_t, uint8_t, uint8_t*)	16	static
-spi_adap.cpp:107:6:void stream_write(uint8_t*, uint16_t, uint8_t)	16	static
-spi_adap.cpp:127:6:void initComDriver()	8	static

@@ -1,3 +1,0 @@
-SleepM.cpp:6:6:void SleepM::cyclic()	16	static
-SleepM.cpp:18:6:void SleepM::prolong(uint8_t)	16	static
-SleepM.cpp:20:1:cpp)	8	static
