@@ -1,0 +1,53 @@
+Typ: Lithium Polymer (LiPo) 3,7V / 1S
+Länge der Kabel: ca. 10 cm
+Nennspannung: 3,7V
+Ladeschlussspannung: 4,2V
+Entladeschlussspannung: 3,0V
+Max. Ladestrom: (1C)
+Max. Entladestrom: 2C für 10s
+Max. Dauerentladestrom: (0,5C)
+
+Lebensdauer:
+300 Zyklen bei 0,5C Entladestrom
+500 Zyklen bei 0,2C Entladestrom
+max. erreichbare Zyklenzahl: 500 - 1.000 
+
+https://fpvracing.ch/de/content/21-lipo-batterien
+
+Entladerate (30C, 35C u.s.w.)
+
+Die C Grösse der Batterie gibt an, wie viel Strom auf einmal von der Batterie gezogen werden kann/darf. 1C steht dabei für Ampere durch Amperestunde (Strom durch Ladung). Eine Batterie mit 2200mAh und 30C liefert demnach 30(A/Ah) x 2.2(Ah) = 66A. Der gesamte Multicopter darf in diesem Falle nicht mehr als 66A auf einmal ziehen. Gewisse LiPo-Packungen geben zusätzlich noch eine Burstrate an, welche grösser ist als die Kontinuierliche C-Rate, z.B. Discharge rate = 30C Continuous / 60C Burst. Burst ist die Angabe des erlaubten Spitzenstroms, welcher für ein paar Sekunden gezogen werden darf.
+
+Es ist sehr wichtig dass man keine Batterie mit zu tiefem C-Rating für seinen Copter nimmt. Dadurch schädigt man die LiPo Batterie und wohlmöglich zusätzlich die ESCs.
+
+
+1C 150mAh
+1(A/Ah)*0,150(Ah)=150mA
+
+PROG(Pin 2):Constant Charge Current Setting and Charge Current Monitor Pincharge current is set by connecting a resistor RISET from this pin to GND. When in precharge mode, the ISET pin’s voltage is regulated to 0.2V. When in constant charge current mode, the ISET pin’s voltage is regulated to 2V.In all modes during charging, the voltage on ISET pin can be used to measure the charge current as follows:
+
+I_Bat = V_prog/R_prog * 1200 (Vprog=1V)
+
+0,5A = (1V/2400)*1200
+
+0,15A = (1/x)*1200
+0,15A/1200 = 1/x
+1200/0,15=x=8000 >= 8k
+
+Rprog=10k
+I_Bat = 1/10000*1200 = 120mA
+
+Charger Circuit:
+LTC4054
+https://www.mouser.de/ProductDetail/Analog-Devices/LTC4054LES5-42TRPBF?qs=hVkxg5c3xu8%252BnYSikPxbpQ%3D%3D
+
+Buck Converter:
+TPS62205DBVR
+https://www.mouser.de/ProductDetail/Texas-Instruments/TPS62205DBVR?qs=Gse6rAGbi7%252BLOibC81hqAA%3D%3D
+TPS62203DBVR
+https://www.mouser.de/ProductDetail/Texas-Instruments/TPS62203DBVR?qs=Gse6rAGbi7%252BekjMIU1w5MA%3D%3D
+Induction
+LQM18DH100M70L
+https://www.mouser.de/ProductDetail/81-LQM18DH100M70L
+
+
