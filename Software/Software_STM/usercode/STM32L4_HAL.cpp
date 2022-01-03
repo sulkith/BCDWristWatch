@@ -488,7 +488,9 @@ void STM32L4_HAL::HAL_cyclic() {
 				LL_ADC_EnableDeepPowerDown(hadc1.Instance);
 				RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 				PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+#ifdef STM32L432xx
 				PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_NONE;
+#endif
 				if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
 				{
 				Error_Handler();
