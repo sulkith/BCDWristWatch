@@ -57,6 +57,9 @@ void HAL_MX_RTC_Init(void) {
 	hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
 	hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
 	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+#if defined(STM32L412xx) || defined(STM32L422xx) || defined (STM32L4P5xx) || defined (STM32L4Q5xx)
+	hrtc.Init.OutPutPullUp = RTC_OUTPUT_PULLUP_NONE;
+#endif
 	if (HAL_RTC_Init(&hrtc) != HAL_OK) {
 		Error_Handler();
 	}
@@ -150,6 +153,9 @@ void STM32L4_HAL::HAL_driverInit() {
 	hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
 	hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
 	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+#if defined(STM32L412xx) || defined(STM32L422xx) || defined (STM32L4P5xx) || defined (STM32L4Q5xx)
+	hrtc.Init.OutPutPullUp = RTC_OUTPUT_PULLUP_NONE;
+#endif
 
 	uint32_t command = HAL_RTCEx_BKUPRead(&hrtc, CommandOffset);
 	if ((__HAL_RCC_GET_RTC_SOURCE() == 0)||((command&0x0002)>0)) {
