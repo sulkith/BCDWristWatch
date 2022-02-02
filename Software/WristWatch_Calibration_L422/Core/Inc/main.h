@@ -93,6 +93,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define CK_IN_Pin GPIO_PIN_0
+#define CK_IN_GPIO_Port GPIOA
 #define BMA_CS_Pin GPIO_PIN_6
 #define BMA_CS_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
