@@ -144,7 +144,7 @@ void usermain_init() {
 	  PROFILING(time[0] = HAL_GetTick();)
 	  Watch_Type_t wt = Binary_v1;
 	  uint64_t WatchVersCode = *((uint64_t*) WatchVersCodeAddress);
-		if((WatchVersCode&0xFFFF) == Binary_STM_V1)
+		if((WatchVersCode&0xFFFF) == Binary_STM_V1 || (WatchVersCode&0xFFFF) == Binary_STM_V2_LIPO)
 		{
 		  wt = Binary_v1;
 		  gfui.setSettingsPtr(&SettingsBinaryV1);

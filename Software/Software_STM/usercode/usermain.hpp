@@ -32,6 +32,7 @@
 
 #define Undefined 0xFFFFUL
 #define Binary_STM_V1 0x0100UL
+#define Binary_STM_V2_LIPO 0x0101UL
 #define Analog_STM_V1 0x0200UL
 //const uint32_t WatchVariant = Binary_STM_V1;
 
