@@ -107,6 +107,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 
 }
 
+/* USER CODE END 0 */
 /**
   * @brief  The application entry point.
   * @retval int
