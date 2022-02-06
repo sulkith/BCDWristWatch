@@ -317,8 +317,8 @@ void STM32L4_BCDDisplayManager::show() {
 		break;
 	}
 	showLEDs(DisplayBuffer, 1, Brightness);
-	while (request.getType() == showError)
-		showLEDs(DisplayBuffer, 1, Brightness);
+	//Don't Block the whole watch if an error occurs
+		//showLEDs(DisplayBuffer, 1, Brightness);
 
 	DisplayRequest empty_dr;
 	request = empty_dr;

@@ -278,8 +278,8 @@ void STM32L4_AnalogDisplayManager::show() {
 		break;
 	}
 	showLEDs_Analog(DisplayBuffer, 10, Brightness);
-	while (request.getType() == showError)
-		showLEDs_Analog(DisplayBuffer, 10, Brightness);
+	//while (request.getType() == showError)//Don't Block the whole watch if an error occurs
+	//	showLEDs_Analog(DisplayBuffer, 10, Brightness);
 
 	DisplayRequest empty_dr;
 	request = empty_dr;

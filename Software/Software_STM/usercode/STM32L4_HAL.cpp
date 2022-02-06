@@ -526,6 +526,8 @@ void STM32L4_HAL::HAL_cyclic() {
 		else if (HAL_RTCEx_BKUPRead(&hrtc, DateOffset)>ClockM::getInstance().getDateCode())
 		{
 			showERROR(8, HAL_RTCEx_BKUPRead(&hrtc, DateOffset)); //E8
+			HAL_RTCEx_BKUPWrite(&hrtc, DateOffset, ClockM::getInstance().getDateCode());//write new Date
+			//Most likely the user has changed the date...
 		}
 	}
 }
