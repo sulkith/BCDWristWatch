@@ -37,6 +37,19 @@ module housingBody(_height,inside,lid){
             translate([0,0,glassSize+PCBFrontKeepout]) {//PCB Mounting
                 cylinder(height,15.5,15.5);
             }
+            //Rounding of the edges
+            if(0)
+            {
+                translate([10.1,10.3,glassSize+PCBFrontKeepout])cylinder(height,2,2);
+                translate([10.1,-10.3,glassSize+PCBFrontKeepout])cylinder(height,2,2);
+                translate([-10.1,10.3,glassSize+PCBFrontKeepout])cylinder(height,2,2);
+                translate([-10.1,-10.3,glassSize+PCBFrontKeepout])cylinder(height,2,2);
+                //Edges for the Battery
+                translate([6.7,6.9,glassSize+PCBFrontKeepout])translate([-5,-5,0])cube([10,10,height]);
+                translate([6.7,-6.9,glassSize+PCBFrontKeepout])translate([-5,-5,0])cube([10,10,height]);
+                translate([-6.7,6.9,glassSize+PCBFrontKeepout])translate([-5,-5,0])cube([10,10,height]);
+                translate([-6.7,-6.9,glassSize+PCBFrontKeepout])translate([-5,-5,0])cube([10,10,height]);
+            }
             /*
             translate([-2,20,glassSize+PCBFrontKeepout+PCBSize+2.3]) {//Holes for buttons
                 rotate(a=[90,0,0])
@@ -362,11 +375,13 @@ module printall(){
     //translate([0,0,20.7])pcb();
     //translate([5,7,6.1])rotate([180,0,0])button();
     //translate([5,-7,6.1])rotate([180,0,0])button();
-    translate([5,0,6.5])scale([0.5,35,0.8])cube(1,center=true);
-    translate([0,0,6.5])scale([32,0.5,0.8])cube(1,center=true);
-    translate([5,11,6.0])scale([0.5,0.8,12])cube(1);
-    translate([5,-12,6.0])scale([0.5,0.8,12])cube(1);
-    translate([-9.5,-0.5,6.0])scale([0.5,0.8,12])cube(1);
+    translate([5,0,6.5])scale([1,35,1])cube(1,center=true);
+    translate([5,0,6.5])scale([2,27,2])cube(1,center=true);
+    translate([0,0,6.5])scale([32,1,1])cube(1,center=true);
+    translate([0,0,6.5])scale([30,2,2])cube(1,center=true);
+    translate([4,11,6.0])scale([2,2,12])cube(1);
+    translate([4,-12,6.0])scale([2,2,12])cube(1);
+    translate([-9.5,-1,6.0])scale([2,2,12])cube(1);
 
 }
 module printSLASideBySide(){
@@ -390,9 +405,9 @@ module rendering()
     //translate([-2,15,6.1])rotate([90,0,0])button();
     //translate([-2,-15,6.1])rotate([-90,0,0])button();
 }
-//printall();
+printall();
 
-rendering();
+//rendering();
 //translate([0,0,2.8])pcb_LiPo();
 //printSLASideBySide();
 //translate([0,0,0])housingBody(10,false);
