@@ -1,0 +1,47 @@
+\section{Making the watch rechargable}
+The battery of the STM Watch version will last for about 6 months, so every 5 months i have to open the housing, change the battery and close the housing again. Also from an enviromental point of view it is not good to waste a battery every 6 months. So there has to be a solution to make the watch rechargable.
+\subsection{possible solutions}
+\subsubsection{Just use a rechargable battery}
+The easiest variant to make the watch rechargable would be to directly use a rechargable battery wiht the same PCB. This would require no changes on the PCB level, but the rechargable batteries have a smaller capacitance than the not rechargable lithium batteries which are used till now.
+So from the environmental point of view this is even worse, since the housing will wear out and i have to change the housing also very frequently. With this solution it also won't be possible to make the housing 100\% waterproof(glue it shut).
+\subsubsection{charging pins on the outside of the watch}
+Another possible solution would be to insert some contacts in the housing to be able to contact the battery from the outside. This would either require a battery management controller inside of the watch or in a charging bay. Since the charging bay for the watch would be also a special construction i would have gone for the charging bay with the integrated battery managment. 
+This would also make the battery directly connected tothe outside of the watch possibly draining the battery when the watch is wet or sweaty.
+For this problem a possible solution would be to add a reed contact to one of the pins of the battery.
+to experiment a bit with these variant i created a devboard ( see Schematics/devboards/LiPo\_Circuit). This devboard is using a LTC4054ES5-4.2 as a battery controller.
+With the devboard i was able to run the watch for about 2 months without recharging. If i don't have to open the watch to recharge the battery this is sufficient.
+\subsubsection{adding a small solar cell}
+With a very small solar cell it would also be possible to power the watch and maybe even charge the battery. If the solar cell is not powerfull enough to charge the watch in the daily usage it would also be possible to build a special charging box which charges the watch by shining light directly on the solar cell. 
+The problem with this solution was the needed space on the watchface. The goal of the watch is to keep it as small as possible so it is easy to use and smaller than a normal smart watch.
+\subsubsection{charging the watch via wireless charging}
+This is a very comfortable solution for the user, but the most complex solution to implement in the watch itself. 
+Also this solution would make it possible to fill the complete housing with epoxy, so it is 100\% waterproof.
+Although this solution is the most complex solution, it is also the most elegant one so it is also the one which gets implemented.
+\subsection{possible porblems when using lithium polymer batteries}
+\subsubsection{overcurrent protection}
+The battery has to be protected aganist overcurrent so it won't start burning suddenly. Luckily most batteries you can buy on ebay or other sources already have an integrated overcurrent protection.
+\subsubsection{undervoltege protection}
+Lithium batteries will wear out when they are discharged below certain levels, so this has to be avoided. Some Batteries already have an integrated undervoltage protection, but most batterymanagent ICs also include a undervoltage protection.
+\subsubsection{voltage levels}
+a typical Lithium Polymer battery has a undervoltage protection at $2V$ and a charging Voltage of $4.2V$, so either all parts have to be tolerant to $2V$ to $4.2V$ or we need to use some kind of Voltage regulator or DCDC Converter. For the STM32 tis is fine, but the BMA456 is only specified from $1.6V$ to $4.0V$, so we cannot use the whole range from the lithium polymer battery. For this reason in included the TPS62203DBV which is a step-down converter to $3.3V$, this will also decrease the needed current from the battery when the voltage is higher than needed.
+\subsection{chosen solution: wireless charging}
+\subsubsection{Implementing a testboard}
+Wireless charging can either be implemented via a selfmade schematic or via an IC. While researching i came across the LTC4124 Controller from Amalog devices: \url{https://www.analog.com/en/products/ltc4124.html}. This IC features an wireless power receiver and an integrated batterymanagement, so it will be the only needed chip for the wireless charging part of the schematic.
+Sadly the LTC4124 IC is a very small QFN package and only has the pad underneath as ground, so it has to be soldered very good.
+The testboard can be found under Schematics/devboards/LiPo\_Wireless.
+\paragraph{receiving part}
+This testboar features a receiving part using the LTC4124. To get it running the LTC4124 needs to receive power wirelessly to connect the battery to the output pin. So you won't have any luck with the receiver until you get the sender running. 
+A LED is showing when the receiver is charging, this can be used as a finst indcator that something is working. But beware the open dain pin of for the charging LED is only drawing $300µA$ so make sure to use a low current LED, otherwise you will be fooled by the LED not working. Trust me this will drive you nuts...
+\paragraph{sending part}
+The schematic for the sending part was straight from the datasheet of the LTC4124 nevertheless i was not able to get it working, the power dropped once the MOSFET turned on
+after adding an additional resistor in line with the induction coil and a big capacitor paralell to the power supply the voltage stayed stable, but it was not supplying enough energy to charge the battery. Anyhow it was enough energy to swith on the output pin of the LTC4124. This was the first sign of life for the whole board. 
+However i was not able to improve the sending part any further...
+\paragraph{alternative Sender - QI charging pad}
+The next option was to use a already available charging pad to send enough energy to charge the battery. I tried this with a QI charging pad, but sadly the QI charging standard includes a handshake which will prevent the sender to send energy when there is no receiver present.
+The charging was working if the coil of the sender was placed between the QI charging pad and a QI charging phone.
+Sadly the chargin was not possible when the coil was placed on the phone, or the phone was more than $10mm$ away from the charging pad. So it was not possible to charge the assembled watch with this method.
+\paragraph{alternative Sender - Evaluation board}
+The next solution i tried was to order an evaluation board for the LTC4124 and just use the sender which comes with the evaluation board.
+This worked like a charm.
+\subsubsection{Binary PCB}
+TODO
