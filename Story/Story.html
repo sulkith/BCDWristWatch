@@ -140,8 +140,8 @@ src="../Pictures/PCB3.jpg" alt="pict"
 </p>
    <h4 class="subsectionHead"><span class="titlemark">1.2   </span> <a 
  id="x1-90001.2"></a>Housing</h4>
-<!--l. 44--><p class="noindent" >The Housing was designed in OpenSCAD.&#x00A0;a very helpfull reference for the OpenSCAD syntax
-was&#x00A0;<a 
+<!--l. 44--><p class="noindent" >The Housing was designed in OpenSCAD.&#x00A0;a very helpfull reference for the OpenSCAD syntax was&#x00A0;
+<a 
 href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations" class="url" ><span 
 class="ec-lmtt-12">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations</span></a>
 </p><!--l. 48--><p class="noindent" >
@@ -264,9 +264,11 @@ src="drawings/BinDia1359.png" alt="pict"
  width="241.84843pt"  /> </p></div>
 <!--l. 105--><p class="noindent" >There are Two Buttons on the Watch: </p>
       <ul class="itemize1">
-      <li class="itemize">BL: left Button
-      </li>
-      <li class="itemize">BR: right Button</li></ul>
+      <li class="itemize">
+      <!--l. 107--><p class="noindent" >BL: left Button
+      </p></li>
+      <li class="itemize">
+      <!--l. 108--><p class="noindent" >BR: right Button</p></li></ul>
 <!--l. 110--><p class="noindent" >To read the Watch it is necessary to activate the Display via one of the Buttons
 </p><!--l. 112--><p class="indent" >   The LEDs are read columnwise. So the right two columns are showing the Minutes. If an LED is
 litone have to add its Value to the Minutes if not then nothing is added. So for the full hour no led in
@@ -422,7 +424,7 @@ class="ec-lmbx-12">Example</span></span>
                                                                                             
 </p>
    <div class="tabular"> <table id="TBL-2" class="tabular" 
-cellspacing="0" cellpadding="0"  
+ 
 ><colgroup id="TBL-2-1g"><col 
 id="TBL-2-1" /></colgroup><colgroup id="TBL-2-2g"><col 
 id="TBL-2-2" /></colgroup><colgroup id="TBL-2-3g"><col 
@@ -460,17 +462,21 @@ class="td11">  </td> </tr></table></div><br
 class="newline" /><br 
 class="newline" />so the following LEDs are lit:
       <ul class="itemize1">
-      <li class="itemize">H10, H20 <span 
+      <li class="itemize">
+      <!--l. 53--><p class="noindent" >H10, H20 <span 
 class="lmsy-10x-x-120">&#x21D2; </span>3 signalizes stepcounter mode
-      </li>
-      <li class="itemize">H01, H04 <span 
+      </p></li>
+      <li class="itemize">
+      <!--l. 54--><p class="noindent" >H01, H04 <span 
 class="lmsy-10x-x-120">&#x21D2; </span>5
-      </li>
-      <li class="itemize">M40 <span 
+      </p></li>
+      <li class="itemize">
+      <!--l. 55--><p class="noindent" >M40 <span 
 class="lmsy-10x-x-120">&#x21D2; </span>4
-      </li>
-      <li class="itemize">M02 <span 
-class="lmsy-10x-x-120">&#x21D2; </span>2</li></ul>
+      </p></li>
+      <li class="itemize">
+      <!--l. 56--><p class="noindent" >M02 <span 
+class="lmsy-10x-x-120">&#x21D2; </span>2</p></li></ul>
 <!--l. 58--><p class="noindent" ><span 
 class="rm-lmr-12">54 </span><span 
 class="lmsy-10x-x-120">&#x22C5; </span><span 
@@ -497,25 +503,31 @@ precisely.
 since the ATMega328P has a lot of reserved pins there are not enough usable pins to
 supply the BMA and the 42 LEDs (only one Pin was missing). So there were a few possible
 solutions
+                                                                                            
+                                                                                            
 </p>
    <h4 class="subsectionHead"><span class="titlemark">4.1   </span> <a 
  id="x1-380004.1"></a>AVR Controller in a bigger Package</h4>
 <!--l. 4--><p class="noindent" >Regarding the Software this would be the easiest Varaint to go with. But there are a few
 disadvantages of the AVR Controller. </p>
       <ul class="itemize1">
-      <li class="itemize">a larger Package requires more PCB Space
-                                                                                            
-                                                                                            
-      </li>
-      <li class="itemize">it requires 6 Pins for ISP programming
-      </li>
-      <li class="itemize">it has a bigger power consumption than modern Controllers
-      </li>
-      <li class="itemize">modern Controllers are faster
-      </li>
-      <li class="itemize">it is an old Controller ;-)
-      </li>
-      <li class="itemize">there is no technical challenge</li></ul>
+      <li class="itemize">
+      <!--l. 7--><p class="noindent" >a larger Package requires more PCB Space
+      </p></li>
+      <li class="itemize">
+      <!--l. 8--><p class="noindent" >it requires 6 Pins for ISP programming
+      </p></li>
+      <li class="itemize">
+      <!--l. 9--><p class="noindent" >it has a bigger power consumption than modern Controllers
+      </p></li>
+      <li class="itemize">
+      <!--l. 10--><p class="noindent" >modern Controllers are faster
+      </p></li>
+      <li class="itemize">
+      <!--l. 11--><p class="noindent" >it is an old Controller ;-)
+      </p></li>
+      <li class="itemize">
+      <!--l. 12--><p class="noindent" >there is no technical challenge</p></li></ul>
 <!--l. 14--><p class="noindent" >So this was not the final solution.
 </p>
    <h4 class="subsectionHead"><span class="titlemark">4.2   </span> <a 
@@ -526,8 +538,8 @@ far. For a comparison of Microcontrollers there is a great article from Jay Carl
 href="https://jaycarlson.net/microcontrollers/" class="url" ><span 
 class="ec-lmtt-12">https://jaycarlson.net/microcontrollers/</span></a>. The advantage of the Atmel SAM Controllers are
 there are a lot of open source Tools which could also be used out of a makefile, so the
-projectsrtucture is very easy to create. All the Configuration and the Bootupsequence is generated
-by the Atmel Start utility. <a 
+projectsrtucture is very easy to create. All the Configuration and the Bootupsequence is generated by
+the Atmel Start utility.     <a 
 href="https://start.atmel.com/" class="url" ><span 
 class="ec-lmtt-12">https://start.atmel.com/</span></a>. The feature i liked the most is
 the SERCOM Interface.A SERCOM interface could be used for various serial Interfaces
@@ -540,8 +552,10 @@ class="ec-lmtt-12">https://github.com/sulkith/devboards/tree/master/ATSAML22G18A
 </p><!--l. 21--><p class="indent" >   Once the Board arived i encountered the first problem. The files generated by the Atmel Start
 utility are licensed under the ASF license. And since i&#8217;m no lawyer, i couldn&#8217;t really decide if it is safe
 to use these files in an open-source project like this one. So i decided to build a wrapper, which would
-unpack the Package generated by the Atmel Start utility and include the files in my project Structure
-(<a 
+unpack the Package generated by the Atmel Start utility and include the files in my project Structure (
+                                                                                            
+                                                                                            
+<a 
 href="https://github.com/sulkith/devboards/blob/master/ATSAML22G18A_LowPowerArm/Software/AtmelStart/AtmelStartIntegrate/importAtzip.sh" class="url" ><span 
 class="ec-lmtt-12">https://github.com/sulkith/devboards/blob/master/ATSAML22G18A_LowPowerArm/Software/AtmelStart/AtmelStartIntegrate/importAtzip.sh</span></a>).
 But as soon as you need to change some code in the Startup or in the drivers the whole process is not
@@ -558,8 +572,6 @@ the whole process is smoother.
 and all configurations are done inside the IDE.Afterwards the Code is directly generated. A big
 plus point was that in the copiright notice it is explicitely stated, that you are allowed to
 redistribute the software if you mention the original source(this is automatically done
-                                                                                            
-                                                                                            
 in the header of every file). So using it for an open source project doesn&#8217;t seem to be a
 problem.
 </p><!--l. 28--><p class="noindent" >
@@ -590,11 +602,13 @@ fine.
 class="ec-lmbx-12">Binary PCB</span></span>
    Sinc the ST QFN Package looks like a big black box i also placed the BMA456 sensor, which also
 looks like a black box right next to it for a more PCB like look. </p>
+                                                                                            
+                                                                                            
 <div class="center" 
 >
 <!--l. 38--><p class="noindent" >
 </p><!--l. 39--><p class="noindent" ><img 
-src="../Schematics_STM/Watch.png" alt="pict"  
+src="../Schematics/Schematics_STM/Watch.png" alt="pict"  
  width="217.66211pt"  /></p></div>
 <!--l. 41--><p class="noindent" ><span class="paragraphHead"><a 
  id="x1-440004.3.2"></a><span 
@@ -610,8 +624,6 @@ ground.
 </p><!--l. 44--><p class="indent" >   Since the Watch was working now it was time to get the crystal calibration working. But
 since the controller only has a 32 Pin Package the Calibration Pin is not available in the
 footprint.
-                                                                                            
-                                                                                            
 </p>
 <!--l. 46--><p class="noindent" ><span class="paragraphHead"><a 
  id="x1-450004.3.2"></a><span 
@@ -643,8 +655,10 @@ measurements were done with the same Controller on the same PCB, once with a Bat
 Change of the Capacitors from 10pF to 3,9pF (i couldn&#8217;t get exactly 4pF on the 0603 Package). The
 Results could be found in the Table below.
 </p>
+                                                                                            
+                                                                                            
    <div class="tabular"> <table id="TBL-3" class="tabular" 
-cellspacing="0" cellpadding="0"  
+ 
 ><colgroup id="TBL-3-1g"><col 
 id="TBL-3-1" /></colgroup><colgroup id="TBL-3-2g"><col 
 id="TBL-3-2" /></colgroup><colgroup id="TBL-3-3g"><col 
@@ -699,8 +713,6 @@ Clock. So the original Proble was every time the Controller is initialized the c
 CubeIDE will initialize the whole Clock System. To initialize the driver strength of the LSE Clock the
 clock has to be stopped, and syncronized again. This Process will delay the RTC Time by about 0,5
 seconds.
-                                                                                            
-                                                                                            
 </p><!--l. 71--><p class="indent" >   Therefore i needed to adapt the initialization for the Controller. The function, which was causing
 the Problems is the <span class="obeylines-h"><span class="verb"><span 
 class="ec-lmtt-12">SystemClock_Config()</span></span></span>, if there is a LSE configured it would be initialized. So
@@ -722,12 +734,44 @@ class="ec-lmtt-12">RCC_BDCR</span></span></span> register, which resides in the 
 not cleared by a reset. So the initialization will be only done once when the Battery is
 inserted.
 </p>
+<!--l. 73--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-480004.3.2"></a><span 
+class="ec-lmbx-12">Analog PCB</span></span>
+   Since the STM32L432K has more usable pins than the Atmega328P it was also possible to route a
+PCB with the BMA Sensor and the Analog Watchface. The space for the Analog Watchface was
+already very tight without the BMA Sensor. With the Sensor it got extremely tight, so i had to turn
+the Controller by 45 Degrees. Sadly I was not able to comply with all the Designrules for the BMA
+Sensor. Now i have a via under the BMA, i think this is very bad for series production, but for me it
+is working.
+</p>
+<div class="center" 
+>
+<!--l. 77--><p class="noindent" >
+</p><!--l. 78--><p class="noindent" ><img 
+src="../Pictures/AnalogSTM.jpg" alt="pict"  
+ width="217.66211pt.5"  /></p></div>
+                                                                                            
+                                                                                            
+<!--l. 81--><p class="noindent" ><span class="paragraphHead"><a 
+ id="x1-490004.3.2"></a><span 
+class="ec-lmbx-12">Software for the Analog Version</span></span>
+   I wanted to keep the changes on the Software as simple as possible and don&#8217;t want to
+maintain two folders with common files between both variants. I created a combined software,
+which selects the correct <span class="obeylines-h"><span class="verb"><span 
+class="ec-lmtt-12">DisplayManager</span></span></span> depending on the watch variant saved in the
+flash, right next to the calibration values for the RTC. So i have only one Software, which
+fits the analog and the binary version of the watch, but i need to specify, via a define in
+the calibration software, if it is a analog or a binary watch. For further development i
+also added some defines in the software, which can disable a specific watch variant. This
+can be used either to save flash memory or to reduce the possible software bugs in the
+software.
+</p>
    <h3 class="sectionHead"><span class="titlemark">5   </span> <a 
- id="x1-480005"></a>STM Version Manual</h3>
+ id="x1-500005"></a>STM Version Manual</h3>
 <!--l. 2--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">5.1   </span> <a 
- id="x1-490005.1"></a>Read the time</h4>
+ id="x1-510005.1"></a>Read the time</h4>
 <div class="center" 
 >
 <!--l. 3--><p class="noindent" >
@@ -739,7 +783,7 @@ Housing or raising the arm to take a look on the watch(tilt it by a minimum of 1
 Watchface facing up and holding it steady for about one second)
 </p>
 <!--l. 8--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-500005.1"></a><span 
+ id="x1-520005.1"></a><span 
 class="ec-lmbx-12">Analog</span></span>
    The analog Version an be read equally to a normal Watch. In the inner Ring the Hours from 1 to
 12 are displayed. In the outer Ring the minutes are displayed from 0 to 59, since there are only 30
@@ -747,19 +791,19 @@ LEDs in the outer ring for uneven minutes the nearest two LEDs are lit up. For e
 LEDs signalling 14 and 16 are lit up.
 </p>
 <!--l. 15--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-510005.1"></a><span 
+ id="x1-530005.1"></a><span 
 class="ec-lmbx-12">Binary</span></span>
    in the Binary Version the LEDs are read columnwise as BCD code starting with 1 at the bottom.
 So the right two columns are showing the Minutes. If an LED is litone have to add its Value to the
 Minutes if not then nothing is added. So for the full hour no led in the right two columns will be lit.
 In the example above in the first column no LED is lit. In the second column the LED for 1 and 2 are
 lit. In the third column the LED for 1 is lit and in the last column the LED for 1 and 4 are lit. So it is
-                                                                                            
-                                                                                            
 3:15.
+                                                                                            
+                                                                                            
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">5.1.1   </span> <a 
- id="x1-520005.1.1"></a>setting the Time</h5>
+ id="x1-540005.1.1"></a>setting the Time</h5>
 <!--l. 20--><p class="noindent" >To enter the Time setting mode you have to turn the Watch in show time mode upside down,
 Watchface facing the ground an double Tap it. The Watch enters debouncing mode. In debouncing
 mode the Hours 80 and Minutes 80 are blinking for the binary version for the Analog
@@ -794,7 +838,7 @@ Watch fowrward an backward. Once finished a double Tap sets the Seconds to 0 and
 again.
 </p>
    <h4 class="subsectionHead"><span class="titlemark">5.2   </span> <a 
- id="x1-530005.2"></a>Read the Date</h4>
+ id="x1-550005.2"></a>Read the Date</h4>
 <div class="center" 
 >
 <!--l. 36--><p class="noindent" >
@@ -803,17 +847,17 @@ src="../Graphics/Date25_Dez.svg" alt="PIC"
 width="290" height="290"  /></p></div>
 <!--l. 39--><p class="noindent" >To enter the Date display mode tilt the Watch in Time Mode to the Front(Facing away from you) at
 least 10 degrees and double Tap it.
-                                                                                            
-                                                                                            
 </p>
 <!--l. 40--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-540005.2"></a><span 
+ id="x1-560005.2"></a><span 
 class="ec-lmbx-12">Analog</span></span>
    On the analog Version The Minutes 40 and 50 are lit up to signal Date Display. On the Hours
 Ring the Month is displayed as Hour and the Day is Displayed as Minutes.
+                                                                                            
+                                                                                            
 </p>
 <!--l. 44--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-550005.2"></a><span 
+ id="x1-570005.2"></a><span 
 class="ec-lmbx-12">Binary</span></span>
    On the binary Version the first column is showing 3 to signal Date Display. In the second and
 third column the Day is displayed as BCD Code and the Month is displayed in binary code(it does
@@ -823,7 +867,7 @@ class="newline" />A double Tap with the watch facing up switches back to show ti
 </p><!--l. 50--><p class="noindent" >
 </p>
    <h5 class="subsubsectionHead"><span class="titlemark">5.2.1   </span> <a 
- id="x1-560005.2.1"></a>setting the Date</h5>
+ id="x1-580005.2.1"></a>setting the Date</h5>
 <!--l. 51--><p class="noindent" >To enter the Date setting mode you have to turn the Watch in show date mode upside down,
 Watchface facing the ground an double Tap it. The Watch enters debouncing mode. In
 debouncing mode the Hours 8 and Minutes 80 are blinking for the binary version for the Analog
@@ -866,14 +910,14 @@ width="290" height="290"  /></p></div>
                                                                                             
 </p>
 <!--l. 69--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-570005.2.1"></a><span 
+ id="x1-590005.2.1"></a><span 
 class="ec-lmbx-12">Analog</span></span>
    In the Analog Version the Set year mode is signalized by blinking both minute LEDs 30 and 50.
 The Year tens are shown in the inner ring with one LED per Counter and the ones are shown in the
 outer ring with one LED per counter. In this example XX21.
 </p>
 <!--l. 71--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-580005.2.1"></a><span 
+ id="x1-600005.2.1"></a><span 
 class="ec-lmbx-12">Binary</span></span>
    Setting Year mode is displayed by showing 3 in the first column and blinking all LEDs in the
 second column. The year is displayed in columns 3 and 4. In this example XX21.<br 
@@ -883,7 +927,7 @@ the Watch fowrward an backward. Once finished a double Tap sets the Seconds to 0
 Watch again.
 </p>
    <h4 class="subsectionHead"><span class="titlemark">5.3   </span> <a 
- id="x1-590005.3"></a>Todays Steps</h4>
+ id="x1-610005.3"></a>Todays Steps</h4>
 <div class="center" 
 >
 <!--l. 76--><p class="noindent" >
@@ -894,7 +938,7 @@ width="290" height="290"  /></p></div>
 double Tap it.
 </p>
 <!--l. 80--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-600005.3"></a><span 
+ id="x1-620005.3"></a><span 
 class="ec-lmbx-12">Analog</span></span>
    On the Analog Watch the hour LED 11 is lit up with the overflow counter (from 0(12 o&#8217;clock) to
 3. The overflow counter counts the number of whole rounds on the Stepcounter. An overflow occurs
@@ -908,7 +952,7 @@ class="lmsy-10x-x-120">* </span><span
 class="rm-lmr-12">500 = 33000</span>
 </p>
 <!--l. 84--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-610005.3"></a><span 
+ id="x1-630005.3"></a><span 
 class="ec-lmbx-12">Binary</span></span>
    On the binary Watch the Step Counter is signalized by the forst column showing 7. Column 2 to 4
 shows the steps in 100 counts rounded to 100 counts. So 32768 in the exmample will be shown as
@@ -918,7 +962,7 @@ class="newline" />A double Tap with the watch facing up switches back to show ti
 </p><!--l. 89--><p class="noindent" >
 </p>
    <h4 class="subsectionHead"><span class="titlemark">5.4   </span> <a 
- id="x1-620005.4"></a>Show steps history</h4>
+ id="x1-640005.4"></a>Show steps history</h4>
 <!--l. 90--><p class="noindent" >To enter the steps history mode you have to turn the Watch in show steps mode upside down,
 Watchface facing the ground an double Tap it. </p>
                                                                                             
@@ -932,7 +976,7 @@ width="290" height="290"  /></p></div>
 <!--l. 94--><p class="noindent" >The history counter can be increased and decreased by leaning the watch back and forth.
 </p>
 <!--l. 95--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-630005.4"></a><span 
+ id="x1-650005.4"></a><span 
 class="ec-lmbx-12">Analog</span></span>
    The steps history mode looks like the Show steps mode, but there is an additional LEDas Hitory
 Counter lit up. The History counter starts at Hour 4 and increases depending on how
@@ -941,7 +985,7 @@ The steps are show as in the Show Steps mode, so there were 7500 Steps done two 
 ago.
 </p>
 <!--l. 97--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-640005.4"></a><span 
+ id="x1-660005.4"></a><span 
 class="ec-lmbx-12">Binary</span></span>
    The steps hitory mode is signalized by the H80 LED. The LEDs below show how long ago the
 Steps were counted, the counter starts yesterday with 0. so the example shows the Data from 2 Days
@@ -951,7 +995,7 @@ class="newline" /><br
 class="newline" />to leave this mode double tap changes to the show Battery Voltage.
 </p>
    <h4 class="subsectionHead"><span class="titlemark">5.5   </span> <a 
- id="x1-650005.5"></a>show battery voltage</h4>
+ id="x1-670005.5"></a>show battery voltage</h4>
 <!--l. 102--><p class="noindent" >To enter the steps history mode you have to double tap the Watch in show steps history mode.
 </p>
 <div class="center" 
@@ -961,14 +1005,14 @@ class="newline" />to leave this mode double tap changes to the show Battery Volt
 src="../Graphics/ShowUBatt_2950mV.svg" alt="PIC"  
 width="290" height="290"  /></p></div>
 <!--l. 106--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-660005.5"></a><span 
+ id="x1-680005.5"></a><span 
 class="ec-lmbx-12">Analog</span></span>
    The show battery voltage is signalized by the Hour 11 and 12 lighting up together. The voltage is
 shown on the minutes ring, scaled from 3.5V to 1,5V, so each quarter is 0,5V. The Watch in the
 example is showing 2,95V.
 </p>
 <!--l. 109--><p class="noindent" ><span class="paragraphHead"><a 
- id="x1-670005.5"></a><span 
+ id="x1-690005.5"></a><span 
 class="ec-lmbx-12">Binary</span></span>
    The show battery voltage is signalized by the Hour 40 LED. Column 2 to 4 are showing the
 Battery voltage in 10mV granularity. So the Example shows <span 
