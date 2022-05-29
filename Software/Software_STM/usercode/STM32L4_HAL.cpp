@@ -59,6 +59,8 @@ void HAL_MX_RTC_Init(void) {
 	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
 #if defined(STM32L412xx) || defined(STM32L422xx) || defined (STM32L4P5xx) || defined (STM32L4Q5xx)
 	hrtc.Init.OutPutPullUp = RTC_OUTPUT_PULLUP_NONE;
+    /* Process TAMP ip offset from RTC one */
+    hrtc.TampOffset = (TAMP_BASE - RTC_BASE);
 #endif
 	if (HAL_RTC_Init(&hrtc) != HAL_OK) {
 		Error_Handler();
@@ -155,6 +157,8 @@ void STM32L4_HAL::HAL_driverInit() {
 	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
 #if defined(STM32L412xx) || defined(STM32L422xx) || defined (STM32L4P5xx) || defined (STM32L4Q5xx)
 	hrtc.Init.OutPutPullUp = RTC_OUTPUT_PULLUP_NONE;
+    /* Process TAMP ip offset from RTC one */
+    hrtc.TampOffset = (TAMP_BASE - RTC_BASE);
 #endif
 
 	uint32_t command = HAL_RTCEx_BKUPRead(&hrtc, CommandOffset);
@@ -167,6 +171,8 @@ void STM32L4_HAL::HAL_driverInit() {
 		__HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSE);
 		HAL_MX_RTC_Init();
 		__HAL_RCC_RTC_ENABLE();
+		uint32_t temp = HAL_RTCEx_BKUPRead(&hrtc, CommandOffset)&(~0x0002);//delete Bit
+		HAL_RTCEx_BKUPWrite(&hrtc, CommandOffset, temp);
 	}
 	HAL_PWREx_EnableLowPowerRunMode();
 
@@ -246,6 +252,16 @@ void STM32L4_HAL::HAL_init() {
 			}
 		}
 		updateSteps();
+	}
+	if(0)
+	{
+		if((HAL_RTCEx_BKUPRead(&hrtc, CommandOffset)&0xAF00)==0xAF00)
+		{
+			bma.writeAddress(0x56, 0x00); //Disable all Interrupts
+			bma.writeAddress(0x53, 0x00); //Disable INT1 Pin
+			bma.writeAddress(0x7D, 0xb6); //Do a Soft Reset
+			while(1);
+		}
 	}
 
 	while (0) { //Testing of Axis Mapping
